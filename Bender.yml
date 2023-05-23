@@ -1,0 +1,142 @@
+# Copyright 2023 ETH Zurich and University of Bologna
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+package:
+  name: control_pulp
+  authors:
+    - "Robert Balas <balasr@iis.ee.ethz.ch>"
+    - "Alessandro Ottaviano <aottaviano@iis.ee.ethz.ch>"
+    - "Pasquale Davide Schiavone <pschiavo@iis.ee.ethz.ch>"
+    - "Germain Haugou <haugoug@iis.ee.ethz.ch>"
+    - "Francesco Conti <f.conti@unibo.it>"
+    - "Pirmin Vogel <vogelpi@lowrisc.org>"
+    - "Stefan Mach <smach@iis.ee.ethz.ch>"
+    - "Antonio Pullini <pullinia@iis.ee.ethz.ch>"
+    - "Gianmarco Ottavi <gianmarco.ottavi@studio.unibo.it>"
+    - "Manuel Eggimann <meggiman@iis.ee.ethz.ch>"
+    - "Luca Valente <luca.valente2@unibo.it>"
+
+dependencies:
+  control_pulp_pkg: { path: "hw/pkg" }
+  axi_scmi_mailbox: { path: "hw/ips/axi_scmi_mailbox" }
+  axi_apb_i2c_slave: { path: "hw/ips/axi_apb_i2c_slave" }
+  axi_spi_slave: { path: "hw/ips/axi_spi_slave" }
+  wdt: { path: "hw/ips/wdt" }
+  axi2mem: { path: "hw/ips/axi2mem" }
+  common_cells: { git: "https://github.com/pulp-platform/common_cells.git", version: 1.29.0 }
+  jtag_pulp: { git: "https://github.com/pulp-platform/jtag_pulp.git", version: 0.3.0 }
+  idma: { git: "https://github.com/pulp-platform/idma.git", rev: 5af5d10 }
+  pulp_soc: { git: "https://github.com/pulp-platform/pulp_soc.git", rev: "control-pulp" }
+  pulp_cluster: { git: "https://github.com/pulp-platform/pulp_cluster.git", rev: "control-pulp" }
+  tech_cells_generic: { git: "https://github.com/pulp-platform/tech_cells_generic.git", version: 0.2.11 }
+
+workspace:
+  # package_links:
+  #   ips/tbtools: tbtools # symlinks for backwards compatibility with IPApprox
+  checkout_dir: hw/ips
+
+export_include_dirs:
+  - hw/includes
+
+sources:
+  # Source files grouped in levels. Files in level 0 have no dependencies on files in this
+  # package. Files in level 1 only depend on files in level 0, files in level 2 on files in
+  # levels 1 and 0, etc. Files within a level are ordered alphabetically.
+  # Level 0
+  - hw/pulp/jtag_tap_top.sv
+  - hw/pulp/pad_control.sv
+  - hw/pulp/system_clk_rst_gen.sv
+  - hw/pulp/cluster_domain.sv
+  - hw/pulp/soc_domain.sv
+  - hw/pulp/control_pulp.sv
+  - hw/pulp/pms_top.sv
+  - fpga/control_pulp-txilzu9eg/rtl/pad_frame_fpga.sv
+  # Level 1
+  - hw/pulp/pms_top.sv
+  - hw/pulp/pms_top_fpga_behav.sv
+  - hw/pulp/control_pulp.sv
+  - hw/pulp/control_pulp_fpga.sv
+
+  # TB sources
+  - target: any(test,simulation)
+    files:
+      - tb/riscv_pkg.sv
+      - tb/jtag_pkg.sv
+      - tb/i2c_pkg.sv
+      - tb/avs_pkg.sv
+      - tb/pulp_tap_pkg.sv
+      - tb/srec/srec_pkg.sv
+      - tb/tb_clk_gen.sv
+      - tb/tb_fs_handler.sv
+      - tb/doorbell.sv
+      - tb/tb_pad_frame_top.sv
+      - tb/fixture_pms_top.sv
+      # open vip
+      - tb/vip/spi_master_padframe.sv
+      - tb/vip/uart_sim.sv
+      # pms testbenches
+      - tb/tb_bootrom.sv
+      - tb/tb_uart_boot.sv
+      - tb/tb_sw.sv
+      - tb/tb_sw_jtag.sv
+      - tb/tb_dm.sv
+      - tb/tb_acpi.sv
+      # - tb/tb_i2c_slv_dump.sv
+      # - tb/tb_i2c_slv_irq.sv
+      - tb/tb_axi_slv.sv
+      - tb/tb_clic_prio_semantic.sv
+      - tb/tb_fw.sv
+      - tb/tb_scmi_doorbell_b2b.sv
+      - tb/tb_scmi_doorbell_conc.sv
+      - tb/tb_pms_minimal.sv
+      # pms testbenches with FPGA top-level
+      - tb/fpga/fixture_pms_top_fpga.sv
+      - tb/fpga/tb_sw_fpga.sv
+      - tb/fpga/tb_acpi_fpga.sv
+      # - tb/fpga/tb_i2c_slv_dump_fpga.sv
+      # - tb/fpga/tb_i2c_slv_irq_fpga.sv
+      - tb/fpga/tb_avs_fpga.sv
+      - tb/fpga/tb_mbox_fpga.sv
+      - tb/SimJTAG.sv
+      - tb/SimDTM.sv
+
+
+#   # Open models
+#   - target: any(test,simulation)
+#     files:
+#       - rtl/vip/spi_master_padframe.sv
+#       - rtl/vip/uart_sim.sv
+#
+#   # S25FS256_model (SPI Flash)
+#   - target: all(any(test,simulation), flash_vip)
+#     defines:
+#       SPEEDSIM: ~
+#     files:
+#       - rtl/vip/spi_flash/S25fs256s/model/s25fs256s.v
+#
+#   # 24FC1025 model (I2C flash)
+#   - target: all(any(test,simulation), i2c_vip)
+#     defines:
+#       SPEEDSIM: ~
+#     files:
+#       - rtl/vip/i2c_eeprom/24FC1025.v
+#
+#   # i2s model
+#   - target: all(any(test,simulation), i2s_vip)
+#     defines:
+#       SPEEDSIM: ~
+#     files:
+#       - rtl/vip/i2s/i2c_if.v
+#       - rtl/vip/i2s/i2s_vip_channel.sv
+#       - rtl/vip/i2s/i2s_vip.sv
