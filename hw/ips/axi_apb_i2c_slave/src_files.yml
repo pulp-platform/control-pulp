@@ -1,0 +1,7 @@
+axi_apb_i2c_slave:
+    files:
+        - src/axi_apb_i2c_slave.sv
+        - src/i2cslave.sv
+        - src/i2csend.sv
+
+
