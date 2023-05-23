@@ -123,4 +123,4 @@
 	url = https://www.github.com/pulp-platform/pulp-freertos
 [submodule "sw/pcf"]
 	path = sw/pcf
-	url = https://github.com/pulp-platform/control_pulp_pcf.git
+	url = https://www.github.com/pulp-platform/control_pulp_pcf
