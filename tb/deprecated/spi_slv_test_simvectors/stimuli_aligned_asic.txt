@@ -1,0 +1,16 @@
+1c000000, cafedead
+1c000800, cafedeae
+1c001000, cafedeaf
+1c001800, cafedeb0
+1c002000, cafedeb1
+1c002800, cafedeb2
+1c003000, cafedeb3
+1c003800, cafedeb4
+1c004000, cafedeb5
+1c004800, cafedeb6
+1c005000, cafedeb7
+1c005800, cafedeb8
+1c006000, cafedeb9
+1c006800, cafedeba
+1c007000, cafedebb
+1c007800, cafedebc
