@@ -1,0 +1,9 @@
+minimal
+sim/
+gvsim
+*.map
+*.hex
+*.lst
+*.o
+*.srec
+*.stim

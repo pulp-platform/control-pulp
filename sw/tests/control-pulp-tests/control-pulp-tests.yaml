@@ -1,0 +1,49 @@
+control_pulp_tests:
+  axi_connection:
+    path: ./axi_connection
+    command: make clean all run
+  memrange:
+    path: ./memrange
+    command: make clean all run
+# wdt:
+#    path: ./wdt
+#    command: make clean all run
+#  plic:
+#    path: ./plic
+#    command: make clean all run
+  firmware-ctrl-action-soc:
+    path: ./firmware-ctrl-action
+    command: make clean all run USE_CLUSTER=0
+  firmware-ctrl-action-cl:
+    path: ./firmware-ctrl-action
+    command: make clean all run USE_CLUSTER=1
+  runtime-uart:
+    path: ./runtime_uart
+    command: make clean all run io=uart
+  clic-basic:
+    path: ./clic/clic-basic
+    command: make clean all run
+  clic-csr:
+    path: ./clic/clic-csr
+    command: make clean all run
+  clic-enter-leave:
+    path: ./clic/clic-enter-leave
+    command: make clean all run
+  clic-nested:
+    path: ./clic/clic-nested
+    command: make clean all run
+  pvt-idma-1d-fc:
+    path: ./pvt_sensors_idma_fc/fc-idma-basic
+    command: make clean all run
+  pvt-idma-2d-fc:
+    path: ./pvt_sensors_idma_fc/fc-idma-2d
+    command: make clean all run
+  clic-csr-baseaddr:
+    path: ./clic/clic-csr-baseaddr
+    command: make clean all run
+  clic-mnxti:
+    path: ./clic/clic-mnxti
+    command: make clean all run
+  reduction:
+    path: ./amo/reduction
+    command: make clean all run AMO=1

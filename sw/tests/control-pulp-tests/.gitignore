@@ -1,0 +1,6 @@
+*~
+build/
+*.sw[p,o]
+cscope.*
+__pycache__
+junit-reports

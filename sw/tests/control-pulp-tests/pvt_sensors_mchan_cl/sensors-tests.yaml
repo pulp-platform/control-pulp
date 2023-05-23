@@ -1,0 +1,10 @@
+sensors_tests:
+  rx_no_dma:
+    path: ./sensors_rx_ncores
+    command: ./go_test.sh
+  rx_dma_1D:
+    path: ./sensors_rx_dma
+    command: ./go_test.sh
+  rx_dma_2D:
+    path: ./sensors_rx_dma_2D
+    command: ./go_test.sh
