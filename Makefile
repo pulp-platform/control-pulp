@@ -86,6 +86,17 @@ all: build
 ## Compile RTL with maximum optimizations for simulation speed
 all-opt: build-opt
 
+#
+# HPC Cosim
+#
+
+.PHONY: hpc-cosim
+hpc-cosim: sw/cosim
+sw/cosim:
+	git clone https://github.com/pulp-platform/pulp_hpc_cosim.git $@
+	cd $@; \
+	git checkout 647f0c0dbfa426605b813b933c679d9bdae4fcfd; \
+	git submodule update --init --recursive
 
 #
 # VIP
