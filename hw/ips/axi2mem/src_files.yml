@@ -1,0 +1,4 @@
+axi2mem:
+  files: [
+    axi2mem.sv,
+  ]

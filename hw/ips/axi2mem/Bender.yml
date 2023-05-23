@@ -1,0 +1,9 @@
+package:
+  name: axi2mem
+
+dependencies:
+  axi: { git: "https://github.com/pulp-platform/axi.git", version: 0.38.0 }
+  common_cells: { git: "https://github.com/pulp-platform/common_cells.git", version: 1.29.0 }
+
+sources:
+  - axi2mem.sv
