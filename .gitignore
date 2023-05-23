@@ -11,5 +11,4 @@ ocd-trace-*
 *.wlf
 *.xml
 ips/tech_cells_GF22FDX/*
-*.f
 .bender
