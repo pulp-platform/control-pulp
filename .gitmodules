@@ -1,0 +1,126 @@
+[submodule "hw/ips/adv_dbg_if"]
+	path = hw/ips/adv_dbg_if
+	url = https://github.com/pulp-platform/adv_dbg_if.git
+[submodule "hw/ips/apb"]
+	path = hw/ips/apb
+	url = https://github.com/pulp-platform/apb.git
+[submodule "hw/ips/apb2per"]
+	path = hw/ips/apb2per
+	url = https://github.com/pulp-platform/apb2per.git
+[submodule "hw/ips/apb_adv_timer"]
+	path = hw/ips/apb_adv_timer
+	url = https://github.com/pulp-platform/apb_adv_timer.git
+[submodule "hw/ips/apb_gpio"]
+	path = hw/ips/apb_gpio
+	url = https://github.com/pulp-platform/apb_gpio.git
+[submodule "hw/ips/apb_node"]
+	path = hw/ips/apb_node
+	url = https://github.com/pulp-platform/apb_node.git
+[submodule "hw/ips/axi"]
+	path = hw/ips/axi
+	url = https://github.com/pulp-platform/axi.git
+[submodule "hw/ips/axi2per"]
+	path = hw/ips/axi2per
+	url = https://github.com/pulp-platform/axi2per.git
+[submodule "hw/ips/axi_node"]
+	path = hw/ips/axi_node
+	url = https://github.com/pulp-platform/axi_node.git
+[submodule "hw/ips/axi_slice"]
+	path = hw/ips/axi_slice
+	url = https://github.com/pulp-platform/axi_slice.git
+[submodule "hw/ips/axi_slice_dc"]
+	path = hw/ips/axi_slice_dc
+	url = https://github.com/pulp-platform/axi_slice_dc.git
+[submodule "hw/ips/clic"]
+	path = hw/ips/clic
+	url = https://github.com/pulp-platform/clic.git
+[submodule "hw/ips/cluster_interconnect"]
+	path = hw/ips/cluster_interconnect
+	url = https://github.com/pulp-platform/cluster_interconnect.git
+[submodule "hw/ips/cluster_peripherals"]
+	path = hw/ips/cluster_peripherals
+	url = https://github.com/pulp-platform/cluster_peripherals.git
+[submodule "hw/ips/common_cells"]
+	path = hw/ips/common_cells
+	url = https://github.com/pulp-platform/common_cells.git
+[submodule "hw/ips/common_verification"]
+	path = hw/ips/common_verification
+	url = https://github.com/pulp-platform/common_verification.git
+[submodule "hw/ips/cv32e40p"]
+	path = hw/ips/cv32e40p
+	url = https://github.com/pulp-platform/cv32e40p.git
+[submodule "hw/ips/event_unit_flex"]
+	path = hw/ips/event_unit_flex
+	url = https://github.com/pulp-platform/event_unit_flex.git
+[submodule "hw/ips/fpnew"]
+	path = hw/ips/fpnew
+	url = https://github.com/pulp-platform/fpnew.git
+[submodule "hw/ips/fpu_div_sqrt_mvp"]
+	path = hw/ips/fpu_div_sqrt_mvp
+	url = https://github.com/pulp-platform/fpu_div_sqrt_mvp.git
+[submodule "hw/ips/fpu_interco"]
+	path = hw/ips/fpu_interco
+	url = https://github.com/pulp-platform/fpu_interco.git
+[submodule "hw/ips/hier-icache"]
+	path = hw/ips/hier-icache
+	url = https://github.com/pulp-platform/hier-icache.git
+[submodule "hw/ips/icache-intc"]
+	path = hw/ips/icache-intc
+	url = https://github.com/pulp-platform/icache-intc.git
+[submodule "hw/ips/jtag_pulp"]
+	path = hw/ips/jtag_pulp
+	url = https://github.com/pulp-platform/jtag_pulp.git
+[submodule "hw/ips/l2_tcdm_hybrid_interco"]
+	path = hw/ips/l2_tcdm_hybrid_interco
+	url = https://github.com/pulp-platform/L2_tcdm_hybrid_interco.git
+[submodule "hw/ips/mchan"]
+	path = hw/ips/mchan
+	url = https://github.com/pulp-platform/mchan.git
+[submodule "hw/ips/per2axi"]
+	path = hw/ips/per2axi
+	url = https://github.com/pulp-platform/per2axi.git
+[submodule "hw/ips/pulp_cluster"]
+	path = hw/ips/pulp_cluster
+	url = https://github.com/pulp-platform/pulp_cluster.git
+[submodule "hw/ips/pulp_soc"]
+	path = hw/ips/pulp_soc
+	url = https://github.com/pulp-platform/pulp_soc.git
+[submodule "hw/ips/register_interface"]
+	path = hw/ips/register_interface
+	url = https://github.com/pulp-platform/register_interface.git
+[submodule "hw/ips/riscv-dbg"]
+	path = hw/ips/riscv-dbg
+	url = https://github.com/pulp-platform/riscv-dbg.git
+[submodule "hw/ips/scm"]
+	path = hw/ips/scm
+	url = https://github.com/pulp-platform/scm.git
+[submodule "hw/ips/tech_cells_generic"]
+	path = hw/ips/tech_cells_generic
+	url = https://github.com/pulp-platform/tech_cells_generic.git
+[submodule "hw/ips/timer_unit"]
+	path = hw/ips/timer_unit
+	url = https://github.com/pulp-platform/timer_unit.git
+[submodule "hw/ips/udma_core"]
+	path = hw/ips/udma_core
+	url = https://github.com/pulp-platform/udma_core.git
+[submodule "hw/ips/udma_filter"]
+	path = hw/ips/udma_filter
+	url = https://github.com/pulp-platform/udma_filter.git
+[submodule "hw/ips/udma_i2c"]
+	path = hw/ips/udma_i2c
+	url = https://github.com/pulp-platform/udma_i2c.git
+[submodule "hw/ips/udma_qspi"]
+	path = hw/ips/udma_qspi
+	url = https://github.com/pulp-platform/udma_qspi.git
+[submodule "hw/ips/udma_uart"]
+	path = hw/ips/udma_uart
+	url = https://github.com/pulp-platform/udma_uart.git
+[submodule "hw/ips/idma"]
+	path = hw/ips/idma
+	url = https://github.com/pulp-platform/idma.git
+[submodule "sw/freertos"]
+	path = sw/freertos
+	url = https://www.github.com/pulp-platform/pulp-freertos
+[submodule "sw/pcf"]
+	path = sw/pcf
+	url = https://github.com/pulp-platform/control_pulp_pcf.git
