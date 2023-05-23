@@ -1,0 +1,5 @@
+wdt:
+  files:
+    - src/counter_wdt.sv
+    - src/ovf_detect.sv
+    - src/wdt.sv
