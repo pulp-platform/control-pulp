@@ -1,4 +1,4 @@
-# Control PULP [![pipeline status](https://iis-git.ee.ethz.ch/balasr/control-pulp/badges/master/pipeline.svg)](https://iis-git.ee.ethz.ch/balasr/control-pulp/commits/master)
+# Control PULP
 
 ControlPULP is a research platform based on PULP, an open-source multi-core
 computing system developed by ETH Zurich and the University of Bologna, started
