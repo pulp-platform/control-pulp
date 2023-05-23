@@ -1,0 +1,776 @@
+# Copyright 2019 ETH Zurich and University of Bologna
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+  GIT_SUBMODULE_DEPTH: 5
+  RISCV: "/home/balasr/.riscv-10.2"
+  PULP_RUNTIME_GCC_TOOLCHAIN: "/usr/pack/riscv-1.0-kgf/pulp-gcc-2.5.0"
+  CPULP_INSTALL: "/home/balasr/.aarch64-8.3.0"
+  VERILATOR: "/home/balasr/.local/bin/verilator"
+  BENDER: "/home/balasr/.local/bin/bender"
+  QUESTA: "questa-2022.3"
+  VCSSIM: "vcs-2022.06"
+
+before_script:
+  - pwd
+
+# after_script:
+#   - echo "stage finished"
+
+stages:
+  - fetch
+  - build
+  - test
+
+fetch_ips:
+  stage: fetch
+  script:
+    - echo "Fetching IPs (SKIPPING)"
+    #- make checkout
+    - echo "Fetching VIPs"
+    - ./tb/vip/get-vips.sh --yes --gitlab
+    - echo "Generate scripts with DPI and VIP support"
+    - $QUESTA make gen-with-vip
+
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - sim/gen/*
+      - tb/vip/*
+
+# This jobs result is too large to produce an artifact
+# fetch_sdk:
+#   stage: fetch
+#   script:
+#     - echo "Fetching SDK from releases and setting up paths"
+#     - make sdk-gitlab
+#   artifacts:
+#     paths:
+#       - pkg/
+#       - env/
+
+build_questa_rtl:
+  stage: build
+  before_script:
+  script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make SIM_TOP=tb_sw build
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - sim/gen/*
+      - tb/vip/*
+      - tb/remote_bitbang/* # we want to reuse bitbang lib
+
+build_questa_rtl_old:
+  stage: build
+  before_script:
+  script:
+    - echo "Compiling RTL model and DPI libraries"
+    - make SIM_TOP=tb_sw build
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - sim/gen/*
+      - tb/vip/*
+      - tb/remote_bitbang/* # we want to reuse bitbang lib
+
+build_vcs_rtl:
+  stage: build
+  before_script:
+  script:
+    - echo "Compiling RTL model"
+    - $VCSSIM make vcsify
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - sim/simv
+
+# build_verilator_rtl:
+#   stage: build
+#   before_script:
+#   script:
+#     - echo "Compiling RTL model"
+#     - make verilate
+#   artifacts:
+#     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+#     paths:
+#       - sim/vpms
+
+# Use simplified pulp-runtime to run a subset of tests
+rt_periph:
+  stage: test
+  before_script:
+    - echo "Generate scripts with DPI and VIP support"
+    - $QUESTA make gen-with-vip
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make SIM_TOP=tb_sw build
+  script:
+    - echo "Running software test"
+    - $QUESTA make test-rt-periph
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - sw/tests/runtime-tests/*.html
+      - sw/tests/runtime-tests/*.xml
+    reports:
+      junit: sw/tests/runtime-tests/*.xml
+
+rt_ml:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make SIM_TOP=tb_sw build
+  script:
+    - echo "Running software test"
+    - $QUESTA make test-rt-ml
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - sw/tests/runtime-tests/*.html
+      - sw/tests/runtime-tests/*.xml
+    reports:
+      junit: sw/tests/runtime-tests/*.xml
+
+rt_riscv:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make SIM_TOP=tb_sw build
+  script:
+    - echo "Running software test"
+    - $QUESTA make test-rt-riscv
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - sw/tests/runtime-tests/*.html
+      - sw/tests/runtime-tests/*.xml
+    reports:
+      junit: sw/tests/runtime-tests/*.xml
+
+rt_seq:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make SIM_TOP=tb_sw build
+  script:
+    - echo "Running software test"
+    - $QUESTA make test-rt-seq-bare
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - sw/tests/runtime-tests/*.html
+      - sw/tests/runtime-tests/*.xml
+    reports:
+      junit: sw/tests/runtime-tests/*.xml
+
+rt_par:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make SIM_TOP=tb_sw build
+  script:
+    - echo "Running software test"
+    - $QUESTA make test-rt-par-bare
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - sw/tests/runtime-tests/*.html
+      - sw/tests/runtime-tests/*.xml
+    reports:
+      junit: sw/tests/runtime-tests/*.xml
+
+rt_perfcounters:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make SIM_TOP=tb_sw build
+  script:
+    - echo "Running software test"
+    - $QUESTA make test-rt-perfcounters
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - sw/tests/runtime-tests/*.html
+      - sw/tests/runtime-tests/*.xml
+    reports:
+      junit: sw/tests/runtime-tests/*.xml
+
+rt_control_pulp:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make SIM_TOP=tb_sw build
+  script:
+    - echo "Running software test"
+    - $QUESTA make test-rt-control-pulp
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - sw/tests/control-pulp-tests/*.html
+      - sw/tests/control-pulp-tests/*.xml
+    reports:
+      junit: sw/tests/control-pulp-tests/*.xml
+
+#rt_sensors_rx:
+#  stage: test
+#  before_script:
+#    - echo "Compiling RTL model and DPI libraries"
+#    - $QUESTA make SIM_TOP=tb_sw build
+#  script:
+#    - echo "Running software test"
+#    - $QUESTA make test-rx-mchan
+#  artifacts:
+#    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+#    paths:
+#      - sw/tests/control-pulp-tests/sensors_transfers/*.html
+#      - sw/tests/control-pulp-tests/sensors_transfers/*.xml
+#    reports:
+#      junit: sw/tests/control-pulp-tests/sensors_transfers/*.xml
+
+pvt_sensors_idma_cl:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make SIM_TOP=tb_sw build
+  script:
+    - echo "Running software test"
+    - $QUESTA make test-rx-idma
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - sw/tests/control-pulp-tests/sensors_transfers/*.html
+      - sw/tests/control-pulp-tests/sensors_transfers/*.xml
+    reports:
+      junit: sw/tests/control-pulp-tests/sensors_transfers/*.xml
+
+rt_tcdm:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make SIM_TOP=tb_sw build
+  script:
+    - echo "Running software test"
+    - $QUESTA make test-rt-tcdm
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - sw/tests/runtime-tests/*.html
+      - sw/tests/runtime-tests/*.xml
+    reports:
+      junit: sw/tests/runtime-tests/*.xml
+
+rt_soc_interconnect:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make SIM_TOP=tb_sw build
+  script:
+    - echo "Running software test"
+    - $QUESTA make test-rt-soc-interconnect
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - sw/tests/runtime-tests/*.html
+      - sw/tests/runtime-tests/*.xml
+    reports:
+      junit: sw/tests/runtime-tests/*.xml
+
+#rt_mchan:
+#  stage: test
+#  before_script:
+#    - echo "Compiling RTL model and DPI libraries"
+#    - $QUESTA make SIM_TOP=tb_sw build
+#  script:
+#    - echo "Running software test"
+#    - $QUESTA make test-rt-mchan
+#  artifacts:
+#    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+#    paths:
+#      - sw/tests/runtime-tests/*.html
+#      - sw/tests/runtime-tests/*.xml
+#    reports:
+#      junit: sw/tests/runtime-tests/*.xml
+
+rt_idma:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make SIM_TOP=tb_sw build
+  script:
+    - echo "Running software test"
+    - $QUESTA make test-rt-idma
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - sw/tests/runtime-tests/*.html
+      - sw/tests/runtime-tests/*.xml
+    reports:
+      junit: sw/tests/runtime-tests/*.xml
+
+rt_coremark:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make SIM_TOP=tb_sw build
+  script:
+    - echo "Running software test"
+    - $QUESTA make test-rt-coremark
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - sw/tests/runtime-tests/*.html
+      - sw/tests/runtime-tests/*.xml
+    reports:
+      junit: sw/tests/runtime-tests/*.xml
+
+rt_avs:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make SIM_TOP=tb_avs_fpga build
+  script:
+    - echo "Running software test"
+    - $QUESTA make test-avs
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - sw/tests/runtime-tests/peripherals/avs/*.html
+      - sw/tests/runtime-tests/peripherals/avs/*.xml
+    reports:
+      junit: sw/tests/runtime-tests/peripherals/avs/*.xml
+
+rt_i2c_slv_irq:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make SIM_TOP=tb_i2c_slv_irq_fpga build
+  script:
+    - echo "Running software test"
+    - $QUESTA make test-i2c-slv-irq
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - sw/tests/runtime-tests/*.html
+      - sw/tests/runtime-tests/*.xml
+    reports:
+      junit: sw/tests/runtime-tests/*.xml
+
+freertos_semaphore:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make all SIM_TOP=tb_sw
+  script:
+    - source env/env.sh
+    - cd freertos/tests/semaphore
+    - $QUESTA make RISCV="$PULP_RUNTIME_GCC_TOOLCHAIN" CFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" ASFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" all run
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+     - freertos/tests/semaphore
+
+freertos_queue:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make all SIM_TOP=tb_sw
+  script:
+    - source env/env.sh
+    - cd freertos/tests/queue
+    - $QUESTA make RISCV="$PULP_RUNTIME_GCC_TOOLCHAIN" CFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" ASFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" all run
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+     - freertos/tests/queue
+
+freertos_streambufferisr:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make all SIM_TOP=tb_sw
+  script:
+    - source env/env.sh
+    - cd freertos/tests/streambufferisr
+    - $QUESTA make RISCV="$PULP_RUNTIME_GCC_TOOLCHAIN" CFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" ASFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" all run
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+     - freertos/tests/streambufferisr
+
+freertos_uart:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make all SIM_TOP=tb_sw
+  script:
+    - source env/env.sh
+    - cd freertos/tests/uart
+    - $QUESTA make RISCV="$PULP_RUNTIME_GCC_TOOLCHAIN" CFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" ASFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" all run
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+     - freertos/tests/uart
+
+# TODO: figure out why the testbench regressed (DPI library load issue)
+# freertos_spi:
+#   stage: test
+#   before_script:
+#     - echo "Generate scripts with DPI and VIP support"
+#     - $QUESTA make gen-with-vip
+#     - echo "Compiling RTL model and DPI libraries"
+#     - $QUESTA make all SIM_TOP=tb_sw
+#   script:
+#     - source env/env.sh
+#     - cd freertos/tests/spi
+#     - $QUESTA make SIM_TOP=tb_sw all run DPI=yes
+#   artifacts:
+#     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+#     paths:
+#      - freertos/tests/spi
+
+freertos_i2c_eeprom:
+  stage: test
+  before_script:
+    - echo "Generate scripts with DPI and VIP support"
+    - $QUESTA make gen-with-vip
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make all SIM_TOP=tb_sw
+  script:
+    - source env/env.sh
+    - cd freertos/tests/i2c_eeprom
+    - $QUESTA make SIM_TOP=tb_sw all run
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+     - freertos/tests/i2c_eeprom
+
+freertos_i2c_scan:
+  stage: test
+  before_script:
+    - echo "Generate scripts with DPI and VIP support"
+    - $QUESTA make gen-with-vip
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make all SIM_TOP=tb_sw
+  script:
+    - source env/env.sh
+    - cd freertos/tests/i2c_scan
+    - $QUESTA make SIM_TOP=tb_sw all run
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+     - freertos/tests/i2c_scan
+
+freertos_hello_world:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make all SIM_TOP=tb_sw
+  script:
+    - source env/env.sh
+    - cd freertos/tests/hello_world_pmsis
+    - $QUESTA make RISCV="$PULP_RUNTIME_GCC_TOOLCHAIN" CFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" ASFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" all run
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+     - freertos/tests/hello_world_pmsis
+
+freertos_cluster_offload_sync:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make all SIM_TOP=tb_sw
+  script:
+    - source env/env.sh
+    - cd freertos/tests/cluster/cluster_fork_sync
+    - $QUESTA make RISCV="$PULP_RUNTIME_GCC_TOOLCHAIN" CFLAGS="-Og -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32 -DFEATURE_CLUSTER=1 -D__PULP__=1 -DDEBUG" ASFLAGS="-Os -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32" clean all run
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+     - freertos/tests/cluster/cluster_fork_sync
+
+freertos_cluster_offload_async:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make all SIM_TOP=tb_sw
+  script:
+    - source env/env.sh
+    - cd freertos/tests/cluster/cluster_fork_async
+    - $QUESTA make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.5.0-rc1" CFLAGS="-Og -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32 -DFEATURE_CLUSTER=1 -D__PULP__=1 -DDEBUG" ASFLAGS="-Os -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32" clean all run
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+     - freertos/tests/cluster/cluster_fork_async
+
+freertos_cluster_idma_basic:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make all SIM_TOP=tb_sw
+  script:
+    - source env/env.sh
+    - cd freertos/tests/cluster/dma/idma/idma_basic
+    - $QUESTA make RISCV="$PULP_RUNTIME_GCC_TOOLCHAIN" CFLAGS="-Og -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32 -DFEATURE_CLUSTER=1 -D__PULP__=1 -DDEBUG" ASFLAGS="-Os -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32" clean all run
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+     - freertos/tests/cluster/dma/idma/idma_basic
+
+freertos_cluster_idma_basic_8cores:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make all SIM_TOP=tb_sw
+  script:
+    - source env/env.sh
+    - cd freertos/tests/cluster/dma/idma/idma_basic_8cores
+    - $QUESTA make RISCV="$PULP_RUNTIME_GCC_TOOLCHAIN" CFLAGS="-Og -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32 -DFEATURE_CLUSTER=1 -D__PULP__=1 -DDEBUG" ASFLAGS="-Os -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32" clean all run
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+     - freertos/tests/cluster/dma/idma/idma_basic_8cores
+
+# freertos_pms_fw_noio:
+#   stage: test
+#   before_script:
+#     - echo "Compiling RTL model and DPI libraries"
+#     - $QUESTA make all SIM_TOP=tb_sw
+#     - echo "Installing freertos"
+#     - make firmware
+#   script:
+#     - source env/env.sh
+#     - cd fw
+#     - $QUESTA make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.5.0-rc1" CFLAGS="-Og -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32 -DFEATURE_CLUSTER=1 -D__PULP__=1 -DDEBUG" ASFLAGS="-Os -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32" MAKE_FLAGS="-DUSE_INSTRUCTIONS_COMPOSITION -DTASKS_PERIOD_MULTIPLIER=5 -DCI_TEST -DCI_TEST_ITERATION=20 -UMEASURE_ACTIVE -DPRINTF_ACTIVE -DPCF_FREERTOS_TICK_RATE_HZ=1000 -DDEFAULT_SYSTEM_CLOCK=100000000u" all run
+#   artifacts:
+#     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+#     paths:
+#      - fw
+
+# freertos_pms_fw_io:
+#   stage: test
+#   before_script:
+#     - echo "Compiling RTL model and DPI libraries"
+#     - $QUESTA make all SIM_TOP=tb_fw
+#     - echo "Installing PMS firmware"
+#     - make firmware
+#     - export PCF_PLATFORM=DATE_PAPER
+#   script:
+#     - source env/env.sh
+#     - cd fw
+#     - $QUESTA make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.5.0-rc1" CFLAGS="-Og -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32 -DFEATURE_CLUSTER=1 -D__PULP__=1 -DDEBUG" ASFLAGS="-Os -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32" MAKE_FLAGS="-DTASKS_PERIOD_MULTIPLIER=5 -UCI_TEST -DMEASURE_ACTIVE=1 -DMEASURE_N_ITERATION=20 -DMEASURE_N_OUTPUTS=64 -DPRINTF_ACTIVE -DPCF_FREERTOS_TICK_RATE_HZ=1000 -DDEFAULT_SYSTEM_CLOCK=100000000u" all run
+#   artifacts:
+#     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+#     paths:
+#      - fw
+
+# freertos_pms_fw_io_cluster_sync_offload:
+#   stage: test
+#   before_script:
+#     - echo "Compiling RTL model and DPI libraries"
+#     - $QUESTA make all SIM_TOP=tb_fw
+#     - echo "Installing freertos"
+#     - make firmware
+#     - export PCF_PLATFORM=DATE_PAPER
+#   script:
+#     - source env/env.sh
+#     - cd fw
+#     - $QUESTA make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.5.0-rc1" CFLAGS="-Og -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32 -DFEATURE_CLUSTER=1 -D__PULP__=1 -DDEBUG" ASFLAGS="-Os -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32" MAKE_FLAGS="-DTASKS_PERIOD_MULTIPLIER=5 -UCI_TEST -DMEASURE_ACTIVE=1 -DMEASURE_N_ITERATION=10 -DMEASURE_N_OUTPUTS=72 -DPRINTF_ACTIVE -DPCF_FREERTOS_TICK_RATE_HZ=1000 -DDEFAULT_SYSTEM_CLOCK=100000000u -DPCF_USE_CLUSTER -DPCF_USE_CLUSTER_PARALL" clean all run gui=1
+#   artifacts:
+#     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+#     paths:
+#      - fw
+
+# freertos_pms_fw_io_cluster_async_offload:
+#   stage: test
+#   before_script:
+#     - echo "Compiling RTL model and DPI libraries"
+#     - $QUESTA make all SIM_TOP=tb_fw
+#     - echo "Installing freertos"
+#     - make firmware
+#     - export PCF_PLATFORM=DATE_PAPER
+#   script:
+#     - source env/env.sh
+#     - cd fw
+#     - $QUESTA make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.5.0-rc1" CFLAGS="-Og -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32 -DFEATURE_CLUSTER=1 -D__PULP__=1 -DDEBUG" ASFLAGS="-Os -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32" MAKE_FLAGS="-DTASKS_PERIOD_MULTIPLIER=5 -UCI_TEST -DMEASURE_ACTIVE=1 -DMEASURE_N_ITERATION=10 -DMEASURE_N_OUTPUTS=72 -DPRINTF_ACTIVE -DPCF_FREERTOS_TICK_RATE_HZ=1000 -DDEFAULT_SYSTEM_CLOCK=100000000u -DPCF_USE_CLUSTER -DPCF_USE_CLUSTER_PARALL -DPCF_ASYNC" clean all run gui=1
+#   artifacts:
+#     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+#     paths:
+#      - fw
+
+freertos_i2c_slv_dump:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make all SIM_TOP=tb_i2c_slv_dump
+  script:
+    - source env/env.sh
+    - cd sw/tests/runtime-tests/peripherals/i2c_slv_dump_freertos
+    - $QUESTA make RISCV="$PULP_RUNTIME_GCC_TOOLCHAIN" CFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" ASFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" all run
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+     - sw/tests/runtime-tests/peripherals/i2c_slv_dump_freertos
+
+freertos_acpi_pwr_startup:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make all SIM_TOP=tb_acpi
+  script:
+    - source env/env.sh
+    - cd sw/tests/control-pulp-tests/gpio
+    - $QUESTA make RISCV="$PULP_RUNTIME_GCC_TOOLCHAIN" CFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" ASFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" all run
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+     - sw/tests/control-pulp-tests/gpio
+
+freertos_mbox_agent_agent:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make all SIM_TOP=tb_sw_fpga
+  script:
+    - source env/env.sh
+    - cd sw/tests/control-pulp-tests/clic/clic-mbox-freertos
+    - $QUESTA make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.5.0-rc1" CFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" ASFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" all run
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+     - sw/tests/control-pulp-tests/clic/clic-mbox-freertos
+
+freertos_mbox_platform_agent:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make all SIM_TOP=tb_mbox_fpga
+  script:
+    - source env/env.sh
+    - cd sw/tests/control-pulp-tests/clic/clic-mbox-ext-freertos
+    - $QUESTA make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.5.0-rc1" CFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" ASFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" all run
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+     - sw/tests/control-pulp-tests/clic/clic-mbox-ext-freertos
+
+test_pms_minimal:
+  stage: test
+  before_script:
+  script:
+    - echo "(Re)generating scripts with DPI disabled"
+    - make gen
+    - echo "Setting up vsim path"
+    - source env/env.sh
+    - echo "Compiling RTL model"
+    - $QUESTA make all SIM_TOP=tb_pms_minimal
+    - echo "Running minimal testbench (stim.txt is int main(void) { return 0; })"
+    - $QUESTA make simc VSIM_FLAGS=+stimuli=../tb/simvectors/minimal/stim.txt
+
+test_dm:
+  stage: test
+  before_script:
+  script:
+    - echo "Environment"
+    - env
+    - echo "(Re)generating scripts"
+    - make gen
+    - echo "Setting up vsim path"
+    - source env/env.sh
+    - echo "Running debug module testbench"
+    - $QUESTA make all simc SIM_TOP=tb_dm
+
+test_uart_boot:
+  stage: test
+  before_script:
+  script:
+    - echo "(Re)generating scripts with DPI disabled"
+    - make gen
+    - echo "Setting up vsim path"
+    - source env/env.sh
+    - echo "Running uart boot"
+    - $QUESTA make all simc SIM_TOP=tb_uart_boot
+
+test_boot_fallback:
+  stage: test
+  before_script:
+  script:
+    - echo "(Re)generating scripts with DPI disabled"
+    - make gen
+    - echo "Setting up vsim path"
+    - source env/env.sh
+    - echo "Running boot fallback testbench"
+    - $QUESTA make all simc SIM_TOP=tb_bootrom
+
+test_jtag_hello_world:
+  stage: test
+  before_script:
+    - echo "Compiling RTL model and DPI libraries"
+    - $QUESTA make all SIM_TOP=tb_sw_jtag
+  script:
+    - source env/env.sh
+    - cd freertos/tests/hello_world_pmsis
+    - $QUESTA make RISCV="$PULP_RUNTIME_GCC_TOOLCHAIN" CFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" ASFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" all run
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+     - freertos/tests/hello_world_pmsis
+
+
+test_axi_slv:
+  stage: test
+  before_script:
+  script:
+    - echo "(Re)generating scripts with DPI disabled"
+    - make gen
+    - echo "Setting up vsim path"
+    - source env/env.sh
+    - echo "Running axi slave testbench"
+    - $QUESTA make test-axislv
+
+fpga_synth_linux_zcu102:
+  stage: test
+  before_script:
+  script:
+    - echo "Patching unsupported github remote addresses"
+    - git config --global url."https://github.com/".insteadOf git://github.com/
+    - echo "(Re)generating scripts" # because paths might have changed
+    - make gen
+    - echo "Starting synthesis with vivado"
+    - cd fpga/
+    - make zcu102-bitstream VIVADO='vitis-2019.2 vivado'
+    - echo "Starting to build linux image"
+    - make zcu102-boot-images zcu102-buildroot
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    when: always
+    paths:
+      - fpga/output/pms.bit
+      - fpga/output/pms.hdf
+      - fpga/output/BOOT.BIN
+      - fpga/output/image.ub
+      - fpga/output/rootfs.tar
+      - fpga/control_pulp-txilzu9eg/control_pulp-exilzcu102.runs/impl_1/control_pulp_exilzcu102_wrapper.bit
+      - fpga/control_pulp-txilzu9eg/control_pulp-txilzu9eg/control_pulp-txilzu9eg.sdk/control_pulp-txilzu9eg_wrapper.hdf
+      - fpga/control_pulp-txilzu9eg/control_pulp-exilzcu102.xpr
+      - fpga/control_pulp-txilzu9eg/fpga-settings.mk
+      - fpga/control_pulp-txilzu9eg/*.jou
+      - fpga/control_pulp-txilzu9eg/*.log
+      - fpga/control_pulp-txilzu9eg/rtl
+      - fpga/control_pulp-txilzu9eg/tcl
+      - fpga/control_pulp-txilzu9eg/ips/control_pulp_txilzu9eg/control_pulp-txilzu9eg.xpr
+      - fpga/control_pulp-txilzu9eg/ips/control_pulp_txilzu9eg/*.log
+      - fpga/control_pulp-txilzu9eg/ips/control_pulp_txilzu9eg/*.jou
