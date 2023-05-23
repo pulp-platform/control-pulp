@@ -1,0 +1,17 @@
+config BR2_PACKAGE_PMSCTL
+	bool "pmsctl: PMS load/run/debugging tool"
+
+comment "pmsctl needs a well-defined CPULP platform"
+	depends on BR2_PACKAGE_CPULP_PLATFORM = ""
+
+if BR2_PACKAGE_PMSCTL
+
+config BR2_PACKAGE_PMSCTL_DEBUG_LEVEL
+	int "pmctl debug level"
+	default 1
+	help
+	  Debug level for pmsctl.  Higher is more
+	  verbose.  If more than zero, the binaries are also compiled
+	  with debugging symbols.
+
+endif

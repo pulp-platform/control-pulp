@@ -1,0 +1,17 @@
+config BR2_PACKAGE_PMSRST
+	bool "pmsrst: PMS reset from host"
+
+comment "pmsrst needs a well-defined CPULP platform"
+	depends on BR2_PACKAGE_CPULP_PLATFORM = ""
+
+if BR2_PACKAGE_PMSRST
+
+config BR2_PACKAGE_PMSRST_DEBUG_LEVEL
+	int "pmsrst debug level"
+	default 1
+	help
+	  Debug level for pmsrst.  Higher is more
+	  verbose.  If more than zero, the binaries are also compiled
+	  with debugging symbols.
+
+endif

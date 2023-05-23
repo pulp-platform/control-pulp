@@ -1,0 +1,29 @@
+#!/bin/sh
+
+
+start() {
+    echo "Applying settings from /etc/sysctl.conf"
+    sysctl -p
+}
+
+stop() {
+    return 0
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+esac
+
+exit $?

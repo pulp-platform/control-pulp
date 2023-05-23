@@ -1,0 +1,236 @@
+PADS                                          PINS                                 Constraints (FMC and FPGA pins)
+pad_pmb_vr1_pms0_sda                          in_i2c0_vrm_mst_sda_i                D12	AC3
+                                              out_i2c0_vrm_mst_sda_o
+                                              oe_i2c0_vrm_mst_sda_o
+pad_pmb_vr1_pms0_scl                          in_i2c0_vrm_mst_scl_i                D11	AB3
+                                              out_i2c0_vrm_mst_scl_o
+                                              oe_i2c0_vrm_mst_scl_o
+pad_pmb_vr1_pms0_alert_n                      in_i2c0_vrm_mst_alert_i              C10	AC2
+                                              out_i2c0_vrm_mst_alert_o
+                                              oe_i2c0_vrm_mst_alert_o
+pad_pmb_vr2_pms0_sda                          in_i2c1_vrm_mst_sda_i                D15	W1
+                                              out_i2c1_vrm_mst_sda_o
+                                              oe_i2c1_vrm_mst_sda_o
+pad_pmb_vr2_pms0_scl                          in_i2c1_vrm_mst_scl_i                D14	W2
+                                              out_i2c1_vrm_mst_scl_o
+                                              oe_i2c1_vrm_mst_scl_o
+pad_pmb_vr2_pms0_alert_n                      in_i2c1_vrm_mst_alert_i              C11	AC1
+                                              out_i2c1_vrm_mst_alert_o
+                                              oe_i2c1_vrm_mst_alert_o
+pad_pmb_vr3_pms0_sda                          in_i2c2_vrm_mst_sda_i                D18	AC8
+                                              out_i2c2_vrm_mst_sda_o
+                                              oe_i2c2_vrm_mst_sda_o
+pad_pmb_vr3_pms0_scl                          in_i2c2_vrm_mst_scl_i                D17	AB8
+                                              out_i2c2_vrm_mst_scl_o
+                                              oe_i2c2_vrm_mst_scl_o
+pad_pmb_vr3_pms0_alert_n                      in_i2c2_vrm_mst_alert_i              C14	W5
+                                              out_i2c2_vrm_mst_alert_o
+                                              oe_i2c2_vrm_mst_alert_o
+pad_pmb_pol1_pms0_sda                         in_i2c3_vrm_mst_sda_i                D21	N11
+                                              out_i2c3_vrm_mst_sda_o
+                                              oe_i2c3_vrm_mst_sda_o
+pad_pmb_pol1_pms0_scl                         in_i2c3_vrm_mst_scl_i                D20	P11
+                                              out_i2c3_vrm_mst_scl_o
+                                              oe_i2c3_vrm_mst_scl_o
+pad_pmb_pol1_pms0_alert_n                     in_i2c3_vrm_mst_alert_i              C15	W4
+                                              out_i2c3_vrm_mst_alert_o
+                                              oe_i2c3_vrm_mst_alert_o
+pad_pmb_ibc_pms0_sda                          in_i2cc_vrm_mst_sda_i                D27	K15
+                                              out_i2cc_vrm_mst_sda_o
+                                              oe_i2cc_vrm_mst_sda_o
+pad_pmb_ibc_pms0_scl                          in_i2cc_vrm_mst_scl_i                D26	L15
+                                              out_i2cc_vrm_mst_scl_o
+                                              oe_i2cc_vrm_mst_scl_o
+pad_pmb_ibc_pms0_alert_n                      in_i2cc_vrm_mst_alert_i              C19	AC6
+                                              out_i2cc_vrm_mst_alert_o
+                                              oe_i2cc_vrm_mst_alert_o
+pad_i2c2_pms0_sda                             in_i2c6_rtc_mst_sda_i                D12	AH3
+                                              out_i2c6_rtc_mst_sda_o
+                                              oe_i2c6_rtc_mst_sda_o
+pad_i2c2_pms0_scl                             in_i2c6_rtc_mst_scl_i                D11	AG3
+                                              out_i2c6_rtc_mst_scl_o
+                                              oe_i2c6_rtc_mst_scl_o
+pad_i2c2_pms0_smbalert_n                      in_i2c6_rtc_mst_alert_i              C10	AH2
+                                              out_i2c6_rtc_mst_alert_o
+                                              oe_i2c6_rtc_mst_alert_o
+pad_i2c3_pms0_sda                             in_i2c8_os_mst_sda_i                 D15	AE1
+                                              out_i2c8_os_mst_sda_o
+                                              oe_i2c8_os_mst_sda_o
+pad_i2c3_pms0_scl                             in_i2c8_os_mst_scl_i                 D14	AE2
+                                              out_i2c8_os_mst_scl_o
+                                              oe_i2c8_os_mst_scl_o
+pad_i2c3_pms0_smbalert_n                      in_i2c8_os_mst_alert_i               C11	AJ2
+                                              out_i2c8_os_mst_alert_o
+                                              oe_i2c8_os_mst_alert_o
+pad_i2c4_pms0_sda                             in_i2c9_pcie_pnp_mst_sda_i           D18	AH8
+                                              out_i2c9_pcie_pnp_mst_sda_o
+                                              oe_i2c9_pcie_pnp_mst_sda_o
+pad_i2c4_pms0_scl                             in_i2c9_pcie_pnp_mst_scl_i           D17	AG8
+                                              out_i2c9_pcie_pnp_mst_scl_o
+                                              oe_i2c9_pcie_pnp_mst_scl_o
+pad_i2c4_pms0_smbalert_n                      in_i2c9_pcie_pnp_mst_alert_i         C14	AH4
+                                              out_i2c9_pcie_pnp_mst_alert_o
+                                              oe_i2c9_pcie_pnp_mst_alert_o
+pad_i2c5_pms0_sda                             in_i2ca_bios_mst_sda_i               D21	AA5
+                                              out_i2ca_bios_mst_sda_o
+                                              oe_i2ca_bios_mst_sda_o
+pad_i2c5_pms0_scl                             in_i2ca_bios_mst_scl_i               D20	Y5
+                                              out_i2ca_bios_mst_scl_o
+                                              oe_i2ca_bios_mst_scl_o
+pad_i2c5_pms0_smbalert_n                      in_i2ca_bios_mst_alert_i             C15	AJ4
+                                              out_i2ca_bios_mst_alert_o
+                                              oe_i2ca_bios_mst_alert_o
+pad_i2c6_pms0_slv_sda                         in_i2c7_bmc_slv_sda_i                D24	AF12
+                                              out_i2c7_bmc_slv_sda_o               	      
+                                              oe_i2c7_bmc_slv_sda_o                	      
+pad_i2c6_pms0_slv_scl                         in_i2c7_bmc_slv_scl_i                D23	AE12
+                                              out_i2c7_bmc_slv_scl_o               	      
+                                              oe_i2c7_bmc_slv_scl_o                	                                   
+pad_i2c7_pms0_sda                             in_i2c5_intr_sckt_sda_i              D27	R12
+                                              out_i2c5_intr_sckt_sda_o
+                                              oe_i2c5_intr_sckt_sda_o
+pad_i2c7_pms0_scl                             in_i2c5_intr_sckt_scl_i              D26	T12
+                                              out_i2c5_intr_sckt_scl_o
+                                              oe_i2c5_intr_sckt_scl_o
+pad_pms0_pms1_smbalert_n                      in_i2c5_intr_sckt_alert_i            C19	AH6
+                                              out_i2c5_intr_sckt_alert_o
+                                              oe_i2c5_intr_sckt_alert_o
+pad_pms_avs_clk_vr1                           in_spi0_vrm_mst_sck_i                G9  	Y2
+                                              out_spi0_vrm_mst_sck_o
+                                              oe_spi0_vrm_mst_sck_o
+pad_pms_avs_mdata_vr1                         in_spi0_vrm_mst_si_i                 G6	  Y4
+                                              out_spi0_vrm_mst_si_o
+                                              oe_spi0_vrm_mst_si_o
+pad_pms_avs_sdata_vr1                         in_spi0_vrm_mst_so_i                 G7	  Y3
+                                              out_spi0_vrm_mst_so_o
+                                              oe_spi0_vrm_mst_so_o
+pad_pms_avs_clk_vr2                           in_spi1_vrm_mst_sck_i                G10	Y1
+                                              out_spi1_vrm_mst_sck_o
+                                              oe_spi1_vrm_mst_sck_o
+pad_pms_avs_mdata_vr2                         in_spi1_vrm_mst_si_i                 G12	V4
+                                              out_spi1_vrm_mst_si_o
+                                              oe_spi1_vrm_mst_si_o
+pad_pms_avs_sdata_vr2                         in_spi1_vrm_mst_so_i                 G13	V3
+                                              out_spi1_vrm_mst_so_o
+                                              oe_spi1_vrm_mst_so_o
+pad_pms_avs_clk_vr3                           in_spi2_vrm_mst_sck_i                G18	Y12
+                                              out_spi2_vrm_mst_sck_o
+                                              oe_spi2_vrm_mst_sck_o
+pad_pms_avs_mdata_vr3                         in_spi2_vrm_mst_si_i                 G15	W7
+                                              out_spi2_vrm_mst_si_o
+                                              oe_spi2_vrm_mst_si_o
+pad_pms_avs_sdata_vr3                         in_spi2_vrm_mst_so_i                 G16	W6
+                                              out_spi2_vrm_mst_so_o
+                                              oe_spi2_vrm_mst_so_o
+pad_pms_avs_clk_ibc                           in_spi3_vrm_mst_sck_i                G19	AA12
+                                              out_spi3_vrm_mst_sck_o
+                                              oe_spi3_vrm_mst_sck_o
+pad_pms_avs_mdata_ibc                         in_spi3_vrm_mst_si_i                 G21	N13
+                                              out_spi3_vrm_mst_si_o
+                                              oe_spi3_vrm_mst_si_o
+pad_pms_avs_sdata_ibc                         in_spi3_vrm_mst_so_i                 G22	M13
+                                              out_spi3_vrm_mst_so_o
+                                              oe_spi3_vrm_mst_so_o
+pad_pms_bios_spi_cs0_n                        in_qspi_flash_mst_csn0_i             H7	V2
+                                              out_qspi_flash_mst_csn0_o
+                                              oe_qspi_flash_mst_csn0_o
+pad_pms_bios_spi_clk                          in_qspi_flash_mst_sck_i              H8	V1
+                                              out_qspi_flash_mst_sck_o
+                                              oe_qspi_flash_mst_sck_o
+pad_pms_bios_spi_io0                          in_qspi_flash_mst_sdio_i[0]          H10	AA2
+                                              out_qspi_flash_mst_sdio_o[0]
+                                              oe_qspi_flash_mst_sdio_o[0]
+pad_pms_bios_spi_io1                          in_qspi_flash_mst_sdio_i[1]          H11	AA1
+                                              out_qspi_flash_mst_sdio_o[1]
+                                              oe_qspi_flash_mst_sdio_o[1]
+pad_pms_bios_spi_io2                          in_qspi_flash_mst_sdio_i[2]          H13	U5
+                                              out_qspi_flash_mst_sdio_o[2]
+                                              oe_qspi_flash_mst_sdio_o[2]
+pad_pms_bios_spi_io3                          in_qspi_flash_mst_sdio_i[3]          H14	U4
+                                              out_qspi_flash_mst_sdio_o[3]
+                                              oe_qspi_flash_mst_sdio_o[3]
+pad_pms0_pms1_spi_cs_n                        in_spi5_intr_sckt_csn_i              H16	AB6
+                                              out_spi5_intr_sckt_csn_o
+                                              oe_spi5_intr_sckt_csn_o
+pad_pms0_pms1_spi_clk                         in_spi5_intr_sckt_sck_i              H17	AB5
+                                              out_spi5_intr_sckt_sck_o
+                                              oe_spi5_intr_sckt_sck_o
+pad_pms0_pms1_spi_miso                        in_spi5_intr_sckt_so_i               H19	Y10
+                                              out_spi5_intr_sckt_so_o
+                                              oe_spi5_intr_sckt_so_o
+pad_pms0_pms1_spi_mosi                        in_spi5_intr_sckt_si_i               H20	Y9
+                                              out_spi5_intr_sckt_si_o
+                                              oe_spi5_intr_sckt_si_o
+pad_uart1_pms0_rxd                            in_uart1_rxd_i                       G33	E13
+                                              out_uart1_rxd_o
+                                              oe_uart1_rxd_o
+pad_uart1_pms0_txd                            in_uart1_txd_i                       G34	F13
+                                              out_uart1_txd_o
+                                              oe_uart1_txd_o
+pad_pms0_slp_s3_n                             in_slp_s3_l_i                        G15	AD7
+                                              out_slp_s3_l_o
+                                              oe_slp_s3_l_o
+pad_pms0_slp_s4_n                             in_slp_s4_l_i                        G16	AD6
+                                              out_slp_s4_l_o
+                                              oe_slp_s4_l_o
+pad_pms0_slp_s5_n                             in_slp_s5_l_i                        G18	AG10
+                                              out_slp_s5_l_o
+                                              oe_slp_s5_l_o
+pad_pms0_sys_reset_n                          in_sys_reset_l_i                     G6	AE5
+                                              out_sys_reset_l_o
+                                              oe_sys_reset_l_o
+pad_pms0_sys_rsmrst_n                         in_sys_rsmrst_l_i                    G9	AH1
+                                              out_sys_rsmrst_l_o
+                                              oe_sys_rsmrst_l_o
+pad_pms0_sys_pwgd_in                          in_sys_pwrgd_in_i                    G12	AE3
+                                              out_sys_pwrgd_in_o
+                                              oe_sys_pwrgd_in_o
+pad_pms0_pwr_btn_n                            in_sys_pwr_btn_l_i                   G7	AF5
+                                              out_sys_pwr_btn_l_o
+                                              oe_sys_pwr_btn_l_o
+pad_pms0_pwgd_out                             in_cpu_pwrgd_out_i                   G13	AF3
+                                              out_cpu_pwrgd_out_o
+                                              oe_cpu_pwrgd_out_o
+pad_pms0_throttle_0                           in_cpu_throttle_i[0]                 G21	AB11
+                                              out_cpu_throttle_o[0]
+                                              oe_cpu_throttle_o[0]
+pad_pms0_throttle_1                           in_cpu_throttle_i[1]                 G22	AB10
+                                              out_cpu_throttle_o[1]
+                                              oe_cpu_throttle_o[1]
+pad_pms0_thermtrip_n                          in_cpu_thermtrip_l_i                 G19	AG9
+                                              out_cpu_thermtrip_l_o
+                                              oe_cpu_thermtrip_l_o
+pad_pms0_errcode_0                            in_cpu_errcode_i[0]                  H7	AD2
+                                              out_cpu_errcode_o[0]
+                                              oe_cpu_errcode_o[0]
+pad_pms0_errcode_1                            in_cpu_errcode_i[1]                  H8	AD1
+                                              out_cpu_errcode_o[1]
+                                              oe_cpu_errcode_o[1]
+pad_pms0_errcode_2                            in_cpu_errcode_i[2]                  H10	AF2
+                                              out_cpu_errcode_o[2]
+                                              oe_cpu_errcode_o[2]
+pad_pms0_errcode_3                            in_cpu_errcode_i[3]                  H11	AF1
+                                              out_cpu_errcode_o[3]
+                                              oe_cpu_errcode_o[3]
+pad_pms0_reset_out_n                          in_cpu_reset_out_l_i                 G10	AJ1
+                                              out_cpu_reset_out_l_o
+                                              oe_cpu_reset_out_l_o
+pad_pms0_socket_id_0                          in_cpu_socket_id_i[0]                H13	AD4
+                                              out_cpu_socket_id_o[0]
+                                              oe_cpu_socket_id_o[0]
+pad_pms0_socket_id_1                          in_cpu_socket_id_i[1]                H14	AE4
+                                              out_cpu_socket_id_o[1]
+                                              oe_cpu_socket_id_o[1]
+pad_pms0_strap_0                              in_cpu_strap_i[0]                    H16	AE8
+                                              out_cpu_strap_o[0]
+                                              oe_cpu_strap_o[0]
+pad_pms0_strap_1                              in_cpu_strap_i[1]                    H17	AF8
+                                              out_cpu_strap_o[1]
+                                              oe_cpu_strap_o[1]
+pad_pms0_strap_2                              in_cpu_strap_i[2]                    H19	AD10
+                                              out_cpu_strap_o[2]
+                                              oe_cpu_strap_o[2]
+pad_pms0_strap_3                              in_cpu_strap_i[3]                    H20	AE9
+                                              out_cpu_strap_o[3]
+                                              oe_cpu_strap_o[3]
+END

@@ -1,0 +1,2 @@
+#include "xilinx/zynqmp-zcu102-revB.dts"
+#include "control_pulp.dtsi"

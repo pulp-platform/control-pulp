@@ -1,0 +1,4 @@
+.venv
+zcu102/project-spec/hw-description/*
+zcu102/components
+zcu102/project-spec/meta-user/recipes-bsp/device-tree/files/system-user.dtsi
