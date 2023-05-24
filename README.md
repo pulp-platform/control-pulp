@@ -71,30 +71,47 @@ export PATH=/usr/pack/riscv-1.0-kgf/pulp-gcc-2.5.0/bin/:$PATH
 ```
 
 ### pulp-runtime
-Call `source sw/pulp-runtime/configs/control-pulp.sh` to configure your shell to
+Call `source env/env.sh` to configure your shell to
 execute cycle-accurate RTL simulations using the pulp-runtime setup.
 
 ### pulp-freertos
 Freertos isn't natively available in the control_pulp repository after you clone it.
 
-To download freertos call `make freertos`. Call `source
-sw/freertos/env/control-pulp.sh` to configure your shell to use pulp-freertos.
-Examples to run are available in `sw/freertos/tests` and `sw/freertos/demos`.
+To download freertos call `make freertos`. Call `source env/env.sh` to configure
+your shell to use pulp-freertos. Examples to run are available in
+`sw/freertos/tests` and `sw/freertos/demos`.
 
 ### Building the RTL simulation platform
-Call `make gen GEN_FLAGS=your-options` to generate the
-build scripts. Pass in additional flags to enable `VIPs` etc.
 
-You can build the simulation platform by doing
+You can build the simulation platform for `Questasim` by doing
 the following:
 ```sh
 # set path to to-be-simulated model
 source env/env.sh
-# only need to do this once or if you changed any src_files.yml
-make gen
 # build RTL source
 make all
 ```
+
+Similary for `vcs`
+
+```sh
+# set path to to-be-simulated model
+source env/env.sh
+# build RTL source
+make vcs-build
+```
+
+and `verilator`
+```sh
+# set path to to-be-simulated model
+source env/env.sh
+# build RTL source
+make veri-build
+```
+
+
+If you add or remove rtl code you have re-generate the build scripts.
+Call `make gen` to re-generate the build scripts.
 
 The ControlPULP IP does integrate the accelerator cluster by default. In some
 implementations, for example some chips, we use the platform in single-core mode
@@ -123,11 +140,11 @@ before starting the simulation.
 
 ### Hardware-In-The-Loop (HIL) power and thermal management on FPGA
 Please refer to [fpga/README.md](./fpga) for more information on the full flow.
-As initialization steps, please download both the Power Control Firmware (PCF)
-and the co-simulation (power/thermal model and HIL manager):
+As initialization steps, please download the co-simulation (power/thermal model
+and HIL manager) framework. The Power Control Firmware (PCF) is already
+integrated as `sw/pcf`.
 
 ```
-make pcf
 make hpc-cosim
 ```
 
