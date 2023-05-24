@@ -206,6 +206,10 @@ vcsify: sim/gen/sim.f
 		-sim_res=1ps -timescale=1ps/1ps \
 		-top $(SIM_TOP) $(VCS_FLAGS) -file ../$^
 
+.PHONY: vcs-build
+## Build vcs RTL model
+vcs-build: vcsify
+
 .PHONY: vcs-sim
 ## Simulate RTL with vcs (gui)
 vcs-sim:
