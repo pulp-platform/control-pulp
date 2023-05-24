@@ -118,6 +118,8 @@ gen:
 # Make file list location independent
 	sed -i 's?$(ROOT_DIR)?\$$CPROOT?g' sim/gen/sim.f
 	$(BENDER) script verilator -t rtl -t pulp -t cv32e40p_use_ff_regfile > sim/gen/veri.f
+# Make file list location independent
+	sed -i 's?$(ROOT_DIR)?\$$ROOT?g' sim/gen/veri.f
 	$(BENDER) script vivado    -t rtl -t pulp -t cv32e40p_use_ff_regfile > fpga/gen/vivado.tcl
 	$(BENDER) script vivado    -t rtl -t pulp -t cv32e40p_use_ff_regfile --only-includes --no-simset > fpga/gen/vivado_includes.tcl
 # Hack: rewrite fileset
@@ -179,18 +181,29 @@ quit -code [examine -radix decimal sim:/$$sim_top/exit_status]'
 
 .PHONY: verilate
 ## Build verilator RTL model
-verilate: sim/veri.f vpms
+verilate: sim/gen/veri.f sim/vcontrolpulp
 
-.PHONY: vpms
-vpms:
+.PHONY: sim/controlpulp
+sim/vcontrolpulp:
+	ROOT=$(ROOT_DIR) \
 	$(VERILATOR) --cc --exe --build -j 8 --threads 8 \
 	-Wno-BLKANDNBLK -Wno-UNOPTFLAT -Wno-fatal \
 	--x-assign '0' --x-initial '0' --x-initial-edge --timescale 1ps \
 	--clk 'ref_clk_i' --clk 'sys_clk_i' \
 	-GSIM_STDOUT=0 \
-	--top pms_top -o vpms \
-	-f sim/veri.f tb/tb_sw_axiboot.cpp $(VERI_FLAGS)
-	cp obj_dir/vpms vpms
+	--top pms_top -o vcontrolpulp \
+	-f sim/gen/veri.f ../tb/tb_sw_axiboot.cpp $(VERI_FLAGS) \
+	--Mdir sim/vobj_dir
+	cp sim/vobj_dir/vcontrolpulp sim/vcontrolpulp
+
+.PHONY: veri-build
+## Build verilator RTL model
+veri-build: verilate
+
+.PHONY: veri-sim
+## Simulate verilator RTL model
+veri-sim:
+	./sim/vcontrolpulp
 
 #
 # VCS
@@ -238,7 +251,7 @@ clean:
 	$(RM) -r sim/work sim/modelsim.ini
 	$(RM) -r sim/simv sim/simv.daidir/ sim/vc_hdrs.h sim/csrc
 	$(RM) -r sim/ucli.key sim/verdiLog sim/inter.fsdb
-	$(RM) -r sim/obj_dir sim/vpms
+	$(RM) -r sim/vobj_dir sim/vcontrolpulp
 	$(MAKE) -C tb/remote_bitbang clean
 
 
