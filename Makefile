@@ -183,7 +183,7 @@ quit -code [examine -radix decimal sim:/$$sim_top/exit_status]'
 ## Build verilator RTL model
 verilate: sim/gen/veri.f sim/vcontrolpulp
 
-.PHONY: sim/controlpulp
+.PHONY: sim/vcontrolpulp
 sim/vcontrolpulp:
 	ROOT=$(ROOT_DIR) \
 	$(VERILATOR) --cc --exe --build -j 8 --threads 8 \
