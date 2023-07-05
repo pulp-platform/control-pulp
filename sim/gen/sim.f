@@ -794,6 +794,7 @@ $CPROOT/tb/tb_sw.sv
 $CPROOT/tb/tb_sw_jtag.sv
 $CPROOT/tb/tb_dm.sv
 $CPROOT/tb/tb_acpi.sv
+$CPROOT/tb/tb_i2c_slv_dump.sv
 $CPROOT/tb/tb_i2c_slv_irq.sv
 $CPROOT/tb/tb_axi_slv.sv
 $CPROOT/tb/tb_clic_prio_semantic.sv
@@ -804,6 +805,7 @@ $CPROOT/tb/tb_pms_minimal.sv
 $CPROOT/tb/fpga/fixture_pms_top_fpga.sv
 $CPROOT/tb/fpga/tb_sw_fpga.sv
 $CPROOT/tb/fpga/tb_acpi_fpga.sv
+$CPROOT/tb/fpga/tb_i2c_slv_irq_fpga.sv
 $CPROOT/tb/fpga/tb_avs_fpga.sv
 $CPROOT/tb/fpga/tb_mbox_fpga.sv
 $CPROOT/tb/SimJTAG.sv
