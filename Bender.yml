@@ -89,7 +89,7 @@ sources:
       - tb/tb_sw_jtag.sv
       - tb/tb_dm.sv
       - tb/tb_acpi.sv
-      # - tb/tb_i2c_slv_dump.sv
+      - tb/tb_i2c_slv_dump.sv
       - tb/tb_i2c_slv_irq.sv
       - tb/tb_axi_slv.sv
       - tb/tb_clic_prio_semantic.sv
@@ -102,7 +102,7 @@ sources:
       - tb/fpga/tb_sw_fpga.sv
       - tb/fpga/tb_acpi_fpga.sv
       # - tb/fpga/tb_i2c_slv_dump_fpga.sv
-      # - tb/fpga/tb_i2c_slv_irq_fpga.sv
+      - tb/fpga/tb_i2c_slv_irq_fpga.sv
       - tb/fpga/tb_avs_fpga.sv
       - tb/fpga/tb_mbox_fpga.sv
       - tb/SimJTAG.sv
