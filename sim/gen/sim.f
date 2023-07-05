@@ -788,14 +788,13 @@ $CPROOT/tb/tb_fs_handler.sv
 $CPROOT/tb/doorbell.sv
 $CPROOT/tb/tb_pad_frame_top.sv
 $CPROOT/tb/fixture_pms_top.sv
-$CPROOT/tb/vip/spi_master_padframe.sv
-$CPROOT/tb/vip/uart_sim.sv
 $CPROOT/tb/tb_bootrom.sv
 $CPROOT/tb/tb_uart_boot.sv
 $CPROOT/tb/tb_sw.sv
 $CPROOT/tb/tb_sw_jtag.sv
 $CPROOT/tb/tb_dm.sv
 $CPROOT/tb/tb_acpi.sv
+$CPROOT/tb/tb_i2c_slv_irq.sv
 $CPROOT/tb/tb_axi_slv.sv
 $CPROOT/tb/tb_clic_prio_semantic.sv
 $CPROOT/tb/tb_fw.sv
@@ -809,3 +808,5 @@ $CPROOT/tb/fpga/tb_avs_fpga.sv
 $CPROOT/tb/fpga/tb_mbox_fpga.sv
 $CPROOT/tb/SimJTAG.sv
 $CPROOT/tb/SimDTM.sv
+$CPROOT/tb/vip/spi_master_padframe.sv
+$CPROOT/tb/vip/uart_sim.sv
