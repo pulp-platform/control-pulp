@@ -57,6 +57,3 @@ cp --verbose "$VIP_DIR"/24FC1025-i2c-eeprom/*.v i2c_eeprom/
 echo "Installing spi flash model"
 mkdir -p spi_flash/S25fs256s
 cp --verbose -r "$VIP_DIR"/S25fs256s-spi-flash/* spi_flash/S25fs256s
-echo "Installing i2s model"
-cp --verbose "$VIP_DIR"/24FC1025-i2c-eeprom/24FC1025.v i2s/i2c_if.v
-patch i2s/i2c_if.v < i2s/i2c_if_timings.patch
