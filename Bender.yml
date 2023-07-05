@@ -82,9 +82,6 @@ sources:
       - tb/doorbell.sv
       - tb/tb_pad_frame_top.sv
       - tb/fixture_pms_top.sv
-      # open vip
-      - tb/vip/spi_master_padframe.sv
-      - tb/vip/uart_sim.sv
       # pms testbenches
       - tb/tb_bootrom.sv
       - tb/tb_uart_boot.sv
@@ -92,8 +89,8 @@ sources:
       - tb/tb_sw_jtag.sv
       - tb/tb_dm.sv
       - tb/tb_acpi.sv
-      # - tb/tb_i2c_slv_dump.sv
-      # - tb/tb_i2c_slv_irq.sv
+      - tb/tb_i2c_slv_dump.sv
+      - tb/tb_i2c_slv_irq.sv
       - tb/tb_axi_slv.sv
       - tb/tb_clic_prio_semantic.sv
       - tb/tb_fw.sv
@@ -105,38 +102,29 @@ sources:
       - tb/fpga/tb_sw_fpga.sv
       - tb/fpga/tb_acpi_fpga.sv
       # - tb/fpga/tb_i2c_slv_dump_fpga.sv
-      # - tb/fpga/tb_i2c_slv_irq_fpga.sv
+      - tb/fpga/tb_i2c_slv_irq_fpga.sv
       - tb/fpga/tb_avs_fpga.sv
       - tb/fpga/tb_mbox_fpga.sv
       - tb/SimJTAG.sv
       - tb/SimDTM.sv
 
 
-#   # Open models
-#   - target: any(test,simulation)
-#     files:
-#       - rtl/vip/spi_master_padframe.sv
-#       - rtl/vip/uart_sim.sv
-#
-#   # S25FS256_model (SPI Flash)
-#   - target: all(any(test,simulation), flash_vip)
-#     defines:
-#       SPEEDSIM: ~
-#     files:
-#       - rtl/vip/spi_flash/S25fs256s/model/s25fs256s.v
-#
-#   # 24FC1025 model (I2C flash)
-#   - target: all(any(test,simulation), i2c_vip)
-#     defines:
-#       SPEEDSIM: ~
-#     files:
-#       - rtl/vip/i2c_eeprom/24FC1025.v
-#
-#   # i2s model
-#   - target: all(any(test,simulation), i2s_vip)
-#     defines:
-#       SPEEDSIM: ~
-#     files:
-#       - rtl/vip/i2s/i2c_if.v
-#       - rtl/vip/i2s/i2s_vip_channel.sv
-#       - rtl/vip/i2s/i2s_vip.sv
+  # Open models
+  - target: any(test,simulation)
+    files:
+      - tb/vip/spi_master_padframe.sv
+      - tb/vip/uart_sim.sv
+
+  # S25FS256_model (SPI Flash)
+  - target: all(any(test,simulation), flash_vip)
+    defines:
+      SPEEDSIM: ~
+    files:
+      - tb/vip/spi_flash/S25fs256s/model/s25fs256s.v
+
+  # 24FC1025 model (I2C flash)
+  - target: all(any(test,simulation), i2c_vip)
+    defines:
+      SPEEDSIM: ~
+    files:
+      - tb/vip/i2c_eeprom/24FC1025.v

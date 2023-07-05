@@ -19,8 +19,6 @@
 // I2C slave driver writes a stream of data into pms's L2
 // pms dumps L2 content and check for correctness
 
-import "DPI-C" function string getenv(input string env_name);
-
 module tb_i2c_slv_dump;
 
   // DUT and useful tasks
@@ -85,7 +83,7 @@ module tb_i2c_slv_dump;
     #500us;
 
     // Load i2c slv stimuli
-    stim_fd = $fopen({getenv("PWD"), "/../../../../../../tb/simvectors/i2c_slv/stim_i2c_slv.txt"}, "r");
+    stim_fd = $fopen("../stim_i2c_slv.txt", "r");
     if (!stim_fd)
       $fatal(1, "Could not open stimuli file!");
 

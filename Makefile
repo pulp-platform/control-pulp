@@ -110,24 +110,30 @@ vip: tb/vip/vip-proprietary
 #
 # Re-generate file lists and scripts
 #
+BENDER_SIM_TARGETS += -t test
+BENDER_SIM_TARGETS += -t simulation
+
+BENDER_BASE_TARGETS += -t rtl
+BENDER_BASE_TARGETS += -t pulp
+BENDER_BASE_TARGETS += -t cv32e40p_use_ff_regfile
 
 .PHONY: gen
 ## (Re)generate file lists and compilation scripts. Use GEN_FLAGS=--help for help.
 gen:
-	$(BENDER) script flist -t rtl -t test -t simulation -t pulp -t cv32e40p_use_ff_regfile > sim/gen/sim.f
+	$(BENDER) script flist $(BENDER_SIM_TARGETS) $(BENDER_BASE_TARGETS) > sim/gen/sim.f
 # Make file list location independent
 	sed -i 's?$(ROOT_DIR)?\$$CPROOT?g' sim/gen/sim.f
-	$(BENDER) script verilator -t rtl -t pulp -t cv32e40p_use_ff_regfile > sim/gen/veri.f
+	$(BENDER) script verilator $(BENDER_BASE_TARGETS) > sim/gen/veri.f
 # Make file list location independent
 	sed -i 's?$(ROOT_DIR)?\$$ROOT?g' sim/gen/veri.f
-	$(BENDER) script vivado    -t rtl -t pulp -t cv32e40p_use_ff_regfile > fpga/gen/vivado.tcl
-	$(BENDER) script vivado    -t rtl -t pulp -t cv32e40p_use_ff_regfile --only-includes --no-simset > fpga/gen/vivado_includes.tcl
+	$(BENDER) script vivado $(BENDER_BASE_TARGETS) > fpga/gen/vivado.tcl
+	$(BENDER) script vivado $(BENDER_BASE_TARGETS) --only-includes --no-simset > fpga/gen/vivado_includes.tcl
 # Hack: rewrite fileset
 	sed -i 's/current_fileset/get_filesets control_pulp_exilzcu102_pms_top_fpga_0_0/g' fpga/gen/vivado_includes.tcl
 
 .PHONY: gen-with-vip
 ## (Re)generate file lists and compilation scripts including all VIPs.
-gen-with-vip: GEN_FLAGS=--rt-dpi --i2c-vip --flash-vip --use-vip
+gen-with-vip: BENDER_SIM_TARGETS +=-t flash_vip -t i2c_vip
 gen-with-vip: vip gen
 
 #
@@ -497,7 +503,7 @@ test-i2c-slv-irq:
 ## Run tests with AXI slv
 test-axislv:
 	cd tb/simvectors/axi_slv && python3.6 axi_slv_stim_gen.py --target asic_sim
-	cd sim && make all simc SIM_TOP=tb_axi_slv
+	$(MAKE) all simc SIM_TOP=tb_axi_slv
 
 #
 # Emacs

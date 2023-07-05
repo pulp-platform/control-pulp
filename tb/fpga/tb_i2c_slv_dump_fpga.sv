@@ -19,8 +19,6 @@
 // I2C slave driver writes a stream of data into pms's L2
 // pms dumps L2 content and check for correctness
 
-import "DPI-C" function string getenv(input string env_name);
-
 module tb_i2c_slv_dump_fpga;
 
   // DUT and useful tasks
@@ -81,9 +79,8 @@ module tb_i2c_slv_dump_fpga;
 
     #500us
 
-      // Load i2c slv stimuli
-      fixt_pms_fpga.load_stim(
-        {getenv("PWD"), "/../../../../../rtl/tb/simvectors/i2c_slv/stim_i2c_slv.txt"}, stim_fd);
+    // Load i2c slv stimuli
+    fixt_pms_fpga.load_stim("../stim_i2c_slv.txt", stim_fd);
 
     // Read slv address
     fixt_pms_fpga.i2c_slv_read_slv_address(stim_fd, i2c_slv_addr);

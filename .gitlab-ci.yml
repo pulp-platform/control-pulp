@@ -376,12 +376,12 @@ freertos_semaphore:
     - $QUESTA make all SIM_TOP=tb_sw
   script:
     - source env/env.sh
-    - cd freertos/tests/semaphore
+    - cd sw/freertos/tests/semaphore
     - $QUESTA make RISCV="$PULP_RUNTIME_GCC_TOOLCHAIN" CFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" ASFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" all run
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     paths:
-     - freertos/tests/semaphore
+     - sw/freertos/tests/semaphore
 
 freertos_queue:
   stage: test
@@ -390,12 +390,12 @@ freertos_queue:
     - $QUESTA make all SIM_TOP=tb_sw
   script:
     - source env/env.sh
-    - cd freertos/tests/queue
+    - cd sw/freertos/tests/queue
     - $QUESTA make RISCV="$PULP_RUNTIME_GCC_TOOLCHAIN" CFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" ASFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" all run
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     paths:
-     - freertos/tests/queue
+     - sw/freertos/tests/queue
 
 freertos_streambufferisr:
   stage: test
@@ -404,12 +404,12 @@ freertos_streambufferisr:
     - $QUESTA make all SIM_TOP=tb_sw
   script:
     - source env/env.sh
-    - cd freertos/tests/streambufferisr
+    - cd sw/freertos/tests/streambufferisr
     - $QUESTA make RISCV="$PULP_RUNTIME_GCC_TOOLCHAIN" CFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" ASFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" all run
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     paths:
-     - freertos/tests/streambufferisr
+     - sw/freertos/tests/streambufferisr
 
 freertos_uart:
   stage: test
@@ -418,12 +418,12 @@ freertos_uart:
     - $QUESTA make all SIM_TOP=tb_sw
   script:
     - source env/env.sh
-    - cd freertos/tests/uart
+    - cd sw/freertos/tests/uart
     - $QUESTA make RISCV="$PULP_RUNTIME_GCC_TOOLCHAIN" CFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" ASFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" all run
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     paths:
-     - freertos/tests/uart
+     - sw/freertos/tests/uart
 
 # TODO: figure out why the testbench regressed (DPI library load issue)
 # freertos_spi:
@@ -435,12 +435,12 @@ freertos_uart:
 #     - $QUESTA make all SIM_TOP=tb_sw
 #   script:
 #     - source env/env.sh
-#     - cd freertos/tests/spi
+#     - cd sw/freertos/tests/spi
 #     - $QUESTA make SIM_TOP=tb_sw all run DPI=yes
 #   artifacts:
 #     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
 #     paths:
-#      - freertos/tests/spi
+#      - sw/freertos/tests/spi
 
 freertos_i2c_eeprom:
   stage: test
@@ -451,12 +451,12 @@ freertos_i2c_eeprom:
     - $QUESTA make all SIM_TOP=tb_sw
   script:
     - source env/env.sh
-    - cd freertos/tests/i2c_eeprom
+    - cd sw/freertos/tests/i2c_eeprom
     - $QUESTA make SIM_TOP=tb_sw all run
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     paths:
-     - freertos/tests/i2c_eeprom
+     - sw/freertos/tests/i2c_eeprom
 
 freertos_i2c_scan:
   stage: test
@@ -467,12 +467,12 @@ freertos_i2c_scan:
     - $QUESTA make all SIM_TOP=tb_sw
   script:
     - source env/env.sh
-    - cd freertos/tests/i2c_scan
+    - cd sw/freertos/tests/i2c_scan
     - $QUESTA make SIM_TOP=tb_sw all run
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     paths:
-     - freertos/tests/i2c_scan
+     - sw/freertos/tests/i2c_scan
 
 freertos_hello_world:
   stage: test
@@ -481,12 +481,12 @@ freertos_hello_world:
     - $QUESTA make all SIM_TOP=tb_sw
   script:
     - source env/env.sh
-    - cd freertos/tests/hello_world_pmsis
+    - cd sw/freertos/tests/hello_world_pmsis
     - $QUESTA make RISCV="$PULP_RUNTIME_GCC_TOOLCHAIN" CFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" ASFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" all run
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     paths:
-     - freertos/tests/hello_world_pmsis
+     - sw/freertos/tests/hello_world_pmsis
 
 freertos_cluster_offload_sync:
   stage: test
@@ -495,12 +495,12 @@ freertos_cluster_offload_sync:
     - $QUESTA make all SIM_TOP=tb_sw
   script:
     - source env/env.sh
-    - cd freertos/tests/cluster/cluster_fork_sync
+    - cd sw/freertos/tests/cluster/cluster_fork_sync
     - $QUESTA make RISCV="$PULP_RUNTIME_GCC_TOOLCHAIN" CFLAGS="-Og -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32 -DFEATURE_CLUSTER=1 -D__PULP__=1 -DDEBUG" ASFLAGS="-Os -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32" clean all run
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     paths:
-     - freertos/tests/cluster/cluster_fork_sync
+     - sw/freertos/tests/cluster/cluster_fork_sync
 
 freertos_cluster_offload_async:
   stage: test
@@ -509,12 +509,12 @@ freertos_cluster_offload_async:
     - $QUESTA make all SIM_TOP=tb_sw
   script:
     - source env/env.sh
-    - cd freertos/tests/cluster/cluster_fork_async
+    - cd sw/freertos/tests/cluster/cluster_fork_async
     - $QUESTA make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.5.0-rc1" CFLAGS="-Og -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32 -DFEATURE_CLUSTER=1 -D__PULP__=1 -DDEBUG" ASFLAGS="-Os -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32" clean all run
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     paths:
-     - freertos/tests/cluster/cluster_fork_async
+     - sw/freertos/tests/cluster/cluster_fork_async
 
 freertos_cluster_idma_basic:
   stage: test
@@ -523,12 +523,12 @@ freertos_cluster_idma_basic:
     - $QUESTA make all SIM_TOP=tb_sw
   script:
     - source env/env.sh
-    - cd freertos/tests/cluster/dma/idma/idma_basic
+    - cd sw/freertos/tests/cluster/dma/idma/idma_basic
     - $QUESTA make RISCV="$PULP_RUNTIME_GCC_TOOLCHAIN" CFLAGS="-Og -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32 -DFEATURE_CLUSTER=1 -D__PULP__=1 -DDEBUG" ASFLAGS="-Os -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32" clean all run
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     paths:
-     - freertos/tests/cluster/dma/idma/idma_basic
+     - sw/freertos/tests/cluster/dma/idma/idma_basic
 
 freertos_cluster_idma_basic_8cores:
   stage: test
@@ -537,12 +537,12 @@ freertos_cluster_idma_basic_8cores:
     - $QUESTA make all SIM_TOP=tb_sw
   script:
     - source env/env.sh
-    - cd freertos/tests/cluster/dma/idma/idma_basic_8cores
+    - cd sw/freertos/tests/cluster/dma/idma/idma_basic_8cores
     - $QUESTA make RISCV="$PULP_RUNTIME_GCC_TOOLCHAIN" CFLAGS="-Og -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32 -DFEATURE_CLUSTER=1 -D__PULP__=1 -DDEBUG" ASFLAGS="-Os -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32" clean all run
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     paths:
-     - freertos/tests/cluster/dma/idma/idma_basic_8cores
+     - sw/freertos/tests/cluster/dma/idma/idma_basic_8cores
 
 # freertos_pms_fw_noio:
 #   stage: test
@@ -722,12 +722,12 @@ test_jtag_hello_world:
     - $QUESTA make all SIM_TOP=tb_sw_jtag
   script:
     - source env/env.sh
-    - cd freertos/tests/hello_world_pmsis
+    - cd sw/freertos/tests/hello_world_pmsis
     - $QUESTA make RISCV="$PULP_RUNTIME_GCC_TOOLCHAIN" CFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" ASFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" all run
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     paths:
-     - freertos/tests/hello_world_pmsis
+     - sw/freertos/tests/hello_world_pmsis
 
 
 test_axi_slv:

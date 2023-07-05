@@ -1022,7 +1022,7 @@ module fixture_pms_top;
 `endif  //  `ifdef USE_DPI
 
   // SPI flash model (not open-source, from Spansion)
-`ifdef USE_FLASH_VIP
+`ifdef TARGET_FLASH_VIP
   for (genvar i = 0; i < N_SPI - 1; i++) begin : gen_vip_spi_mem
     s25fs256s #(
       .TimingModel  ("S25FS256SAGMFI000_F_30pF"),
@@ -1046,7 +1046,7 @@ module fixture_pms_top;
   assign w_spi_intr_sckt_csn = out_spi5_intr_sckt_csn_o ? 1'bz : w_spi_master_csn[0][1];
 
   // SPI flash model for inter-socket test
-`ifdef USE_FLASH_VIP
+`ifdef TARGET_FLASH_VIP
   s25fs256s #(
     .TimingModel  ("S25FS256SAGMFI000_F_30pF"),
     .mem_file_name("./vectors/qspi_stim.slm"),
@@ -1062,7 +1062,7 @@ module fixture_pms_top;
 `endif
 
   // I2C memory models
-`ifdef USE_I2C_VIP
+`ifdef TARGET_I2C_VIP
   for (genvar i = 0; i < N_I2C; i++) begin : gen_vip_i2c_mem
     M24FC1025 i_i2c_mem (
       .A0   (1'b0),
