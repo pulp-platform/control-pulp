@@ -78,6 +78,15 @@ $(export_if_def SIM_TOP)
 $(export_if_def VERILATOR)
 $(export_if_def QUESTA)
 
+NONFREE_REMOTE ?= git@iis-git.ee.ethz.ch:pms/control-pulp-nonfree.git
+NONFREE_COMMIT ?= 1689c0d
+
+nonfree-init:
+	git clone $(NONFREE_REMOTE) $(ROOT_DIR)/nonfree
+	cd $(ROOT_DIR)/nonfree && git checkout $(NONFREE_COMMIT)
+
+-include $(ROOT_DIR)/nonfree/nonfree.mk
+
 .PHONY: all
 ## Compile RTL
 all: build
