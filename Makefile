@@ -79,7 +79,7 @@ $(export_if_def VERILATOR)
 $(export_if_def QUESTA)
 
 NONFREE_REMOTE ?= git@iis-git.ee.ethz.ch:pms/control-pulp-nonfree.git
-NONFREE_COMMIT ?= 1689c0d
+NONFREE_COMMIT ?= 2fc98ae
 
 nonfree-init:
 	git clone $(NONFREE_REMOTE) $(ROOT_DIR)/nonfree
