@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
+# Make sure we are picking up system python and not some random version!
 
 # Copyright 2020 ETH Zurich and University of Bologna
 #
