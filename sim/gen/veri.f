@@ -1183,6 +1183,7 @@ $ROOT/hw/ips/wdt/src/wdt.sv
 +incdir+$ROOT/hw/includes
 +incdir+$ROOT/hw/ips/common_cells/include
 +incdir+$ROOT/hw/ips/idma/src/include
++incdir+$ROOT/hw/ips/axi/include
 $ROOT/hw/pulp/jtag_tap_top.sv
 $ROOT/hw/pulp/pad_control.sv
 $ROOT/hw/pulp/system_clk_rst_gen.sv

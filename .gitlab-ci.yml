@@ -1,17 +1,12 @@
-# Copyright 2019 ETH Zurich and University of Bologna
+# Copyright 2022 ETH Zurich and University of Bologna.
+# Licensed under the Apache License, Version 2.0, see LICENSE for details.
+# SPDX-License-Identifier: Apache-2.0
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# Paul Scheffler <paulsc@iis.ee.ethz.ch>
+# Robert Balas <balasr@iis.ee.ethz.ch>
 
+# We initialize the nonfree repo, then spawn a sub-pipeline from it for the
+# nonfree jobs. Regular jobs will be spawned here
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
@@ -22,47 +17,56 @@ variables:
   VERILATOR: "/home/balasr/.local/bin/verilator"
   BENDER: "/home/balasr/.local/bin/bender"
   QUESTA: "questa-2022.3"
-  VCSSIM: "vcs-2022.06"
-
-before_script:
-  - pwd
-
-# after_script:
-#   - echo "stage finished"
+  VCSSIM: "vcs-2020.12"
 
 stages:
-  - fetch
+  - prepare
   - build
   - test
 
-fetch_ips:
-  stage: fetch
+# nonfree subpipline
+
+init-nonfree:
+  stage: prepare
+  script: make nonfree-init
+  artifacts:
+    paths: [ nonfree/ ]
+
+nonfree:
+  stage: test
+  needs: [ init-nonfree ]
+  trigger:
+    include:
+      - artifact: nonfree/ci.yml
+        job: init-nonfree
+    strategy: depend
+
+# free jobs
+.base:
+  artifacts:
+    when: always
+    expire_in: 18 weeks
+
+prepare:
+  extends: .base
+  stage: prepare
   script:
-    - echo "Fetching IPs (SKIPPING)"
-    #- make checkout
-    - echo "Fetching VIPs"
-    - ./tb/vip/get-vips.sh --yes --gitlab
+    - echo "Fetch submodule dependencies"
+    - git submodule update --init --recursive
+    - echo "Fetch VIPs"
+    - ./tb/vip/get-vips.sh --yes #--gitlab
     - echo "Generate scripts with DPI and VIP support"
     - $QUESTA make gen-with-vip
 
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     paths:
-      - sim/gen/*
+      - sim/flist/*
       - tb/vip/*
 
-# This jobs result is too large to produce an artifact
-# fetch_sdk:
-#   stage: fetch
-#   script:
-#     - echo "Fetching SDK from releases and setting up paths"
-#     - make sdk-gitlab
-#   artifacts:
-#     paths:
-#       - pkg/
-#       - env/
-
-build_questa_rtl:
+questa_rtl:
+  extends: .base
+  needs: [ prepare ]
   stage: build
   before_script:
   script:
@@ -71,24 +75,12 @@ build_questa_rtl:
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     paths:
-      - sim/gen/*
-      - tb/vip/*
-      - tb/remote_bitbang/* # we want to reuse bitbang lib
+      - sim/*
+      - tb/*
 
-build_questa_rtl_old:
-  stage: build
-  before_script:
-  script:
-    - echo "Compiling RTL model and DPI libraries"
-    - make SIM_TOP=tb_sw build
-  artifacts:
-    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
-    paths:
-      - sim/gen/*
-      - tb/vip/*
-      - tb/remote_bitbang/* # we want to reuse bitbang lib
-
-build_vcs_rtl:
+vcs_rtl:
+  extends: .base
+  needs: [ prepare ]
   stage: build
   before_script:
   script:
@@ -99,131 +91,107 @@ build_vcs_rtl:
     paths:
       - sim/simv
 
-# build_verilator_rtl:
-#   stage: build
-#   before_script:
-#   script:
-#     - echo "Compiling RTL model"
-#     - make verilate
-#   artifacts:
-#     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
-#     paths:
-#       - sim/vpms
+verilator_rtl:
+  extends: .base
+  needs: [ prepare ]
+  stage: build
+  before_script:
+  script:
+    - echo "Compiling RTL model"
+    - make verilate
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - sim/vpms
 
-# Use simplified pulp-runtime to run a subset of tests
-rt_periph:
+.sim-vsim-runtime-tpl:
+  stage: test
+  before_script:
+   - echo "Generate scripts with DPI and VIP support"
+   - $QUESTA make gen-with-vip
+   - echo "Compiling RTL model and DPI libraries"
+   - $QUESTA make SIM_TOP=tb_sw build
+
+.sim-vsim-freertos-tpl:
   stage: test
   before_script:
     - echo "Generate scripts with DPI and VIP support"
     - $QUESTA make gen-with-vip
     - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make SIM_TOP=tb_sw build
+    - $QUESTA make all SIM_TOP=${TOP}
+
+.sim-vsim-junit-report-tpl:
+  artifacts:
+   name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+   paths:
+     - sw/tests/${XML_DIR}/*.html
+     - sw/tests/${XML_DIR}/*.xml
+   reports:
+     junit: sw/tests/${XML_DIR}/*.xml
+
+# Use simplified pulp-runtime to run a subset of tests
+rt_periph:
+  variables: { XML_DIR: "runtime-tests" }
+#  needs: [ build ]
+  extends: [ .base, .sim-vsim-runtime-tpl, .sim-vsim-junit-report-tpl ]
+  stage: test
   script:
     - echo "Running software test"
     - $QUESTA make test-rt-periph
-  artifacts:
-    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
-    paths:
-      - sw/tests/runtime-tests/*.html
-      - sw/tests/runtime-tests/*.xml
-    reports:
-      junit: sw/tests/runtime-tests/*.xml
 
 rt_ml:
+  variables: { XML_DIR: "runtime-tests" }
+#  needs: [ build ]
+  extends: [ .base, .sim-vsim-runtime-tpl, .sim-vsim-junit-report-tpl ]
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make SIM_TOP=tb_sw build
   script:
     - echo "Running software test"
     - $QUESTA make test-rt-ml
-  artifacts:
-    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
-    paths:
-      - sw/tests/runtime-tests/*.html
-      - sw/tests/runtime-tests/*.xml
-    reports:
-      junit: sw/tests/runtime-tests/*.xml
 
 rt_riscv:
+  variables: { XML_DIR: "runtime-tests" }
+#  needs: [ build ]
+  extends: [ .base, .sim-vsim-runtime-tpl, .sim-vsim-junit-report-tpl ]
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make SIM_TOP=tb_sw build
   script:
     - echo "Running software test"
     - $QUESTA make test-rt-riscv
-  artifacts:
-    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
-    paths:
-      - sw/tests/runtime-tests/*.html
-      - sw/tests/runtime-tests/*.xml
-    reports:
-      junit: sw/tests/runtime-tests/*.xml
 
 rt_seq:
+  variables: { XML_DIR: "runtime-tests" }
+#  needs: [ build ]
+  extends: [ .base, .sim-vsim-runtime-tpl, .sim-vsim-junit-report-tpl ]
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make SIM_TOP=tb_sw build
   script:
     - echo "Running software test"
     - $QUESTA make test-rt-seq-bare
-  artifacts:
-    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
-    paths:
-      - sw/tests/runtime-tests/*.html
-      - sw/tests/runtime-tests/*.xml
-    reports:
-      junit: sw/tests/runtime-tests/*.xml
 
 rt_par:
+  variables: { XML_DIR: "runtime-tests" }
+#  needs: [ build ]
+  extends: [ .base, .sim-vsim-runtime-tpl, .sim-vsim-junit-report-tpl ]
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make SIM_TOP=tb_sw build
   script:
     - echo "Running software test"
     - $QUESTA make test-rt-par-bare
-  artifacts:
-    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
-    paths:
-      - sw/tests/runtime-tests/*.html
-      - sw/tests/runtime-tests/*.xml
-    reports:
-      junit: sw/tests/runtime-tests/*.xml
 
 rt_perfcounters:
+  variables: { XML_DIR: "runtime-tests" }
+#  needs: [ build ]
+  extends: [ .base, .sim-vsim-runtime-tpl, .sim-vsim-junit-report-tpl ]
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make SIM_TOP=tb_sw build
   script:
     - echo "Running software test"
     - $QUESTA make test-rt-perfcounters
-  artifacts:
-    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
-    paths:
-      - sw/tests/runtime-tests/*.html
-      - sw/tests/runtime-tests/*.xml
-    reports:
-      junit: sw/tests/runtime-tests/*.xml
 
 rt_control_pulp:
+  variables: { XML_DIR: "control-pulp-tests" }
+#  needs: [ build ]
+  extends: [ .base, .sim-vsim-runtime-tpl, .sim-vsim-junit-report-tpl ]
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make SIM_TOP=tb_sw build
   script:
     - echo "Running software test"
     - $QUESTA make test-rt-control-pulp
-  artifacts:
-    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
-    paths:
-      - sw/tests/control-pulp-tests/*.html
-      - sw/tests/control-pulp-tests/*.xml
-    reports:
-      junit: sw/tests/control-pulp-tests/*.xml
 
 #rt_sensors_rx:
 #  stage: test
@@ -242,6 +210,9 @@ rt_control_pulp:
 #      junit: sw/tests/control-pulp-tests/sensors_transfers/*.xml
 
 pvt_sensors_idma_cl:
+  variables: { XML_DIR: "control-pulp-tests/sensor_transfers" }
+#  needs: [ build ]
+  extends: [ .base, .sim-vsim-runtime-tpl, .sim-vsim-junit-report-tpl ]
   stage: test
   before_script:
     - echo "Compiling RTL model and DPI libraries"
@@ -249,45 +220,24 @@ pvt_sensors_idma_cl:
   script:
     - echo "Running software test"
     - $QUESTA make test-rx-idma
-  artifacts:
-    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
-    paths:
-      - sw/tests/control-pulp-tests/sensors_transfers/*.html
-      - sw/tests/control-pulp-tests/sensors_transfers/*.xml
-    reports:
-      junit: sw/tests/control-pulp-tests/sensors_transfers/*.xml
 
 rt_tcdm:
+  variables: { XML_DIR: "runtime-tests" }
+#  needs: [ build ]
+  extends: [ .base, .sim-vsim-runtime-tpl, .sim-vsim-junit-report-tpl ]
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make SIM_TOP=tb_sw build
   script:
     - echo "Running software test"
     - $QUESTA make test-rt-tcdm
-  artifacts:
-    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
-    paths:
-      - sw/tests/runtime-tests/*.html
-      - sw/tests/runtime-tests/*.xml
-    reports:
-      junit: sw/tests/runtime-tests/*.xml
 
 rt_soc_interconnect:
+  variables: { XML_DIR: "runtime-tests" }
+#  needs: [ build ]
+  extends: [ .base, .sim-vsim-runtime-tpl, .sim-vsim-junit-report-tpl ]
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make SIM_TOP=tb_sw build
   script:
     - echo "Running software test"
     - $QUESTA make test-rt-soc-interconnect
-  artifacts:
-    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
-    paths:
-      - sw/tests/runtime-tests/*.html
-      - sw/tests/runtime-tests/*.xml
-    reports:
-      junit: sw/tests/runtime-tests/*.xml
 
 #rt_mchan:
 #  stage: test
@@ -306,74 +256,45 @@ rt_soc_interconnect:
 #      junit: sw/tests/runtime-tests/*.xml
 
 rt_idma:
+  variables: { XML_DIR: "runtime-tests" }
+#  needs: [ build ]
+  extends: [ .base, .sim-vsim-runtime-tpl, .sim-vsim-junit-report-tpl ]
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make SIM_TOP=tb_sw build
   script:
     - echo "Running software test"
     - $QUESTA make test-rt-idma
-  artifacts:
-    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
-    paths:
-      - sw/tests/runtime-tests/*.html
-      - sw/tests/runtime-tests/*.xml
-    reports:
-      junit: sw/tests/runtime-tests/*.xml
 
 rt_coremark:
+  variables: { XML_DIR: "runtime-tests" }
+#  needs: [ build ]
+  extends: [ .base, .sim-vsim-runtime-tpl, .sim-vsim-junit-report-tpl ]
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make SIM_TOP=tb_sw build
   script:
     - echo "Running software test"
     - $QUESTA make test-rt-coremark
-  artifacts:
-    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
-    paths:
-      - sw/tests/runtime-tests/*.html
-      - sw/tests/runtime-tests/*.xml
-    reports:
-      junit: sw/tests/runtime-tests/*.xml
 
 rt_avs:
+  variables: { XML_DIR: "runtime-tests" }
+#  needs: [ build ]
+  extends: [ .base, .sim-vsim-runtime-tpl, .sim-vsim-junit-report-tpl ]
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make SIM_TOP=tb_avs_fpga build
   script:
     - echo "Running software test"
     - $QUESTA make test-avs
-  artifacts:
-    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
-    paths:
-      - sw/tests/runtime-tests/peripherals/avs/*.html
-      - sw/tests/runtime-tests/peripherals/avs/*.xml
-    reports:
-      junit: sw/tests/runtime-tests/peripherals/avs/*.xml
 
 rt_i2c_slv_irq:
+  variables: { XML_DIR: "runtime-tests", TOP: "tb_i2c_slv_irq_fpga" }
+#  needs: [ build ]
+  extends: [ .base, .sim-vsim-runtime-tpl, .sim-vsim-junit-report-tpl ]
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make SIM_TOP=tb_i2c_slv_irq_fpga build
   script:
     - echo "Running software test"
     - $QUESTA make test-i2c-slv-irq
-  artifacts:
-    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
-    paths:
-      - sw/tests/runtime-tests/*.html
-      - sw/tests/runtime-tests/*.xml
-    reports:
-      junit: sw/tests/runtime-tests/*.xml
 
+# Freertos
 freertos_semaphore:
-  stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make all SIM_TOP=tb_sw
+  extends: .sim-vsim-freertos-tpl
+  variables: { TOP: "tb_sw" }
   script:
     - source env/env.sh
     - cd sw/freertos/tests/semaphore
@@ -384,10 +305,9 @@ freertos_semaphore:
      - sw/freertos/tests/semaphore
 
 freertos_queue:
+  extends: .sim-vsim-freertos-tpl
+  variables: { TOP: "tb_sw" }
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make all SIM_TOP=tb_sw
   script:
     - source env/env.sh
     - cd sw/freertos/tests/queue
@@ -398,10 +318,9 @@ freertos_queue:
      - sw/freertos/tests/queue
 
 freertos_streambufferisr:
+  extends: .sim-vsim-freertos-tpl
+  variables: { TOP: "tb_sw" }
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make all SIM_TOP=tb_sw
   script:
     - source env/env.sh
     - cd sw/freertos/tests/streambufferisr
@@ -412,10 +331,9 @@ freertos_streambufferisr:
      - sw/freertos/tests/streambufferisr
 
 freertos_uart:
+  extends: .sim-vsim-freertos-tpl
+  variables: { TOP: "tb_sw" }
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make all SIM_TOP=tb_sw
   script:
     - source env/env.sh
     - cd sw/freertos/tests/uart
@@ -433,6 +351,7 @@ freertos_uart:
 #     - $QUESTA make gen-with-vip
 #     - echo "Compiling RTL model and DPI libraries"
 #     - $QUESTA make all SIM_TOP=tb_sw
+#     - echo "Installing freertos"
 #   script:
 #     - source env/env.sh
 #     - cd sw/freertos/tests/spi
@@ -443,12 +362,9 @@ freertos_uart:
 #      - sw/freertos/tests/spi
 
 freertos_i2c_eeprom:
+  extends: .sim-vsim-freertos-tpl
+  variables: { TOP: "tb_sw" }
   stage: test
-  before_script:
-    - echo "Generate scripts with DPI and VIP support"
-    - $QUESTA make gen-with-vip
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make all SIM_TOP=tb_sw
   script:
     - source env/env.sh
     - cd sw/freertos/tests/i2c_eeprom
@@ -459,12 +375,9 @@ freertos_i2c_eeprom:
      - sw/freertos/tests/i2c_eeprom
 
 freertos_i2c_scan:
+  extends: .sim-vsim-freertos-tpl
+  variables: { TOP: "tb_sw" }
   stage: test
-  before_script:
-    - echo "Generate scripts with DPI and VIP support"
-    - $QUESTA make gen-with-vip
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make all SIM_TOP=tb_sw
   script:
     - source env/env.sh
     - cd sw/freertos/tests/i2c_scan
@@ -475,10 +388,9 @@ freertos_i2c_scan:
      - sw/freertos/tests/i2c_scan
 
 freertos_hello_world:
+  extends: .sim-vsim-freertos-tpl
+  variables: { TOP: "tb_sw" }
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make all SIM_TOP=tb_sw
   script:
     - source env/env.sh
     - cd sw/freertos/tests/hello_world_pmsis
@@ -489,10 +401,9 @@ freertos_hello_world:
      - sw/freertos/tests/hello_world_pmsis
 
 freertos_cluster_offload_sync:
+  extends: .sim-vsim-freertos-tpl
+  variables: { TOP: "tb_sw" }
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make all SIM_TOP=tb_sw
   script:
     - source env/env.sh
     - cd sw/freertos/tests/cluster/cluster_fork_sync
@@ -503,10 +414,9 @@ freertos_cluster_offload_sync:
      - sw/freertos/tests/cluster/cluster_fork_sync
 
 freertos_cluster_offload_async:
+  extends: .sim-vsim-freertos-tpl
+  variables: { TOP: "tb_sw" }
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make all SIM_TOP=tb_sw
   script:
     - source env/env.sh
     - cd sw/freertos/tests/cluster/cluster_fork_async
@@ -517,10 +427,9 @@ freertos_cluster_offload_async:
      - sw/freertos/tests/cluster/cluster_fork_async
 
 freertos_cluster_idma_basic:
+  extends: .sim-vsim-freertos-tpl
+  variables: { TOP: "tb_sw" }
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make all SIM_TOP=tb_sw
   script:
     - source env/env.sh
     - cd sw/freertos/tests/cluster/dma/idma/idma_basic
@@ -531,10 +440,9 @@ freertos_cluster_idma_basic:
      - sw/freertos/tests/cluster/dma/idma/idma_basic
 
 freertos_cluster_idma_basic_8cores:
+  extends: .sim-vsim-freertos-tpl
+  variables: { TOP: "tb_sw" }
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make all SIM_TOP=tb_sw
   script:
     - source env/env.sh
     - cd sw/freertos/tests/cluster/dma/idma/idma_basic_8cores
@@ -545,12 +453,9 @@ freertos_cluster_idma_basic_8cores:
      - sw/freertos/tests/cluster/dma/idma/idma_basic_8cores
 
 # freertos_pms_fw_noio:
+#   extends: .sim-vsim-freertos-tpl
+#   variables: { TOP: "tb_sw" }
 #   stage: test
-#   before_script:
-#     - echo "Compiling RTL model and DPI libraries"
-#     - $QUESTA make all SIM_TOP=tb_sw
-#     - echo "Installing freertos"
-#     - make firmware
 #   script:
 #     - source env/env.sh
 #     - cd fw
@@ -559,12 +464,12 @@ freertos_cluster_idma_basic_8cores:
 #     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
 #     paths:
 #      - fw
-
+# 
 # freertos_pms_fw_io:
+#   extends: .sim-vsim-freertos-tpl
+#   variables: { TOP: "tb_fw" }
 #   stage: test
 #   before_script:
-#     - echo "Compiling RTL model and DPI libraries"
-#     - $QUESTA make all SIM_TOP=tb_fw
 #     - echo "Installing PMS firmware"
 #     - make firmware
 #     - export PCF_PLATFORM=DATE_PAPER
@@ -576,13 +481,13 @@ freertos_cluster_idma_basic_8cores:
 #     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
 #     paths:
 #      - fw
-
+# 
 # freertos_pms_fw_io_cluster_sync_offload:
+#   extends: .sim-vsim-freertos-tpl
+#   variables: { TOP: "tb_fw" }
 #   stage: test
 #   before_script:
-#     - echo "Compiling RTL model and DPI libraries"
-#     - $QUESTA make all SIM_TOP=tb_fw
-#     - echo "Installing freertos"
+#     - echo "Installing PMS firmware"
 #     - make firmware
 #     - export PCF_PLATFORM=DATE_PAPER
 #   script:
@@ -593,13 +498,13 @@ freertos_cluster_idma_basic_8cores:
 #     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
 #     paths:
 #      - fw
-
+# 
 # freertos_pms_fw_io_cluster_async_offload:
+#   extends: .sim-vsim-freertos-tpl
+#   variables: { TOP: "tb_fw" }
 #   stage: test
 #   before_script:
-#     - echo "Compiling RTL model and DPI libraries"
-#     - $QUESTA make all SIM_TOP=tb_fw
-#     - echo "Installing freertos"
+#     - echo "Installing PMS firmware"
 #     - make firmware
 #     - export PCF_PLATFORM=DATE_PAPER
 #   script:
@@ -612,10 +517,9 @@ freertos_cluster_idma_basic_8cores:
 #      - fw
 
 freertos_i2c_slv_dump:
+  extends: .sim-vsim-freertos-tpl
+  variables: { TOP: "tb_i2c_slv_dump" }
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make all SIM_TOP=tb_i2c_slv_dump
   script:
     - source env/env.sh
     - cd sw/tests/runtime-tests/peripherals/i2c_slv_dump_freertos
@@ -626,10 +530,9 @@ freertos_i2c_slv_dump:
      - sw/tests/runtime-tests/peripherals/i2c_slv_dump_freertos
 
 freertos_acpi_pwr_startup:
+  extends: .sim-vsim-freertos-tpl
+  variables: { TOP: "tb_acpi" }
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make all SIM_TOP=tb_acpi
   script:
     - source env/env.sh
     - cd sw/tests/control-pulp-tests/gpio
@@ -640,10 +543,9 @@ freertos_acpi_pwr_startup:
      - sw/tests/control-pulp-tests/gpio
 
 freertos_mbox_agent_agent:
+  extends: .sim-vsim-freertos-tpl
+  variables: { TOP: "tb_sw_fpga" }
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make all SIM_TOP=tb_sw_fpga
   script:
     - source env/env.sh
     - cd sw/tests/control-pulp-tests/clic/clic-mbox-freertos
@@ -654,10 +556,9 @@ freertos_mbox_agent_agent:
      - sw/tests/control-pulp-tests/clic/clic-mbox-freertos
 
 freertos_mbox_platform_agent:
+  extends: .sim-vsim-freertos-tpl
+  variables: { TOP: "tb_mbox_fpga" }
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make all SIM_TOP=tb_mbox_fpga
   script:
     - source env/env.sh
     - cd sw/tests/control-pulp-tests/clic/clic-mbox-ext-freertos
@@ -667,20 +568,21 @@ freertos_mbox_platform_agent:
     paths:
      - sw/tests/control-pulp-tests/clic/clic-mbox-ext-freertos
 
-test_pms_minimal:
+pms_minimal:
+  variables: { TOP: "tb_pms_minimal" }
   stage: test
-  before_script:
   script:
     - echo "(Re)generating scripts with DPI disabled"
     - make gen
     - echo "Setting up vsim path"
     - source env/env.sh
     - echo "Compiling RTL model"
-    - $QUESTA make all SIM_TOP=tb_pms_minimal
+    - $QUESTA make all SIM_TOP=${TOP}
     - echo "Running minimal testbench (stim.txt is int main(void) { return 0; })"
     - $QUESTA make simc VSIM_FLAGS=+stimuli=../tb/simvectors/minimal/stim.txt
 
-test_dm:
+dm:
+  variables: { TOP: "tb_dm" }
   stage: test
   before_script:
   script:
@@ -691,9 +593,11 @@ test_dm:
     - echo "Setting up vsim path"
     - source env/env.sh
     - echo "Running debug module testbench"
-    - $QUESTA make all simc SIM_TOP=tb_dm
+    - $QUESTA make all simc SIM_TOP=${TOP}
 
-test_uart_boot:
+
+uart_boot:
+  variables: { TOP: "tb_uart_boot" }
   stage: test
   before_script:
   script:
@@ -702,9 +606,10 @@ test_uart_boot:
     - echo "Setting up vsim path"
     - source env/env.sh
     - echo "Running uart boot"
-    - $QUESTA make all simc SIM_TOP=tb_uart_boot
+    - $QUESTA make all simc SIM_TOP=${TOP}
 
-test_boot_fallback:
+boot_fallback:
+  variables: { TOP: "tb_bootrom" }
   stage: test
   before_script:
   script:
@@ -713,13 +618,12 @@ test_boot_fallback:
     - echo "Setting up vsim path"
     - source env/env.sh
     - echo "Running boot fallback testbench"
-    - $QUESTA make all simc SIM_TOP=tb_bootrom
+    - $QUESTA make all simc SIM_TOP=${TOP}
 
-test_jtag_hello_world:
+jtag_hello_world:
+  variables: { TOP: "tb_sw_jtag" }
+  extends: .sim-vsim-freertos-tpl
   stage: test
-  before_script:
-    - echo "Compiling RTL model and DPI libraries"
-    - $QUESTA make all SIM_TOP=tb_sw_jtag
   script:
     - source env/env.sh
     - cd sw/freertos/tests/hello_world_pmsis
@@ -729,8 +633,7 @@ test_jtag_hello_world:
     paths:
      - sw/freertos/tests/hello_world_pmsis
 
-
-test_axi_slv:
+axi_slv:
   stage: test
   before_script:
   script:
