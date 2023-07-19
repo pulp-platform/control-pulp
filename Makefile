@@ -17,12 +17,12 @@
 # Robert Balas <balasr@iis.ee.ethz.ch>
 # Alessandro Ottaviano<aottaviano@iis.ee.ethz.ch>
 
-SHELL = bash
+SHELL = /bin/bash
 
 CTAGS  ?= ctags
 BENDER ?= bender
 
-ROOT_DIR      = $(strip $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST)))))
+ROOT_DIR      = $(strip $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST)))))
 
 TARGET        ?= .
 TARGET_ABS    = $(abspath $(lastword $(TARGET)))
@@ -123,6 +123,8 @@ vip: tb/vip/vip-proprietary
 BENDER_SIM_TARGETS += -t test
 BENDER_SIM_TARGETS += -t simulation
 
+BENDER_SYNTH_TARGETS += -t synthesis
+
 BENDER_BASE_TARGETS += -t rtl
 BENDER_BASE_TARGETS += -t pulp
 BENDER_BASE_TARGETS += -t cv32e40p_use_ff_regfile
@@ -130,16 +132,24 @@ BENDER_BASE_TARGETS += -t cv32e40p_use_ff_regfile
 .PHONY: gen
 ## (Re)generate file lists and compilation scripts. Use GEN_FLAGS=--help for help.
 gen:
+# Questa
 	$(BENDER) script flist $(BENDER_SIM_TARGETS) $(BENDER_BASE_TARGETS) > sim/gen/sim.f
-# Make file list location independent
 	sed -i 's?$(ROOT_DIR)?\$$CPROOT?g' sim/gen/sim.f
+# Verilator
 	$(BENDER) script verilator $(BENDER_BASE_TARGETS) > sim/gen/veri.f
-# Make file list location independent
 	sed -i 's?$(ROOT_DIR)?\$$ROOT?g' sim/gen/veri.f
+# Vivado
 	$(BENDER) script vivado $(BENDER_BASE_TARGETS) > fpga/gen/vivado.tcl
 	$(BENDER) script vivado $(BENDER_BASE_TARGETS) --only-includes --no-simset > fpga/gen/vivado_includes.tcl
 # Hack: rewrite fileset
 	sed -i 's/current_fileset/get_filesets control_pulp_exilzcu102_pms_top_fpga_0_0/g' fpga/gen/vivado_includes.tcl
+# Synthesis
+	if [[ -d nonfree ]]; then \
+	echo 'set ROOT [file normalize [file dirname [info script]]/../..]' > nonfree/gen/synopsys.tcl; \
+	echo 'lappend search_path "$$ROOT/hw/includes"' >> nonfree/gen/synopsys.tcl; \
+	$(BENDER) script synopsys $(BENDER_SYNTH_TARGETS) $(BENDER_BASE_TARGETS) | grep -v 'set ROOT' >> nonfree/gen/synopsys.tcl; \
+	fi
+
 
 .PHONY: gen-with-vip
 ## (Re)generate file lists and compilation scripts including all VIPs.
