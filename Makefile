@@ -139,8 +139,8 @@ gen:
 	$(BENDER) script verilator $(BENDER_BASE_TARGETS) > sim/gen/veri.f
 	sed -i 's?$(ROOT_DIR)?\$$ROOT?g' sim/gen/veri.f
 # Vivado
-	$(BENDER) script vivado $(BENDER_BASE_TARGETS) > fpga/gen/vivado.tcl
-	$(BENDER) script vivado $(BENDER_BASE_TARGETS) --only-includes --no-simset > fpga/gen/vivado_includes.tcl
+	$(BENDER) script vivado $(BENDER_BASE_TARGETS) --define PULP_FPGA_EMUL > fpga/gen/vivado.tcl
+	$(BENDER) script vivado $(BENDER_BASE_TARGETS) --define PULP_FPGA_EMUL --only-includes --no-simset > fpga/gen/vivado_includes.tcl
 # Hack: rewrite fileset
 	sed -i 's/current_fileset/get_filesets control_pulp_exilzcu102_pms_top_fpga_0_0/g' fpga/gen/vivado_includes.tcl
 # Synthesis
