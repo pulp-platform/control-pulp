@@ -28,6 +28,7 @@ stages:
 
 init-nonfree:
   stage: prepare
+  tags: [ tech ]
   script: make nonfree-init
   artifacts:
     paths: [ nonfree/ ]
