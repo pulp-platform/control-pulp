@@ -79,6 +79,7 @@ add_files -norecurse $FPGA_RTL/fpga_slow_clk_gen.sv
 add_files -norecurse $FPGA_RTL/fpga_autogen_rom.sv
 add_files -norecurse $FPGA_RTL/pad_functional_xilinx.sv
 add_files -norecurse $FPGA_RTL/pulp_clock_gating_xilinx.sv
+add_files -norecurse $FPGA_RTL/fpga_system_clk_rst_gen.sv
 
 # set control_pulp as top
 set_property top pms_top_fpga [current_fileset]; #
