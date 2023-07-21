@@ -1389,10 +1389,13 @@ module control_pulp_fpga import pms_top_pkg::*; #(
 
   assign s_cluster_rstn = s_cluster_rstn_gen && s_cluster_rstn_reg;
 
+`ifdef TARGET_FPGA
+  fpga_system_clk_rst_gen i_system_clk_rst_gen (
+`else
   system_clk_rst_gen i_system_clk_rst_gen (
+`endif
     .sys_clk_i                  ( sys_clk_i                     ),
     .ref_clk_i                  ( ref_clk_i                     ),
-    .test_clk_i                 ( s_test_clk                    ),
     .clk_sel_i                  ( s_clk_mux_sel                 ),
 
     .rstn_glob_i                ( reset_mux_n                   ),

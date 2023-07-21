@@ -28,6 +28,7 @@ stages:
 
 init-nonfree:
   stage: prepare
+  tags: [ tech ]
   script: make nonfree-init
   artifacts:
     paths: [ nonfree/ ]
@@ -51,8 +52,7 @@ prepare:
   extends: .base
   stage: prepare
   script:
-    - echo "Fetch submodule dependencies"
-    - git submodule update --init --recursive
+    - echo "Fetch submodule dependencies (skipping)"
     - echo "Fetch VIPs"
     - ./tb/vip/get-vips.sh --yes #--gitlab
     - echo "Generate scripts with DPI and VIP support"

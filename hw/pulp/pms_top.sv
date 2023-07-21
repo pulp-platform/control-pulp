@@ -569,12 +569,9 @@ module pms_top import pms_top_pkg::*; #(
 
   assign s_cluster_rstn = s_cluster_rstn_gen && s_cluster_rstn_reg;
 
-  system_clk_rst_gen #(
-    .USE_CLUSTER (USE_CLUSTER)
-  ) i_system_clk_rst_gen (
+  system_clk_rst_gen i_system_clk_rst_gen (
     .sys_clk_i                  ( sys_clk_i                     ), // External 800 MHz clock
     .ref_clk_i                  ( ref_clk_i                     ), // External 100 MHz clock
-    .test_clk_i,
     .clk_sel_i                  ( s_clk_mux_sel                 ),
 
     .rstn_glob_i                ( rst_ni                        ),
