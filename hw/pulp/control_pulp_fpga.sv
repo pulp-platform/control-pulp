@@ -1389,7 +1389,7 @@ module control_pulp_fpga import pms_top_pkg::*; #(
 
   assign s_cluster_rstn = s_cluster_rstn_gen && s_cluster_rstn_reg;
 
-`ifdef TARGET_FPGA
+`ifdef PULP_FPGA_EMUL
   fpga_system_clk_rst_gen i_system_clk_rst_gen (
 `else
   system_clk_rst_gen i_system_clk_rst_gen (
