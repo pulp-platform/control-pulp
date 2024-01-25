@@ -38,6 +38,26 @@ This project is still considered to be in early development; some parts may not
 yet be functional, and existing interfaces and conventions may be broken without
 prior notice. We target a formal release in the very near future.
 
+## Dependencies
+
+To *build* ControlPULP, you will need:
+
+- GNU Make `>= 3.82`
+- Python `>= 3.6.8`
+- Bender `>= 0.27.1`
+- RISCV GCC `>= 11.2.0`
+
+We use [Bender](https://github.com/pulp-platform/bender) and git submodules for
+hardware IP and dependency management. For more information on using Bender,
+please see its documentation. You can install Bender directly through the Rust
+package manager Cargo:
+
+```
+cargo install bender
+```
+
+Depending on your desired target, additional dependencies may be needed.
+
 ## Getting Started
 
 ControlPULP uses Git submodules that have to be initialized. Either clone the
