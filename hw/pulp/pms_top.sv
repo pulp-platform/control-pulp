@@ -34,6 +34,7 @@ module pms_top import pms_top_pkg::*; #(
   parameter int unsigned  MACRO_ROM = 0,
   parameter int unsigned  USE_CLUSTER = 1,
   parameter int unsigned  DMA_TYPE = 1, // 1 for idma (new), 0 for mchan (legacy). Default 1 for idma
+  parameter int unsigned  SDMA_RT_MIDEND = 0, //only valid when using idma (DMA_TYPE=1
 
   parameter int unsigned N_L2_BANKS = 4,          // num interleaved banks
   parameter int unsigned N_L2_BANKS_PRI = 2,      // num private banks
@@ -1154,6 +1155,7 @@ module pms_top import pms_top_pkg::*; #(
     .MACRO_ROM(MACRO_ROM),
     .USE_CLUSTER(USE_CLUSTER),
     .DMA_TYPE(DMA_TYPE),
+    .SDMA_RT_MIDEND(SDMA_RT_MIDEND),
 
     .N_SOC_PERF_COUNTERS(N_SOC_PERF_COUNTERS),
     .N_CLUST_PERF_COUNTERS(N_CLUST_PERF_COUNTERS),

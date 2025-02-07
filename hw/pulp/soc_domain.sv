@@ -62,7 +62,8 @@ module soc_domain #(
     parameter int unsigned NUM_INTERRUPTS = 0,
     parameter int unsigned SIM_STDOUT = 0,
     parameter int unsigned MACRO_ROM = 0,
-    parameter int unsigned USE_CLUSTER = 0
+    parameter int unsigned USE_CLUSTER = 0,
+    parameter int unsigned SDMA_RT_MIDEND = 0
 )(
 
     input logic                               soc_clk_i,
@@ -280,7 +281,8 @@ module soc_domain #(
         .NUM_INTERRUPTS          ( NUM_INTERRUPTS        ),
         .SIM_STDOUT              ( SIM_STDOUT            ),
         .MACRO_ROM               ( MACRO_ROM             ),
-        .USE_CLUSTER             ( USE_CLUSTER           )
+        .USE_CLUSTER             ( USE_CLUSTER           ),
+        .SDMA_RT_MIDEND          ( SDMA_RT_MIDEND        )
     ) pulp_soc_i (
         .cluster_dbg_irq_valid_o ( dbg_irq_valid_o ),
         .axi_ext_slv             ( axi_ext_slv     ),
