@@ -33,6 +33,8 @@ module control_pulp import control_pulp_pkg::*; #(
   parameter int unsigned DMA_TYPE = 1, // 1 for idma (new), 0 for mchan
                                        // (legacy). Default 1 for idma
 
+  parameter int unsigned SDMA_RT_MIDEND = 0, // only valid when using idma (DMA_TYPE=1)
+
   parameter int unsigned N_L2_BANKS = 4,          // num interleaved banks
   parameter int unsigned N_L2_BANKS_PRI = 2,      // num private banks
   parameter int unsigned L2_BANK_SIZE = 28672,    // size of single L2 interleaved bank in 32-bit words
@@ -697,7 +699,8 @@ module control_pulp import control_pulp_pkg::*; #(
     .NUM_INTERRUPTS        ( NUM_INTERRUPTS             ),
     .SIM_STDOUT            ( SIM_STDOUT                 ),
     .MACRO_ROM             ( MACRO_ROM                  ),
-    .USE_CLUSTER           ( USE_CLUSTER                )
+    .USE_CLUSTER           ( USE_CLUSTER                ),
+    .SDMA_RT_MIDEND        ( SDMA_RT_MIDEND             )
   ) i_soc_domain (
 
     .soc_clk_i,
