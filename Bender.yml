@@ -41,6 +41,8 @@ dependencies:
   pulp_cluster: { git: "https://github.com/pulp-platform/pulp_cluster.git", rev: "control-pulp" }
   tech_cells_generic: { git: "https://github.com/pulp-platform/tech_cells_generic.git", version: 0.2.11 }
   axi: { git: "https://github.com/pulp-platform/axi.git", version: 0.38.0 }
+  serial_link: { git: "https://github.com/pulp-platform/serial_link.git", rev: "aottaviano/phy" }
+  register_interface: { git: "https://github.com/pulp-platform/register_interface.git", version: 0.3.9 }
 
 workspace:
   # package_links:
