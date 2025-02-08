@@ -18,7 +18,8 @@
 `include "axi/assign.svh"
 `include "axi/typedef.svh"
 `include "control_pulp_assign.svh"
-
+`include "register_interface/assign.svh"
+`include "register_interface/typedef.svh"
 
 module fixture_pms_top;
   import pms_top_pkg::AXI_ADDR_WIDTH_PMS;
@@ -45,6 +46,13 @@ module fixture_pms_top;
   parameter BEHAV_MEM = 1;
   // Choose whether to use the PULP Cluster
   parameter USE_CLUSTER = 1;
+
+  // D2D link
+  parameter USE_D2D = 0;
+  parameter USE_D2D_DELAY_LINE = 0;
+  parameter D2D_NUM_CHANNELS = 8;
+  parameter D2D_NUM_LANES = 8;
+  parameter D2D_NUM_CREDITS = 128;
 
   // TODO: period of the system clock (600MhZ)
   // period of the external reference clock (100MhZ)
@@ -81,7 +89,7 @@ module fixture_pms_top;
   localparam int unsigned AXI_DATA_OUP_WIDTH_EXT = 64;
   localparam int unsigned AXI_STRB_OUP_WIDTH_EXT = AXI_DATA_OUP_WIDTH_EXT / 8;
   localparam int unsigned AXI_ID_OUP_WIDTH_EXT = 7;
-  localparam int unsigned AXI_ID_INP_WIDTH_EXT = 6;
+  localparam int unsigned AXI_ID_INP_WIDTH_EXT = 7;
   localparam int unsigned AXI_USER_WIDTH_EXT = 6;
   localparam int unsigned AXI_ADDR_WIDTH_EXT = 32;
 
@@ -691,6 +699,11 @@ module fixture_pms_top;
   logic       fc_fetch_en_valid  = 1'b0;
   logic       fc_fetch_en        = 1'b0;
 
+  // Serial Link
+  logic [D2D_NUM_CHANNELS-1:0] d2d_clk_out;
+  logic [D2D_NUM_CHANNELS-1:0] d2d_clk_in;
+  logic [D2D_NUM_CHANNELS-1:0][D2D_NUM_LANES-1:0] d2d_data_in;
+  logic [D2D_NUM_CHANNELS-1:0][D2D_NUM_LANES-1:0] d2d_data_out;
 
   //
   // Timing format
@@ -1200,6 +1213,12 @@ module fixture_pms_top;
     .N_SPI(pms_top_pkg::N_SPI),
     .N_UART(pms_top_pkg::N_UART),
 
+    // D2D link
+    .USE_D2D (USE_D2D),
+    .USE_D2D_DELAY_LINE (USE_D2D_DELAY_LINE),
+    .D2D_NUM_CHANNELS (D2D_NUM_CHANNELS),
+    .D2D_NUM_LANES (D2D_NUM_LANES),
+
     .AXI_DATA_INP_WIDTH_EXT(AXI_DATA_INP_WIDTH_EXT),
     .AXI_DATA_OUP_WIDTH_EXT(AXI_DATA_OUP_WIDTH_EXT),
     .AXI_ID_OUP_WIDTH_EXT  (AXI_ID_OUP_WIDTH_EXT),
@@ -1314,6 +1333,11 @@ module fixture_pms_top;
     .ruser_slv_o (ruser_slv_o),
     .rvalid_slv_o(rvalid_slv_o),
     .rready_slv_i(rready_slv_i),
+
+    .d2d_clk_i  (d2d_clk_in),
+    .d2d_data_i (d2d_data_in),
+    .d2d_clk_o  (d2d_clk_out),
+    .d2d_data_o (d2d_data_out),
 
     // soc: on-pmu internal peripherals
 
@@ -1703,12 +1727,6 @@ module fixture_pms_top;
 
   // Wrap flatten ports to ease use in TB
 
-  // Wrap exploded master to struct master
-  `AXI_WRAP_MASTER_STRUCT(to_ext_req, to_ext_resp, mst);
-
-  // Explode struct slave to exploded slave
-  `AXI_EXPLODE_SLAVE_STRUCT(from_ext_req, from_ext_resp, slv);
-
   //I2C
   `I2C_WRAP_STRUCT(i2c0_vrm_mst, i2c, 0);
   `I2C_WRAP_STRUCT(i2c1_vrm_mst, i2c, 1);
@@ -1746,6 +1764,69 @@ module fixture_pms_top;
   assign s_oe_uart_rx[0]  = oe_uart1_rxd_o;
   assign s_oe_uart_tx[0]  = oe_uart1_txd_o;
 
+  // AXI4 - D2D arbitration
+
+  if (USE_D2D) begin : gen_d2d
+    localparam int unsigned RegAddrWidth = 32;
+    localparam int unsigned RegDataWidth = 32;
+    localparam int unsigned RegStrbWidth = RegDataWidth / 8;
+
+    // regbus types
+    typedef logic [RegAddrWidth-1:0] cfg_addr_t;
+    typedef logic [RegDataWidth-1:0] cfg_data_t;
+    typedef logic [RegStrbWidth-1:0] cfg_strb_t;
+
+    // regbus req/resp
+    `REG_BUS_TYPEDEF_ALL(cfg, cfg_addr_t, cfg_data_t, cfg_strb_t)
+    cfg_req_t cfg_req_tb;
+    cfg_rsp_t cfg_resp_tb;
+
+    // D2D link
+    serial_link_wrapper #(
+      .axi_req_t  (axi_req_inp_ext_t),
+      .axi_rsp_t  (axi_resp_inp_ext_t),
+      .aw_chan_t  (axi_aw_inp_ext_t),
+      .ar_chan_t  (axi_ar_inp_ext_t),
+      .r_chan_t   (axi_r_inp_ext_t),
+      .w_chan_t   (axi_w_inp_ext_t),
+      .b_chan_t   (axi_b_inp_ext_t),
+      .cfg_req_t  (cfg_req_t),
+      .cfg_rsp_t  (cfg_rsp_t),
+      .NumChannels(D2D_NUM_CHANNELS),
+      .NumLanes   (D2D_NUM_LANES),
+      .NumCredits (D2D_NUM_CREDITS),
+      .MaxClkDiv  (1024),
+      .UseDelayLine (USE_D2D_DELAY_LINE)
+    ) i_d2d_link_tb (
+      .clk_i         (s_soc_clk),
+      .rst_ni        (s_rst_n),
+      .clk_sl_i      (s_soc_clk),
+      .rst_sl_ni     (s_rst_n),
+      .clk_reg_i     (s_soc_clk),
+      .rst_reg_ni    (s_rst_n),
+      .testmode_i    ('0),
+      .axi_in_req_i  (from_ext_req),
+      .axi_in_rsp_o  (from_ext_resp),
+      .axi_out_req_o (to_ext_req),
+      .axi_out_rsp_i (to_ext_resp),
+      .cfg_req_i     ('0),
+      .cfg_rsp_o     (),
+      .ddr_rcv_clk_i (d2d_clk_out),
+      .ddr_rcv_clk_o (d2d_clk_in),
+      .ddr_i         (d2d_data_out),
+      .ddr_o         (d2d_data_in),
+      .isolated_i    ('0 ),
+      .isolate_o     (   ),
+      .clk_ena_o     (   ),
+      .reset_no      (   )
+    );
+  end else begin : gen_no_d2d
+    // Wrap exploded master to struct master
+    `AXI_WRAP_MASTER_STRUCT(to_ext_req, to_ext_resp, mst);
+
+    // Explode struct slave to exploded slave
+    `AXI_EXPLODE_SLAVE_STRUCT(from_ext_req, from_ext_resp, slv);
+  end
 
   // Configurable AXI delayer - delays AXI handshake on each AXI channel by a fixed amount of clock cycles
 

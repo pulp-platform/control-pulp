@@ -303,6 +303,15 @@ packages:
     dependencies:
     - common_cells
     - tech_cells_generic
+  serial_link:
+    revision: null
+    version: null
+    source:
+      Path: hw/ips/serial_link
+    dependencies:
+    - axi
+    - common_cells
+    - register_interface
   scm:
     revision: b6cb93bd5485397a54f179da2b5ebe841e8abed4
     version: null

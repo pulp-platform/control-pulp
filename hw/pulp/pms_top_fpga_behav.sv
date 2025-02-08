@@ -253,7 +253,13 @@ module pms_top_fpga_behav (
     .FPGA_MEM(FPGA_MEM),
     .MACRO_ROM(MACRO_ROM),
     .USE_CLUSTER(USE_CLUSTER),
-    .DMA_TYPE(DMA_TYPE)
+    .DMA_TYPE(DMA_TYPE),
+    .SDMA_RT_MIDEND(0),
+    .USE_D2D(0),
+    .USE_D2D_DELAY_LINE(0),
+    .D2D_NUM_CHANNELS(0),
+    .D2D_NUM_LANES(0),
+    .D2D_NUM_CREDITS(0)
   ) i_control_pulp_fpga (
 
     // PS slave
