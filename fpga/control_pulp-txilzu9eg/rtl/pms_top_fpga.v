@@ -221,6 +221,11 @@ module pms_top_fpga (
   // * `1` for idma (new)
   // alternative is `0` for mchan (legacy)
 
+  // SDMA_RT_MIDEND default is 0
+
+  // USE_D2D default is 0. If set to 1, update the other dependent parameters
+  // accordingly
+
   control_pulp_fpga #(
     .CORE_TYPE(0),
     .RISCY_FPU(1),
@@ -230,7 +235,13 @@ module pms_top_fpga (
     .FPGA_MEM(1),
     .MACRO_ROM(0),
     .USE_CLUSTER(1),
-    .DMA_TYPE(1)
+    .DMA_TYPE(1),
+    .SDMA_RT_MIDEND(0),
+    .USE_D2D(0),
+    .USE_D2D_DELAY_LINE(0),
+    .D2D_NUM_CHANNELS(0),
+    .D2D_NUM_LANES(0),
+    .D2D_NUM_CREDITS(0)
   ) i_control_pulp_fpga (
 
     // PS slave

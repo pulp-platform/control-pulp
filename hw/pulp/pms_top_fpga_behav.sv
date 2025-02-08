@@ -244,7 +244,14 @@ module pms_top_fpga_behav (
   // alternative is `0` for mchan (legacy)
   localparam int unsigned DMA_TYPE = 1;
 
- control_pulp_fpga #(
+  // SDMA_RT_MIDEND default is 0
+  localparam int unsigned SDMA_RT_MIDEND = 0;
+
+  // USE_D2D default is 0. If set to 1, update the other dependent parameters
+  // accordingly
+  localparam int unsigned USE_D2D = 1;
+
+  control_pulp_fpga #(
     .CORE_TYPE(0),
     .RISCY_FPU(1),
     .USE_HWPE(0),
@@ -253,7 +260,13 @@ module pms_top_fpga_behav (
     .FPGA_MEM(FPGA_MEM),
     .MACRO_ROM(MACRO_ROM),
     .USE_CLUSTER(USE_CLUSTER),
-    .DMA_TYPE(DMA_TYPE)
+    .DMA_TYPE(DMA_TYPE),
+    .SDMA_RT_MIDEND(SDMA_RT_MIDEND),
+    .USE_D2D(USE_D2D),
+    .USE_D2D_DELAY_LINE(0),
+    .D2D_NUM_CHANNELS(0),
+    .D2D_NUM_LANES(0),
+    .D2D_NUM_CREDITS(0)
   ) i_control_pulp_fpga (
 
     // PS slave
