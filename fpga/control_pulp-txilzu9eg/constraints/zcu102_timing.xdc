@@ -14,18 +14,32 @@ set_max_delay -to [get_ports jtag_tdo_o_0] 20.000
 set_max_delay -from [get_ports jtag_tms_i_0] 20.000
 set_max_delay -from [get_ports jtag_tdi_i_0] 20.000
 
-set_max_delay -datapath_only -from [get_pins control_pulp_exilzcu102_i/i_pms_top_fpga/inst/i_control_pulp_fpga/i_control_pulp/i_soc_domain/pulp_soc_i/i_dmi_jtag/i_dmi_cdc/i_cdc_resp/i_src/data_src_q_reg*/C] -to [get_pins control_pulp_exilzcu102_i/i_pulp_txilzu9eg/inst/i_pulp_txilzu9eg_0/i_control_pulp_txilzu9eg/i_control_pulp_with_mem/i_control_pulp_structs/i_soc_domain/pulp_soc_i/i_dmi_jtag/i_dmi_cdc/i_cdc_resp/i_dst/data_dst_q_reg*/D] 20.000
+# JTAG CDC
+set_max_delay -datapath_only \
+    -from [get_pins control_pulp_exilzcu102_i/i_pms_top_fpga/inst/i_control_pulp_fpga/i_control_pulp/i_soc_domain/pulp_soc_i/i_dmi_jtag/i_dmi_cdc/i_cdc_resp/i_src/data_src_q_reg*/C] \
+    -to [get_pins control_pulp_exilzcu102_i/i_pulp_txilzu9eg/inst/i_pulp_txilzu9eg_0/i_control_pulp_txilzu9eg/i_control_pulp_with_mem/i_control_pulp_structs/i_soc_domain/pulp_soc_i/i_dmi_jtag/i_dmi_cdc/i_cdc_resp/i_dst/data_dst_q_reg*/D] \
+    20.000
 
-set_max_delay -datapath_only -from [get_pins control_pulp_exilzcu102_i/i_pms_top_fpga/inst/i_control_pulp_fpga/i_control_pulp/i_soc_domain/pulp_soc_i/i_dmi_jtag/i_dmi_cdc/i_cdc_resp/i_src/req_src_q_reg/C] -to [get_pins control_pulp_exilzcu102_i/i_pulp_txilzu9eg/inst/i_pulp_txilzu9eg_0/i_control_pulp_txilzu9eg/i_control_pulp_with_mem/i_control_pulp_structs/i_soc_domain/pulp_soc_i/i_dmi_jtag/i_dmi_cdc/i_cdc_resp/i_dst/req_dst_q_reg/D] 20.000
+set_max_delay -datapath_only \
+    -from [get_pins control_pulp_exilzcu102_i/i_pms_top_fpga/inst/i_control_pulp_fpga/i_control_pulp/i_soc_domain/pulp_soc_i/i_dmi_jtag/i_dmi_cdc/i_cdc_resp/i_src/req_src_q_reg/C] \
+    -to [get_pins control_pulp_exilzcu102_i/i_pulp_txilzu9eg/inst/i_pulp_txilzu9eg_0/i_control_pulp_txilzu9eg/i_control_pulp_with_mem/i_control_pulp_structs/i_soc_domain/pulp_soc_i/i_dmi_jtag/i_dmi_cdc/i_cdc_resp/i_dst/req_dst_q_reg/D] 20.000
 
-set_max_delay -datapath_only -from [get_pins control_pulp_exilzcu102_i/i_pms_top_fpga/inst/i_control_pulp_fpga/i_control_pulp/i_soc_domain/pulp_soc_i/i_dmi_jtag/i_dmi_cdc/i_cdc_req/i_dst/ack_dst_q_reg/C] -to [get_pins control_pulp_exilzcu102_i/i_pulp_txilzu9eg/inst/i_pulp_txilzu9eg_0/i_control_pulp_txilzu9eg/i_control_pulp_with_mem/i_control_pulp_structs/i_soc_domain/pulp_soc_i/i_dmi_jtag/i_dmi_cdc/i_cdc_req/i_src/ack_src_q_reg/D] 20.000
+set_max_delay -datapath_only \
+    -from [get_pins control_pulp_exilzcu102_i/i_pms_top_fpga/inst/i_control_pulp_fpga/i_control_pulp/i_soc_domain/pulp_soc_i/i_dmi_jtag/i_dmi_cdc/i_cdc_req/i_dst/ack_dst_q_reg/C] \
+    -to [get_pins control_pulp_exilzcu102_i/i_pulp_txilzu9eg/inst/i_pulp_txilzu9eg_0/i_control_pulp_txilzu9eg/i_control_pulp_with_mem/i_control_pulp_structs/i_soc_domain/pulp_soc_i/i_dmi_jtag/i_dmi_cdc/i_cdc_req/i_src/ack_src_q_reg/D] 20.000
 
+# Timers
 set_false_path -to [get_pins control_pulp_exilzcu102_i/i_pms_top_fpga/inst/i_control_pulp_fpga/i_control_pulp/i_cluster_domain/cluster_i/cluster_peripherals_i/cluster_timer_wrap_i/timer_unit_i/s_ref_clk0_reg/D]
 
-#set_max_delay -datapath_only #  -from [get_pins control_pulp_exilzcu102_i/i_pms_top_fpga/inst/i_control_pulp_fpga/i_control_pulp/i_soc_domain/pulp_soc_i/i_clk_rst_gen/i_fpga_clk_gen/i_clk_manager/inst/clkout1_buf/O] #  -to [get_pins control_pulp_exilzcu102_i/i_pulp_txilzu9eg/inst/i_pulp_txilzu9eg_0/i_control_pulp_txilzu9eg/i_control_pulp_with_mem/i_control_pulp_structs/i_cluster_domain/cluster_i/cluster_peripherals_i/cluster_timer_wrap_i/timer_unit_i/s_ref_clk0_reg/C] 3.500
+# Periphs
+set_false_path -to [get_pins control_pulp_exilzcu102_i/i_pms_top_fpga/inst/i_control_pulp_fpga/i_control_pulp/i_soc_domain/pulp_soc_i/soc_peripherals_i/i_udma/i_spim_gen[*].i_spim/u_spictrl/i_edgeprop/sync_a_reg[*]/D]
+
+# CDC FIFOs in UDMA
+set_max_delay 50.000 -through [get_pins control_pulp_exilzcu102_i/i_pms_top_fpga/inst/i_control_pulp_fpga/i_control_pulp/i_soc_domain/pulp_soc_i/soc_peripherals_i/i_udma/i_*/*dc*/i_cdc_fifo/i_*/i_spill_register/spill_register_flushable_i/*reg*/D]
+set_max_delay 50.000 -through [get_pins control_pulp_exilzcu102_i/i_pms_top_fpga/inst/i_control_pulp_fpga/i_control_pulp/i_soc_domain/pulp_soc_i/soc_peripherals_i/i_udma/i_*/*dc*/i_cdc_fifo/i_*/*i_sync/*reg*/D]
 
 # reset signal
-set_false_path -from [get_pins {control_pulp_exilzcu102_i/i_pms_top_fpga/inst/i_control_pulp_fpga/i_control_pulp/i_cluster_domain/cluster_i/rstgen_i/i_rstgen_bypass/synch_regs_q_reg[3]/C}]
+set_false_path -from [get_pins {control_pulp_exilzcu102_i/i_pms_top_fpga/inst/i_control_pulp_fpga/i_control_pulp/i_cluster_domain/cluster_i/rstgen_i/i_rstgen_bypass/synch_regs_q_reg[*]/C}]
 
 # Set ASYNC_REG attribute for ff synchronizers to place them closer together and
 # increase MTBF
