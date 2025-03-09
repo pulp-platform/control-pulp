@@ -2,10 +2,16 @@
 
 ControlPULP is a research platform based on PULP, an open-source multi-core
 computing system developed by ETH Zurich and the University of Bologna, started
-in 2013. ControlPULP is intended to be used as an embedded controller in
-application domains with different requirements in terms of time-criticality.
+in 2013.
+
+ControlPULP is intended to be used as a real-time, mid-end embedded controller
+in application domains with different requirements in terms of time-criticality.
 Among those, it is employed as embedded power and thermal controller for HPC
 systems.
+
+The development of ControlPULP has been supported by the [European Processor
+Initiative]()https://eurohpc-ju.europa.eu/research-innovation/our-projects/european-processor-initiative-epi_en
+(EPI) project.
 
 ## Citing
 If you are using ControlPULP in your academic work you can cite us:
@@ -46,6 +52,7 @@ To *build* ControlPULP, you will need:
 - Python `>= 3.6.8`
 - Bender `>= 0.27.1`
 - RISCV GCC `>= 11.2.0`
+- Questa `>= 2022.3`
 
 We use [Bender](https://github.com/pulp-platform/bender) and git submodules for
 hardware IP and dependency management. For more information on using Bender,
@@ -77,8 +84,8 @@ You need the `pulp-runtime` or `freertos`, `vsim` (10.7b_1 or newer) and `pulp
 gcc` (2.5.0 or newer). After building the simulation platform you can run tests
 or write your own applications.
 
-### PULP GCC
-Compile and install PULP gcc from
+### RISC-V Toolchain
+ControlPULP uses a RISC-V GCC toolchain by default. Compile and install PULP gcc from
 [here](https://github.com/pulp-platform/riscv-gnu-toolchain) and make sure it is in your `PATH`:
 ```sh
 export PATH=$YOUR_PULP_TOOLCHAIN/bin:$PATH
@@ -90,16 +97,20 @@ Alternatively, if you are at ETH you can use precompiled toolchain by either
 export PATH=/usr/pack/riscv-1.0-kgf/pulp-gcc-2.5.0/bin/:$PATH
 ```
 
-### pulp-runtime
-Call `source env/env.sh` to configure your shell to
-execute cycle-accurate RTL simulations using the pulp-runtime setup.
+### Software stack
 
-### pulp-freertos
-Freertos isn't natively available in the control_pulp repository after you clone it.
+#### Bare-metal programs
 
-To download freertos call `make freertos`. Call `source env/env.sh` to configure
-your shell to use pulp-freertos. Examples to run are available in
-`sw/freertos/tests` and `sw/freertos/demos`.
+We use a simple `pulp-runtime` to compile bare-metal programs. Call `source
+env/env.sh` to configure your shell to execute cycle-accurate RTL simulations
+using the bare-metal pulp-runtime setup.
+
+#### Real-time operating system (RTOS)
+
+* **FreeRTOS**: Freertos isn't natively available in the control_pulp repository
+  after you clone it. To download freertos call `make freertos`. Call `source
+  env/env.sh` to configure your shell to use pulp-freertos. Examples to run are
+  available in `sw/freertos/tests` and `sw/freertos/demos`.
 
 ### Building the RTL simulation platform
 
@@ -129,7 +140,6 @@ source env/env.sh
 make veri-build
 ```
 
-
 If you add or remove rtl code you have re-generate the build scripts.
 Call `make gen` to re-generate the build scripts.
 
@@ -141,11 +151,36 @@ You can refer to said chips repositories to build the hardware and software with
 the cluster option disabled.
 
 ### Running tests
-Finally, you can run the tests. Just go the respective test and call:
+After building the RTL simulation platform, you can run a test using one of the
+available software stacks. Currently, we support Questasim as a simulation
+target for the tests.
+
+### Bare-metal execution
+
+To use `pulp-runtime` for a test, locate the test you want to run, and do:
 
 ```sh
-cd tests/pulp_tests/hello
+cd sw/tests/control-pulp-tests/runtime_uart
 make clean all run
+```
+
+### RTOS execution
+
+The process is similar when using an RTOS.
+
+* **Freertos**:
+	```sh
+	cd sw/freertos/tests/hello_world_pmsis
+	make clean all run
+	```
+
+---
+
+In case one did not set up the PATH for the RISCV toolchain as explained above,
+one can pass it to `make` by setting the `RISCV` environment variable.
+
+```sh
+make RISCV=/usr/pack/riscv-1.0-kgf/pulp-gcc-2.5.0 clean all run
 ```
 
 The open-source simulation platform relies on JTAG to emulate preloading of the
@@ -159,19 +194,26 @@ make run gui=1
 before starting the simulation.
 
 ### Hardware-In-The-Loop (HIL) power and thermal management on FPGA
-Please refer to [fpga/README.md](./fpga) for more information on the full flow.
-As initialization steps, please download the co-simulation (power/thermal model
-and HIL manager) framework. The Power Control Firmware (PCF) is already
-integrated as `sw/pcf`.
+We emulate the controller on FPGA, and run the power control policy in-the-loop
+with a co-simulation (or virtual platform) of the controlled system, comprising
+a power/thermal model of a generic HPC processor with configurable number of
+processing elements (PEs), a workload simulation model, and a governor model.
+
+As a first initialization steps, download the co-simulation (power/thermal model
+and HIL manager) framework.
 
 ```
 make hpc-cosim
 ```
 
+The Power Control Firmware (PCF) is already integrated in `sw/pcf`.
+
+For hands-on instructions on how to run the in-the-loop emulation, visit the
+FPGA documentation in the [`fpga`](./fpga/README.md) directory.
+
 ## Address mapping overview
-The Control PULP specific address mapping is defined with a set of macros in
-`hw/includes/soc_mem_map.svh` and
-`hw/includes/cluster_bus_defines.sv`. They are *not* finalized.
+The ControlPULP specific address mapping is defined with a set of macros in
+`hw/includes/soc_mem_map.svh` and `hw/includes/cluster_bus_defines.sv`.
 
 From the Control PULP viewpoint:
 
