@@ -1,4 +1,8 @@
 .venv
-zcu102/project-spec/hw-description/*
+zcu102/project-spec/hw-description/*.c
+zcu102/project-spec/hw-description/*.h
+zcu102/project-spec/hw-description/*.tcl
+zcu102/project-spec/hw-description/*.html
+zcu102/project-spec/hw-description/*.hdf
 zcu102/components
 zcu102/project-spec/meta-user/recipes-bsp/device-tree/files/system-user.dtsi
