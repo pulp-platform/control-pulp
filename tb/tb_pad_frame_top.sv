@@ -26,7 +26,7 @@ module tb_pad_frame_top import pms_top_pkg::*;
         output logic                  jtag_tdi_o ,
         input logic                   jtag_tdo_i ,
         output logic                  jtag_tms_o ,
-        output logic                  jtag_trst_o ,
+        output logic                  jtag_trst_no ,
 
         // INPUTS SIGNALS TO THE PADS
         input logic [N_SPI-1:0][3:0]  oe_qspi_sdio_i ,
@@ -244,7 +244,7 @@ module tb_pad_frame_top import pms_top_pkg::*;
         inout wire                    pad_jtag_tdi ,
         inout wire                    pad_jtag_tdo ,
         inout wire                    pad_jtag_tms ,
-        inout wire                    pad_jtag_trst
+        inout wire                    pad_jtag_trstn
 
    );
 
@@ -418,7 +418,7 @@ module tb_pad_frame_top import pms_top_pkg::*;
 
     //JTAG signals
     assign pad_jtag_tdo = jtag_tdo_i;
-    assign jtag_trst_o = pad_jtag_trst;
+    assign jtag_trst_no = pad_jtag_trstn;
     assign jtag_tms_o = pad_jtag_tms;
     assign jtag_tck_o = pad_jtag_tck;
     assign jtag_tdi_o = pad_jtag_tdi;

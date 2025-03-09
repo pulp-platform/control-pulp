@@ -171,7 +171,7 @@ module control_pulp_fpga import pms_top_pkg::*; #(
   input logic                   jtag_tck_i,
   input logic                   jtag_tdi_i,
   input logic                   jtag_tms_i,
-  input logic                   jtag_trst_i,
+  input logic                   jtag_trst_ni,
 
   // wdt
   output logic [1:0]            wdt_alert_o,
@@ -1506,7 +1506,7 @@ module control_pulp_fpga import pms_top_pkg::*; #(
          reset_mux_n = rst_ni;
        end
        2'h1: begin
-         reset_mux_n = ~rst_ni & jtag_trst_i;
+         reset_mux_n = ~rst_ni & jtag_trst_ni;
        end
        2'h2: begin
          reset_mux_n = rst_ni;
@@ -1996,7 +1996,7 @@ module control_pulp_fpga import pms_top_pkg::*; #(
     .jtag_tck_i,
     .jtag_tdi_i,
     .jtag_tms_i,
-    .jtag_trst_i,
+    .jtag_trst_ni,
 
     .wdt_alert_o,
     .wdt_alert_clear_i,

@@ -28,7 +28,7 @@ module pad_frame_top import control_pulp_pkg::*;
         output logic                  jtag_tdi_o ,
         input logic                   jtag_tdo_i ,
         output logic                  jtag_tms_o ,
-        output logic                  jtag_trst_o ,
+        output logic                  jtag_trst_no ,
 
         input logic [N_SPI-1:0][3:0]  oe_qspi_sdio_i ,
         input logic [N_SPI-1:0][1:0]  oe_qspi_csn_i ,
@@ -172,7 +172,7 @@ module pad_frame_top import control_pulp_pkg::*;
         inout wire                    pad_jtag_tdi ,
         inout wire                    pad_jtag_tdo ,
         inout wire                    pad_jtag_tms ,
-        inout wire                    pad_jtag_trst ,
+        inout wire                    pad_jtag_trstn ,
         inout wire                    pad_xtal_in ,
         inout wire                    pad_sysclk_in ,
 
@@ -324,7 +324,7 @@ module pad_frame_top import control_pulp_pkg::*;
   pad_functional_pu padinst_jtag_tck   (.OEN(1'b1            ), .I(                ), .O(jtag_tck_o     ), .PAD(pad_jtag_tck  ), .PEN(1'b1             ) );
   pad_functional_pu padinst_jtag_tms   (.OEN(1'b1            ), .I(                ), .O(jtag_tms_o     ), .PAD(pad_jtag_tms  ), .PEN(1'b1             ) );
   pad_functional_pu padinst_jtag_tdi   (.OEN(1'b1            ), .I(                ), .O(jtag_tdi_o     ), .PAD(pad_jtag_tdi  ), .PEN(1'b1             ) );
-  pad_functional_pu padinst_jtag_trstn (.OEN(1'b1            ), .I(                ), .O(jtag_trst_o    ), .PAD(pad_jtag_trst ), .PEN(1'b1             ) );
+  pad_functional_pu padinst_jtag_trstn (.OEN(1'b1            ), .I(                ), .O(jtag_trst_no   ), .PAD(pad_jtag_trstn ), .PEN(1'b1             ) );
   pad_functional_pd padinst_jtag_tdo   (.OEN(1'b0            ), .I(jtag_tdo_i      ), .O(               ), .PAD(pad_jtag_tdo  ), .PEN(1'b1             ) );
 
   pad_functional_pu padinst_fc_fetch_en_valid  (.OEN(1'b1    ), .I(                ), .O(fc_fetch_en_valid_o), .PAD(pad_fc_fetch_en_valid), .PEN(1'b1  ) );
@@ -340,7 +340,7 @@ module pad_frame_top import control_pulp_pkg::*;
 
   //JTAG signals
   assign pad_jtag_tdo = jtag_tdo_i;
-  assign jtag_trst_o = pad_jtag_trst;
+  assign jtag_trst_no = pad_jtag_trstn;
   assign jtag_tms_o = pad_jtag_tms;
   assign jtag_tck_o = pad_jtag_tck;
   assign jtag_tdi_o = pad_jtag_tdi;

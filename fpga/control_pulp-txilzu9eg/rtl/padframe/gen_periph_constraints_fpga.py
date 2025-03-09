@@ -42,7 +42,7 @@ set_property -dict {PACKAGE_PIN A20 IOSTANDARD LVCMOS33} [get_ports jtag_tms_i_0
 set_property -dict {PACKAGE_PIN B20 IOSTANDARD LVCMOS33} [get_ports jtag_tdi_i_0]
 set_property -dict {PACKAGE_PIN A22 IOSTANDARD LVCMOS33} [get_ports jtag_tdo_o_0]
 set_property -dict {PACKAGE_PIN A21 IOSTANDARD LVCMOS33} [get_ports jtag_tck_i_0]
-set_property -dict {PACKAGE_PIN B21 IOSTANDARD LVCMOS33} [get_ports jtag_trst_i_0]
+set_property -dict {PACKAGE_PIN B21 IOSTANDARD LVCMOS33} [get_ports jtag_trst_ni_0]
 """
 
 vivado_cmd_file = """\
@@ -129,7 +129,7 @@ vivado_cmds += "  [get_bd_pins i_pms_top_fpga/jtag_tms_i] \\\n"
 vivado_cmds += "  [get_bd_pins i_pms_top_fpga/jtag_tdi_i] \\\n"
 vivado_cmds += "  [get_bd_pins i_pms_top_fpga/jtag_tdo_o] \\\n"
 vivado_cmds += "  [get_bd_pins i_pms_top_fpga/jtag_tck_i] \\\n"
-vivado_cmds += "  [get_bd_pins i_pms_top_fpga/jtag_trst_i] \\\n"
+vivado_cmds += "  [get_bd_pins i_pms_top_fpga/jtag_trst_ni] \\\n"
 
 # remove the trailing backslash
 vivado_cmds = vivado_cmds[:-3]
