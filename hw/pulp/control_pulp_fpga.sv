@@ -25,6 +25,12 @@ module control_pulp_fpga import pms_top_pkg::*; #(
   parameter int unsigned MACRO_ROM = 0,
   parameter int unsigned USE_CLUSTER = 0,
   parameter int unsigned DMA_TYPE  = 1,
+  parameter int unsigned SDMA_RT_MIDEND = 0,
+  parameter int unsigned USE_D2D = 0,
+  parameter int unsigned USE_D2D_DELAY_LINE = 0,
+  parameter int unsigned D2D_NUM_CHANNELS = 0,
+  parameter int unsigned D2D_NUM_LANES = 0,
+  parameter int unsigned D2D_NUM_CREDITS = 0,
 
   // Define AXI types
 
@@ -1378,7 +1384,6 @@ module control_pulp_fpga import pms_top_pkg::*; #(
   logic                    s_clk_mux_sel;
   logic                    reset_mux_n;
 
-  APB_BUS                  s_apb_serial_link_bus();
   APB_BUS                  s_apb_clk_ctrl_bus();
   APB_BUS                  s_apb_pad_cfg_bus();
 
@@ -1411,11 +1416,6 @@ module control_pulp_fpga import pms_top_pkg::*; #(
     .clk_slow_o                 ( s_timer_clk                   ),
     .clk_cluster_o              ( s_cluster_clk                 )
   );
-
-  // Tie Serial Link APB port
-  assign s_apb_serial_link_bus.prdata = 1'b0;
-  assign s_apb_serial_link_bus.pready = 1'b0;
-  assign s_apb_serial_link_bus.pslverr = 1'b0;
 
   // Tie Padframe configuration APB port
   assign s_apb_pad_cfg_bus.prdata = 1'b0;
@@ -1976,7 +1976,6 @@ module control_pulp_fpga import pms_top_pkg::*; #(
 
     .apb_clk_ctrl_bus   ( s_apb_clk_ctrl_bus    ),
     .clk_mux_sel_o      ( s_clk_mux_sel         ),
-    .apb_serial_link_bus( s_apb_serial_link_bus ),
     .apb_pad_cfg_bus    ( s_apb_pad_cfg_bus     ),
 
     // on-pmu internal peripherals (soc)

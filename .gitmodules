@@ -124,3 +124,7 @@
 [submodule "sw/pcf"]
 	path = sw/pcf
 	url = https://www.github.com/pulp-platform/control_pulp_pcf
+[submodule "hw/ips/serial_link"]
+	path = hw/ips/serial_link
+	url = https://github.com/pulp-platform/serial_link.git
+	branch = aottaviano/phy
