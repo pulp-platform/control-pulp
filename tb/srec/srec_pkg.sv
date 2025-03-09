@@ -229,9 +229,12 @@ package srec_pkg;
     int j    = 0;
     int k    = 0;
 
+    // Arbitrary init mask. Making this non X (which would be natural) helps
+    // with postlayout vcd stimuli generation
+    logic initd = {8{8'haf}};
     baseaddr = 0;
     addrcnt  = 0;
-    datum    = 'x;
+    datum    = initd;
 
     for (int i = 0 ; i < records.size; i++) begin
       if (records[i].rtype == SREC_HEADER) begin
@@ -245,7 +248,7 @@ package srec_pkg;
             datum = tmp[63:0];
           end
           // start with fresh datum
-          datum = 'x;
+          datum = initd;
         end else begin
           // retrieve old value and continue
           tmp = stimuli.pop_back();
@@ -264,7 +267,7 @@ package srec_pkg;
           if (k == 64/8) begin
             stimuli.push_back({baseaddr, datum});
             k = 0;
-            datum = 'x;
+            datum = initd;
             baseaddr = addrcnt;
           end
 

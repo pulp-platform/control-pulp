@@ -614,7 +614,7 @@ module fixture_pms_top;
   logic s_jtag_tdi;
   logic s_jtag_tdo;
   logic s_jtag_tms;
-  logic s_jtag_trst;
+  logic s_jtag_trstn;
 
 
   // System wires for the padframe-like inout signal used in the testbench
@@ -647,7 +647,7 @@ module fixture_pms_top;
   tri [N_UART-1:0] w_uart_rx;
   tri [N_UART-1:0] w_uart_tx;
 
-  wire w_jtag_trst;
+  wire w_jtag_trstn;
   wire w_jtag_tck;
   wire w_jtag_tdi;
   wire w_jtag_tms;
@@ -701,7 +701,7 @@ module fixture_pms_top;
   end : timing_format
 
   // JTAG signals to sim pad
-  assign w_jtag_trst   = s_trstn;
+  assign w_jtag_trstn  = s_trstn;
   assign w_jtag_tck    = s_tck;
   assign w_jtag_tdi    = s_tdi;
   assign w_jtag_tms    = s_tms;
@@ -735,7 +735,7 @@ module fixture_pms_top;
     .jtag_tck_o (s_jtag_tck),
     .jtag_tdi_o (s_jtag_tdi),
     .jtag_tms_o (s_jtag_tms),
-    .jtag_trst_o(s_jtag_trst),
+    .jtag_trst_no(s_jtag_trstn),
 
     .oe_qspi_sdio_i(s_oe_qspi_sdio),
     .oe_qspi_csn_i (s_oe_qspi_csn_pad),
@@ -961,7 +961,7 @@ module fixture_pms_top;
     .pad_jtag_tdi (w_jtag_tdi),
     .pad_jtag_tdo (w_jtag_tdo),
     .pad_jtag_tms (w_jtag_tms),
-    .pad_jtag_trst(w_jtag_trst)
+    .pad_jtag_trstn(w_jtag_trstn)
   );
 
 
@@ -1329,7 +1329,7 @@ module fixture_pms_top;
     .jtag_tck_i (s_jtag_tck),
     .jtag_tdi_i (s_jtag_tdi),
     .jtag_tms_i (s_jtag_tms),
-    .jtag_trst_i(s_jtag_trst),
+    .jtag_trst_ni(s_jtag_trstn),
 
     .wdt_alert_o      (),
     .wdt_alert_clear_i(1'b0),

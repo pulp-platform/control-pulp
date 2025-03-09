@@ -84,4 +84,4 @@ make_bd_pins_external \
   [get_bd_pins i_pms_top_fpga/jtag_tdi_i] \
   [get_bd_pins i_pms_top_fpga/jtag_tdo_o] \
   [get_bd_pins i_pms_top_fpga/jtag_tck_i] \
-  [get_bd_pins i_pms_top_fpga/jtag_trst_i]
+  [get_bd_pins i_pms_top_fpga/jtag_trst_ni]

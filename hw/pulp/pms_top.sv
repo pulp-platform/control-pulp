@@ -180,7 +180,7 @@ module pms_top import pms_top_pkg::*; #(
   input logic                               jtag_tck_i,
   input logic                               jtag_tdi_i,
   input logic                               jtag_tms_i,
-  input logic                               jtag_trst_i,
+  input logic                               jtag_trst_ni,
   // wdt
   output logic [1:0]                        wdt_alert_o,
   input logic                               wdt_alert_clear_i,
@@ -1189,7 +1189,7 @@ module pms_top import pms_top_pkg::*; #(
     .jtag_tck_i        ( jtag_tck_i             ),
     .jtag_tdi_i        ( jtag_tdi_i             ),
     .jtag_tms_i        ( jtag_tms_i             ),
-    .jtag_trst_i       ( jtag_trst_i            ),
+    .jtag_trst_ni      ( jtag_trst_ni           ),
 
     .sel_spi_dir_o     ( s_sel_spi_dir          ),
     .sel_i2c_mux_o     ( s_sel_i2c_dir          ),

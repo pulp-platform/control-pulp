@@ -469,7 +469,7 @@ module tb_pms_minimal;
     .jtag_tck_i ('0),
     .jtag_tdi_i ('0),
     .jtag_tms_i ('0),
-    .jtag_trst_i('0),
+    .jtag_trst_ni('0),
 
     .wdt_alert_o      (),
     .wdt_alert_clear_i('0),

@@ -75,7 +75,7 @@ module fixture_pms_top_fpga;
   logic is_entry_point = 1'b1;
   logic is_bootaddr = 1'b1;
 
-  logic s_jtag_trst;
+  logic s_jtag_trstn;
   logic s_jtag_tck;
   logic s_jtag_tdi;
   logic s_jtag_tms;
@@ -225,7 +225,7 @@ module fixture_pms_top_fpga;
   logic ps_slv_r_ready;
 
 
-  assign s_jtag_trst   = 1'b0;
+  assign s_jtag_trstn  = 1'b0;
   assign s_jtag_tck    = 1'b0;
   assign s_jtag_tdi    = 1'b0;
   assign s_jtag_tms    = 1'b0;
@@ -525,7 +525,7 @@ module fixture_pms_top_fpga;
     .jtag_tck_i (s_jtag_tck),
     .jtag_tdi_i (s_jtag_tdi),
     .jtag_tms_i (s_jtag_tms),
-    .jtag_trst_i(s_jtag_trst),
+    .jtag_trst_ni(s_jtag_trstn),
 
     // EXT CHIP TP             PADS
     .pad_pmb_vr1_pms0_sda(w_i2c_sda[0]),  // I/O peripherals unconnected in this simulation

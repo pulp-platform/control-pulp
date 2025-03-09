@@ -100,7 +100,7 @@ module control_pulp import control_pulp_pkg::*; #(
   input logic                              jtag_tck_i,
   input logic                              jtag_tdi_i,
   input logic                              jtag_tms_i,
-  input logic                              jtag_trst_i,
+  input logic                              jtag_trst_ni,
   // wdt
   output logic [1:0]                       wdt_alert_o,
   input  logic                             wdt_alert_clear_i,
@@ -585,7 +585,7 @@ module control_pulp import control_pulp_pkg::*; #(
     .fc_fetch_en_i                ( fc_fetch_en_i                    ),
 
     .jtag_tck_i                   ( jtag_tck_i                       ),
-    .jtag_trst_ni                 ( jtag_trst_i                      ), //TODO: do we need to flip?
+    .jtag_trst_ni                 ( jtag_trst_ni                     ),
     .jtag_tms_i                   ( jtag_tms_i                       ),
     .jtag_tdi_i                   ( jtag_tdi_i                       ),
     .jtag_tdo_o                   ( jtag_tdo_o                       ),

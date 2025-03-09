@@ -98,7 +98,7 @@ module pms_top_fpga (
   input wire              jtag_tck_i,
   input wire              jtag_tdi_i,
   input wire              jtag_tms_i,
-  input wire              jtag_trst_i,
+  input wire              jtag_trst_ni,
 
   // EXT CHIP TP          PADS
 
@@ -340,7 +340,7 @@ module pms_top_fpga (
     .jtag_tck_i                ( jtag_tck_i                ),
     .jtag_tdi_i                ( jtag_tdi_i                ),
     .jtag_tms_i                ( jtag_tms_i                ),
-    .jtag_trst_i               ( jtag_trst_i               ),
+    .jtag_trst_ni              ( jtag_trst_ni              ),
 
      // Ignore watchdog timer
     .wdt_alert_o               (),
