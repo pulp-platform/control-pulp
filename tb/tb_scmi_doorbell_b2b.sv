@@ -28,8 +28,9 @@ module tb_scmi_doorbell_b2b;
   fixture_pms_top fixt_pms ();
 
   logic [31:0] entry_point;
-  int exit_status, msg_cnt;
-  logic [255:0] irq_mask = {256{1'b0}};
+  int exit_status;
+  int msg_cnt            = 0;
+  logic [pms_top_pkg::NUM_EXT_INTERRUPTS-1:0] irq_mask = {(pms_top_pkg::NUM_EXT_INTERRUPTS){1'b0}};
 
   // pms boot driver process (AXI)
   initial begin : axi_boot_process

@@ -15,8 +15,6 @@
 `include "soc_bus_defines.sv"
 `include "axi/assign.svh"
 `include "axi/typedef.svh"
-`include "register_interface/typedef.svh"
-`include "register_interface/assign.svh"
 
 module control_pulp import control_pulp_pkg::*; #(
 
@@ -30,10 +28,7 @@ module control_pulp import control_pulp_pkg::*; #(
   parameter int unsigned FPGA_MEM = 0,
   parameter int unsigned MACRO_ROM = 0,
   parameter int unsigned USE_CLUSTER = 1,
-  parameter int unsigned DMA_TYPE = 1, // 1 for idma (new), 0 for mchan
-                                       // (legacy). Default 1 for idma
-
-  parameter int unsigned SDMA_RT_MIDEND = 0, // only valid when using idma (DMA_TYPE=1)
+  parameter int unsigned DMA_TYPE = 1, // 1 for idma (new), 0 for mchan (legacy). Default 1 for idma
 
   parameter int unsigned N_L2_BANKS = 4,          // num interleaved banks
   parameter int unsigned N_L2_BANKS_PRI = 2,      // num private banks
@@ -52,11 +47,7 @@ module control_pulp import control_pulp_pkg::*; #(
   parameter int unsigned N_SPI = 8,
   parameter int unsigned N_UART = 1,
 
-  parameter int unsigned USE_D2D = 0,
-  parameter int unsigned USE_D2D_DELAY_LINE = 0,
-  parameter int unsigned D2D_NUM_CHANNELS = 0,
-  parameter int unsigned D2D_NUM_LANES = 0,
-  parameter int unsigned D2D_NUM_CREDITS = 0,
+  parameter int unsigned NUM_EXT_INTERRUPTS = 222,
 
   // axi req and resp types
 
@@ -71,23 +62,24 @@ module control_pulp import control_pulp_pkg::*; #(
   localparam int unsigned NBIT_PADCFG = 4
 ) (
 
-  // External ports. If USE_D2D is asserted, the D2D interface is used
-
   // AXI ports
+  // master port: output request, input respons
+  // slave port: input request, output response
+
+  // AXI from external
   input                                    axi_req_inp_ext_t from_ext_req_i,
   output                                   axi_resp_inp_ext_t from_ext_resp_o,
+
+  // PULP master interface
+
+  // AXI to external
   output                                   axi_req_oup_ext_t to_ext_req_o,
   input                                    axi_resp_oup_ext_t to_ext_resp_i,
-
-  // D2D interface
-  input logic  [D2D_NUM_CHANNELS-1:0]                    d2d_clk_i,
-  input logic  [D2D_NUM_CHANNELS-1:0][D2D_NUM_LANES-1:0] d2d_data_i,
-  output logic [D2D_NUM_CHANNELS-1:0]                    d2d_clk_o,
-  output logic [D2D_NUM_CHANNELS-1:0][D2D_NUM_LANES-1:0] d2d_data_o,
 
   // APB interfaces to configure external IPs
   APB_BUS.Master                           apb_clk_ctrl_bus,
   output logic                             clk_mux_sel_o,
+  APB_BUS.Master                           apb_serial_link_bus,
   APB_BUS.Master                           apb_pad_cfg_bus,
 
   // Generated domain clocks
@@ -110,16 +102,12 @@ module control_pulp import control_pulp_pkg::*; #(
   input logic                              jtag_tck_i,
   input logic                              jtag_tdi_i,
   input logic                              jtag_tms_i,
-  input logic                              jtag_trst_ni,
+  input logic                              jtag_trst_i,
   // wdt
   output logic [1:0]                       wdt_alert_o,
   input  logic                             wdt_alert_clear_i,
-  // interrupts
-  input logic                              scg_irq_i,
-  input logic                              scp_irq_i,
-  input logic                              scp_secure_irq_i,
-  input logic [71:0]                       mbox_irq_i,
-  input logic [71:0]                       mbox_secure_irq_i,
+  // external interrupts
+  input logic [NUM_EXT_INTERRUPTS-1:0]     irq_ext_i,
 
   // inout signals are split into input, output and enables
   // spi/i2c/uart
@@ -509,140 +497,14 @@ module control_pulp import control_pulp_pkg::*; #(
   XBAR_TCDM_BUS tcdm_private_l2_bus [N_L2_BANKS_PRI]();
 
   // 3. Connect soc_domain AXI interfaces and req/resp structs
-  // cfg regs
-  APB_BUS apb_serial_link_bus();
 
-  if (USE_D2D) begin : gen_d2d
-    // Convert APB to regbus
-    typedef logic [31:0] addr_t;
-    typedef logic [31:0] data_t;
-    typedef logic [3:0]  strb_t;
-    REG_BUS #(.ADDR_WIDTH(32), .DATA_WIDTH(32)) regbus_serial_link_cfg(soc_clk_i);
-    // regbus req/resp
-    `REG_BUS_TYPEDEF_ALL(regbus_serial_link, addr_t, data_t, strb_t);
-    regbus_serial_link_req_t regbus_serial_link_cfg_req;
-    regbus_serial_link_rsp_t regbus_serial_link_cfg_rsp;
+  // PULP as master
+  `AXI_ASSIGN_TO_REQ(to_ext_req_o, axi_ext_out);
+  `AXI_ASSIGN_FROM_RESP(axi_ext_out, to_ext_resp_i);
 
-    // apb to regbus bridge
-    apb_to_reg i_apb_to_regbus_serial_link (
-      .clk_i    (soc_clk_i),
-      .rst_ni   (soc_rst_ni),
-      .penable_i(apb_serial_link_bus.penable),
-      .pwrite_i (apb_serial_link_bus.pwrite),
-      .paddr_i  (apb_serial_link_bus.paddr),
-      .psel_i   (apb_serial_link_bus.psel),
-      .pwdata_i (apb_serial_link_bus.pwdata),
-      .prdata_o (apb_serial_link_bus.prdata),
-      .pready_o (apb_serial_link_bus.pready),
-      .pslverr_o(apb_serial_link_bus.pslverr),
-      .reg_o    (regbus_serial_link_cfg)
-    );
-
-    // regbus interface to req/resp structs
-    `REG_BUS_ASSIGN_TO_REQ(regbus_serial_link_cfg_req, regbus_serial_link_cfg)
-    `REG_BUS_ASSIGN_FROM_RSP(regbus_serial_link_cfg, regbus_serial_link_cfg_rsp)
-
-     // PMS AXI Master
-    `AXI_TYPEDEF_AW_CHAN_T(axi_aw_inp_ext_t, axi_addr_ext_t, axi_id_inp_ext_t, axi_user_ext_t);
-    `AXI_TYPEDEF_W_CHAN_T(axi_w_inp_ext_t, axi_data_inp_ext_t, axi_strb_inp_ext_t, axi_user_ext_t);
-    `AXI_TYPEDEF_B_CHAN_T(axi_b_inp_ext_t, axi_id_inp_ext_t, axi_user_ext_t);
-    `AXI_TYPEDEF_AR_CHAN_T(axi_ar_inp_ext_t, axi_addr_ext_t, axi_id_inp_ext_t, axi_user_ext_t);
-    `AXI_TYPEDEF_R_CHAN_T( axi_r_inp_ext_t, axi_data_inp_ext_t, axi_id_inp_ext_t, axi_user_ext_t);
-
-    // AXI to D2D
-    axi_req_inp_ext_t from_ext_req, to_ext_req_iwc;
-    axi_resp_inp_ext_t from_ext_resp, to_ext_resp_iwc;
-    axi_req_oup_ext_t to_ext_req;
-    axi_resp_oup_ext_t to_ext_resp;
-
-    // PULP as master
-    `AXI_ASSIGN_TO_REQ(to_ext_req, axi_ext_out);
-    `AXI_ASSIGN_FROM_RESP(axi_ext_out, to_ext_resp);
-
-    // PULP as slave
-    `AXI_ASSIGN_FROM_REQ(axi_ext_in, from_ext_req);
-    `AXI_ASSIGN_TO_RESP(from_ext_resp, axi_ext_in);
-
-    // Align outgoing and incoming ID widths
-
-    axi_iw_converter #(
-      .AxiSlvPortIdWidth      ( AXI_ID_OUP_WIDTH_PMS    ),
-      .AxiMstPortIdWidth      ( AXI_ID_INP_WIDTH_PMS    ),
-      .AxiSlvPortMaxUniqIds   ( 16                      ),
-      .AxiSlvPortMaxTxnsPerId ( 13                      ),
-      .AxiAddrWidth           ( AXI_ADDR_WIDTH_PMS      ),
-      .AxiDataWidth           ( AXI_DATA_INP_WIDTH_PMS  ),
-      .AxiUserWidth           ( AXI_USER_WIDTH_PMS      ),
-      .slv_req_t              ( axi_req_oup_ext_t       ),
-      .slv_resp_t             ( axi_resp_oup_ext_t      ),
-      .mst_req_t              ( axi_req_inp_ext_t       ),
-      .mst_resp_t             ( axi_resp_inp_ext_t      )
-    ) i_axi_iwc_ext_to_d2d (
-      .clk_i      ( soc_clk_i       ),
-      .rst_ni     ( soc_rst_ni      ),
-      .slv_req_i  ( to_ext_req      ),
-      .slv_resp_o ( to_ext_resp     ),
-      .mst_req_o  ( to_ext_req_iwc  ),
-      .mst_resp_i ( to_ext_resp_iwc )
-    );
-
-    // D2D link
-    serial_link_wrapper #(
-      .axi_req_t  (axi_req_inp_ext_t),
-      .axi_rsp_t  (axi_resp_inp_ext_t),
-      .aw_chan_t  (axi_aw_inp_ext_t),
-      .ar_chan_t  (axi_ar_inp_ext_t),
-      .r_chan_t   (axi_r_inp_ext_t),
-      .w_chan_t   (axi_w_inp_ext_t),
-      .b_chan_t   (axi_b_inp_ext_t),
-      .cfg_req_t  (regbus_serial_link_req_t),
-      .cfg_rsp_t  (regbus_serial_link_rsp_t),
-      .NumChannels(D2D_NUM_CHANNELS),
-      .NumLanes   (D2D_NUM_LANES),
-      .NumCredits (D2D_NUM_CREDITS),
-      .MaxClkDiv  (1024),
-      .UseDelayLine (USE_D2D_DELAY_LINE)
-    ) i_d2d_link (
-      .clk_i         (soc_clk_i),
-      .rst_ni        (soc_rst_ni),
-      .clk_sl_i      (soc_clk_i),
-      .rst_sl_ni     (soc_rst_ni),
-      .clk_reg_i     (soc_clk_i),
-      .rst_reg_ni    (soc_rst_ni),
-      .testmode_i    (dft_test_mode_i),
-      .axi_in_req_i  (to_ext_req_iwc),
-      .axi_in_rsp_o  (to_ext_resp_iwc),
-      .axi_out_req_o (from_ext_req),
-      .axi_out_rsp_i (from_ext_resp),
-      .cfg_req_i     (regbus_serial_link_cfg_req),
-      .cfg_rsp_o     (regbus_serial_link_cfg_rsp),
-      .ddr_rcv_clk_i (d2d_clk_i),
-      .ddr_rcv_clk_o (d2d_clk_o),
-      .ddr_i         (d2d_data_i),
-      .ddr_o         (d2d_data_o),
-      .isolated_i    ('0 ),
-      .isolate_o     (   ),
-      .clk_ena_o     (   ),
-      .reset_no      (   )
-    );
-
-    // tie AXI4 ports
-    assign to_ext_req_o    = '0;
-    assign from_ext_resp_o = '0;
-
-  end else begin : gen_no_d2d
-    // PULP as master
-    `AXI_ASSIGN_TO_REQ(to_ext_req_o, axi_ext_out);
-    `AXI_ASSIGN_FROM_RESP(axi_ext_out, to_ext_resp_i);
-
-    // PULP as slave
-    `AXI_ASSIGN_FROM_REQ(axi_ext_in, from_ext_req_i);
-    `AXI_ASSIGN_TO_RESP(from_ext_resp_o, axi_ext_in);
-
-    // Tie d2d link ports
-    assign d2d_clk_o = '0;
-    assign d2d_data_o = '0;
-  end
+  // PULP as slave
+  `AXI_ASSIGN_FROM_REQ(axi_ext_in, from_ext_req_i);
+  `AXI_ASSIGN_TO_RESP(from_ext_resp_o, axi_ext_in);
 
   //
   // SOC DOMAIN module instantiation
@@ -699,8 +561,7 @@ module control_pulp import control_pulp_pkg::*; #(
     .NUM_INTERRUPTS        ( NUM_INTERRUPTS             ),
     .SIM_STDOUT            ( SIM_STDOUT                 ),
     .MACRO_ROM             ( MACRO_ROM                  ),
-    .USE_CLUSTER           ( USE_CLUSTER                ),
-    .SDMA_RT_MIDEND        ( SDMA_RT_MIDEND             )
+    .USE_CLUSTER           ( USE_CLUSTER                )
   ) i_soc_domain (
 
     .soc_clk_i,
@@ -722,7 +583,7 @@ module control_pulp import control_pulp_pkg::*; #(
     .fc_fetch_en_i                ( fc_fetch_en_i                    ),
 
     .jtag_tck_i                   ( jtag_tck_i                       ),
-    .jtag_trst_ni                 ( jtag_trst_ni                     ),
+    .jtag_trst_ni                 ( jtag_trst_i                      ), //TODO: do we need to flip?
     .jtag_tms_i                   ( jtag_tms_i                       ),
     .jtag_tdi_i                   ( jtag_tdi_i                       ),
     .jtag_tdo_o                   ( jtag_tdo_o                       ),
@@ -730,11 +591,7 @@ module control_pulp import control_pulp_pkg::*; #(
     .wdt_alert_o,
     .wdt_alert_clear_i,
 
-    .scg_irq_i,
-    .scp_irq_i,
-    .scp_secure_irq_i,
-    .mbox_irq_i,
-    .mbox_secure_irq_i,
+    .irq_ext_i,
 
     .gpio_in_i,
     .gpio_out_o,

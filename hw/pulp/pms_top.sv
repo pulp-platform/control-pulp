@@ -34,7 +34,6 @@ module pms_top import pms_top_pkg::*; #(
   parameter int unsigned  MACRO_ROM = 0,
   parameter int unsigned  USE_CLUSTER = 1,
   parameter int unsigned  DMA_TYPE = 1, // 1 for idma (new), 0 for mchan (legacy). Default 1 for idma
-  parameter int unsigned  SDMA_RT_MIDEND = 0, //only valid when using idma (DMA_TYPE=1
 
   parameter int unsigned N_L2_BANKS = 4,          // num interleaved banks
   parameter int unsigned N_L2_BANKS_PRI = 2,      // num private banks
@@ -49,19 +48,14 @@ module pms_top import pms_top_pkg::*; #(
   parameter int unsigned  N_SPI = 8,
   parameter int unsigned  N_UART = 1,
 
+  parameter int unsigned  NUM_EXT_INTERRUPTS = 222,
+
   parameter int unsigned  AXI_DATA_INP_WIDTH_EXT = 64, // External parameter from nci_cp_top
   localparam int unsigned AXI_STRB_INP_WIDTH_EXT = AXI_DATA_INP_WIDTH_EXT/8,
   parameter int unsigned  AXI_DATA_OUP_WIDTH_EXT = 64, // External parameter from nci_cp_top
   localparam int unsigned AXI_STRB_OUP_WIDTH_EXT = AXI_DATA_OUP_WIDTH_EXT/8,
   parameter int unsigned  AXI_ID_OUP_WIDTH_EXT = 7, // External parameter from nci_cp_top
-  parameter int unsigned  AXI_ID_INP_WIDTH_EXT = 6, // External parameter from nci_cp_top
-
-  // D2D link
-  parameter int unsigned USE_D2D = 0,
-  parameter int unsigned USE_D2D_DELAY_LINE = 0,
-  parameter int unsigned D2D_NUM_CHANNELS = 0,
-  parameter int unsigned D2D_NUM_LANES = 0,
-  parameter int unsigned D2D_NUM_CREDITS = 0
+  parameter int unsigned  AXI_ID_INP_WIDTH_EXT = 6   // External parameter from nci_cp_top
 
 ) (
 
@@ -170,12 +164,6 @@ module pms_top import pms_top_pkg::*; #(
   output logic                              rvalid_slv_o,
   input logic                               rready_slv_i,
 
-  // D2D interface
-  input logic  [D2D_NUM_CHANNELS-1:0]                    d2d_clk_i,
-  input logic  [D2D_NUM_CHANNELS-1:0][D2D_NUM_LANES-1:0] d2d_data_i,
-  output logic [D2D_NUM_CHANNELS-1:0]                    d2d_clk_o,
-  output logic [D2D_NUM_CHANNELS-1:0][D2D_NUM_LANES-1:0] d2d_data_o,
-
   // inout signals are split into input, output and enables
   output logic [31:0][5:0]                  pad_cfg_o,
 
@@ -194,16 +182,12 @@ module pms_top import pms_top_pkg::*; #(
   input logic                               jtag_tck_i,
   input logic                               jtag_tdi_i,
   input logic                               jtag_tms_i,
-  input logic                               jtag_trst_ni,
+  input logic                               jtag_trst_i,
   // wdt
   output logic [1:0]                        wdt_alert_o,
   input logic                               wdt_alert_clear_i,
-  // interrupts
-  input logic                               scg_irq_i,
-  input logic                               scp_irq_i,
-  input logic                               scp_secure_irq_i,
-  input logic [71:0]                        mbox_irq_i,
-  input logic [71:0]                        mbox_secure_irq_i,
+  // external interrupts
+  input logic [NUM_EXT_INTERRUPTS-1:0]      irq_ext_i,
 
   // Inout signals are split into input, output and enables
 
@@ -577,6 +561,7 @@ module pms_top import pms_top_pkg::*; #(
   logic                    s_soc_rstn, s_cluster_rstn, s_cluster_rstn_gen, s_cluster_rstn_reg;
   logic                    s_clk_mux_sel;
 
+  APB_BUS                  s_apb_serial_link_bus();
   APB_BUS                  s_apb_clk_ctrl_bus();
   APB_BUS                  s_apb_pad_cfg_bus();
 
@@ -601,13 +586,21 @@ module pms_top import pms_top_pkg::*; #(
     .clk_cluster_o              ( s_cluster_clk                 )
   );
 
+  // Tie Serial Link APB port
+  assign s_apb_serial_link_bus.prdata = 1'b0;
+  assign s_apb_serial_link_bus.pready = 1'b0;
+  assign s_apb_serial_link_bus.pslverr = 1'b0;
+
   // Tie Padframe configuration APB port
   assign s_apb_pad_cfg_bus.prdata = 1'b0;
   assign s_apb_pad_cfg_bus.pready = 1'b0;
   assign s_apb_pad_cfg_bus.pslverr = 1'b0;
 
-  // AXI4 types and structs for ID and data width conversion, external (in/out)
-  // direction
+  // Wrap req/resp structs from control_pulp module into flatten AXI ports //
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////
+  // Define AXI request (req) and response (resp) type structs for control_pulp (internal AXI widths) //
+  //////////////////////////////////////////////////////////////////////////////////////////////////////
 
    // PMS AXI Master
   `AXI_TYPEDEF_AW_CHAN_T(       axi_aw_inp_ext_t,     axi_addr_ext_t, axi_id_inp_ext_t, axi_user_ext_t);
@@ -636,6 +629,53 @@ module pms_top import pms_top_pkg::*; #(
   axi_req_oup_ext_t      to_ext_req, to_ext_req_tied;
   axi_resp_oup_ext_t     to_ext_resp, to_ext_resp_tied;
 
+  // Tie atop to 0
+  assign to_ext_req_tied = '{
+    aw: '{
+      id:     to_ext_req.aw.id,
+      addr:   to_ext_req.aw.addr,
+      len:    to_ext_req.aw.len,
+      size:   to_ext_req.aw.size,
+      burst:  to_ext_req.aw.burst,
+      lock:   to_ext_req.aw.lock,
+      cache:  to_ext_req.aw.cache,
+      prot:   to_ext_req.aw.prot,
+      qos:    to_ext_req.aw.qos,
+      region: to_ext_req.aw.region,
+      atop:   '0,
+      user:   to_ext_req.aw.user,
+      default: '0
+    },
+    aw_valid: to_ext_req.aw_valid,
+    w:        to_ext_req.w,
+    w_valid:  to_ext_req.w_valid,
+    b_ready:  to_ext_req.b_ready,
+    ar: '{
+      id:     to_ext_req.ar.id,
+      addr:   to_ext_req.ar.addr,
+      len:    to_ext_req.ar.len,
+      size:   to_ext_req.ar.size,
+      burst:  to_ext_req.ar.burst,
+      lock:   to_ext_req.ar.lock,
+      cache:  to_ext_req.ar.cache,
+      prot:   to_ext_req.ar.prot,
+      qos:    to_ext_req.ar.qos,
+      region: to_ext_req.ar.region,
+      user:   to_ext_req.ar.user,
+      default: '0
+    },
+    ar_valid: to_ext_req.ar_valid,
+    r_ready:  to_ext_req.r_ready,
+    default: '0
+  };
+
+  `AXI_ASSIGN_RESP_STRUCT(to_ext_resp, to_ext_resp_tied);
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////
+  // Conver AXI widths between nci_cp_top (dictated from external) and PMS (internal AXI widths) //
+  /////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // nci_cp_top AXI types, outside PMS
   typedef logic [AXI_ID_INP_WIDTH_EXT-1:0]     axi_id_inp_nci_t;
   typedef logic [AXI_ID_OUP_WIDTH_EXT-1:0]     axi_id_oup_nci_t;
   typedef logic [AXI_DATA_INP_WIDTH_EXT-1:0]   axi_data_inp_nci_t;
@@ -643,236 +683,177 @@ module pms_top import pms_top_pkg::*; #(
   typedef logic [AXI_DATA_OUP_WIDTH_EXT-1:0]   axi_data_oup_nci_t;
   typedef logic [AXI_STRB_OUP_WIDTH_EXT-1:0]   axi_strb_oup_nci_t;
 
-  // oup data width conversion
-  `AXI_TYPEDEF_W_CHAN_T(axi_w_oup_nci_dwc_t, axi_data_oup_nci_t, axi_strb_oup_nci_t, axi_user_ext_t);
-  `AXI_TYPEDEF_R_CHAN_T(axi_r_oup_nci_dwc_t, axi_data_oup_nci_t, axi_id_oup_ext_t, axi_user_ext_t);
+  /////////////////////////////////
+  // PMS to nci_cp_top direction //
+  /////////////////////////////////
 
-  `AXI_TYPEDEF_REQ_T(axi_req_oup_nci_dwc_t, axi_aw_oup_ext_t, axi_w_oup_nci_dwc_t, axi_ar_oup_ext_t);
-  `AXI_TYPEDEF_RESP_T(axi_resp_oup_nci_dwc_t, axi_b_oup_ext_t, axi_r_oup_nci_dwc_t);
+  // AXI data oup width conversion
 
-  axi_req_oup_nci_dwc_t  to_ext_dwc_req;
-  axi_resp_oup_nci_dwc_t to_ext_dwc_resp;
+  `AXI_TYPEDEF_W_CHAN_T(        axi_w_oup_nci_dwc_t,      axi_data_oup_nci_t, axi_strb_oup_nci_t, axi_user_ext_t);
+  `AXI_TYPEDEF_R_CHAN_T(        axi_r_oup_nci_dwc_t,      axi_data_oup_nci_t, axi_id_oup_ext_t, axi_user_ext_t);
 
-  // out ID width conversion
-  `AXI_TYPEDEF_AW_CHAN_T(axi_aw_oup_nci_t, axi_addr_ext_t, axi_id_oup_nci_t, axi_user_ext_t);
-  `AXI_TYPEDEF_B_CHAN_T(axi_b_oup_nci_t, axi_id_oup_nci_t, axi_user_ext_t);
-  `AXI_TYPEDEF_AR_CHAN_T(axi_ar_oup_nci_t, axi_addr_ext_t, axi_id_oup_nci_t, axi_user_ext_t);
-  `AXI_TYPEDEF_R_CHAN_T(axi_r_oup_nci_t, axi_data_oup_nci_t, axi_id_oup_nci_t, axi_user_ext_t);
+  `AXI_TYPEDEF_REQ_T(           axi_req_oup_nci_dwc_t,    axi_aw_oup_ext_t, axi_w_oup_nci_dwc_t, axi_ar_oup_ext_t);
+  `AXI_TYPEDEF_RESP_T(          axi_resp_oup_nci_dwc_t,   axi_b_oup_ext_t, axi_r_oup_nci_dwc_t);
 
-  `AXI_TYPEDEF_REQ_T(axi_req_oup_nci_t, axi_aw_oup_nci_t, axi_w_oup_nci_dwc_t, axi_ar_oup_nci_t);
-  `AXI_TYPEDEF_RESP_T(axi_resp_oup_nci_t, axi_b_oup_nci_t, axi_r_oup_nci_t);
+  axi_req_oup_nci_dwc_t      to_ext_dwc_req;
+  axi_resp_oup_nci_dwc_t     to_ext_dwc_resp;
 
-  axi_req_oup_nci_t  to_nci_req;
-  axi_resp_oup_nci_t to_nci_resp;
+  axi_dw_converter #(
+    .AxiSlvPortDataWidth   ( AXI_DATA_OUP_WIDTH_PMS ), // 32 bit
+    .AxiMstPortDataWidth   ( AXI_DATA_OUP_WIDTH_EXT ), // dictated by nci_cp_top
+    .AxiAddrWidth          ( AXI_ADDR_WIDTH_PMS     ), // 32 bit
+    .AxiIdWidth            ( AXI_ID_OUP_WIDTH_PMS   ), // 5 bit
+    .aw_chan_t             ( axi_aw_oup_ext_t       ),
+    .mst_w_chan_t          ( axi_w_oup_nci_dwc_t    ),
+    .slv_w_chan_t          ( axi_w_oup_ext_t        ),
+    .b_chan_t              ( axi_b_oup_ext_t        ),
+    .ar_chan_t             ( axi_ar_oup_ext_t       ),
+    .mst_r_chan_t          ( axi_r_oup_nci_dwc_t    ),
+    .slv_r_chan_t          ( axi_r_oup_ext_t        ),
+    .axi_mst_req_t         ( axi_req_oup_nci_dwc_t  ),
+    .axi_mst_resp_t        ( axi_resp_oup_nci_dwc_t ),
+    .axi_slv_req_t         ( axi_req_oup_ext_t      ),
+    .axi_slv_resp_t        ( axi_resp_oup_ext_t     )
+  ) i_axi_dwc_cpulp2ext (
+    .clk_i                 ( s_soc_clk ),
+    .rst_ni                ( rst_ni    ),
+    // Slave interface
+    .slv_req_i         ( to_ext_req_tied ),
+    .slv_resp_o        ( to_ext_resp_tied),
+    // Master interface
+    .mst_req_o         ( to_ext_dwc_req  ),
+    .mst_resp_i        ( to_ext_dwc_resp )
+  );
 
-  // inp ID width conversion
-  `AXI_TYPEDEF_AW_CHAN_T(axi_aw_inp_nci_t, axi_addr_ext_t, axi_id_inp_nci_t, axi_user_ext_t);
-  `AXI_TYPEDEF_W_CHAN_T(axi_w_inp_nci_t, axi_data_inp_nci_t, axi_strb_inp_nci_t, axi_user_ext_t);
-  `AXI_TYPEDEF_B_CHAN_T(axi_b_inp_nci_t, axi_id_inp_nci_t, axi_user_ext_t);
-  `AXI_TYPEDEF_AR_CHAN_T(axi_ar_inp_nci_t, axi_addr_ext_t, axi_id_inp_nci_t, axi_user_ext_t);
-  `AXI_TYPEDEF_R_CHAN_T(axi_r_inp_nci_t, axi_data_inp_nci_t, axi_id_inp_nci_t, axi_user_ext_t);
+  // AXI ID oup width conversion
 
-  `AXI_TYPEDEF_REQ_T(axi_req_inp_nci_t, axi_aw_inp_nci_t, axi_w_inp_nci_t, axi_ar_inp_nci_t);
-  `AXI_TYPEDEF_RESP_T(axi_resp_inp_nci_t, axi_b_inp_nci_t, axi_r_inp_nci_t);
+  `AXI_TYPEDEF_AW_CHAN_T(       axi_aw_oup_nci_t,     axi_addr_ext_t, axi_id_oup_nci_t, axi_user_ext_t);
+  `AXI_TYPEDEF_B_CHAN_T(        axi_b_oup_nci_t,      axi_id_oup_nci_t, axi_user_ext_t);
+  `AXI_TYPEDEF_AR_CHAN_T(       axi_ar_oup_nci_t,     axi_addr_ext_t, axi_id_oup_nci_t, axi_user_ext_t);
+  `AXI_TYPEDEF_R_CHAN_T(        axi_r_oup_nci_t,      axi_data_oup_nci_t, axi_id_oup_nci_t, axi_user_ext_t);
 
-  axi_req_inp_nci_t  from_nci_req;
-  axi_resp_inp_nci_t from_nci_resp;
+  `AXI_TYPEDEF_REQ_T(           axi_req_oup_nci_t,    axi_aw_oup_nci_t, axi_w_oup_nci_dwc_t, axi_ar_oup_nci_t);
+  `AXI_TYPEDEF_RESP_T(          axi_resp_oup_nci_t,   axi_b_oup_nci_t, axi_r_oup_nci_t);
 
-  `AXI_TYPEDEF_R_CHAN_T(axi_r_inp_nci_idwc_t, axi_data_inp_nci_t, axi_id_inp_ext_t, axi_user_ext_t);
+  axi_req_oup_nci_t      to_nci_req;
+  axi_resp_oup_nci_t     to_nci_resp;
 
-  `AXI_TYPEDEF_REQ_T(axi_req_inp_nci_idwc_t, axi_aw_inp_ext_t, axi_w_inp_nci_t, axi_ar_inp_ext_t);
-  `AXI_TYPEDEF_RESP_T(axi_resp_inp_nci_idwc_t, axi_b_inp_ext_t, axi_r_inp_nci_idwc_t);
+  axi_iw_converter #(
+    .AxiSlvPortIdWidth      ( AXI_ID_OUP_WIDTH_PMS   ),
+    .AxiMstPortIdWidth      ( AXI_ID_OUP_WIDTH_EXT   ),
+    .AxiSlvPortMaxUniqIds   ( 16                     ),
+    .AxiSlvPortMaxTxnsPerId ( 13                     ),
+    .AxiSlvPortMaxTxns      (                        ),
+    .AxiMstPortMaxUniqIds   (                        ),
+    .AxiMstPortMaxTxnsPerId (                        ),
+    .AxiAddrWidth           ( AXI_ADDR_WIDTH_PMS     ),
+    .AxiDataWidth           ( AXI_DATA_OUP_WIDTH_EXT ),
+    .AxiUserWidth           ( AXI_USER_WIDTH_PMS     ),
+    .slv_req_t              ( axi_req_oup_nci_dwc_t  ),
+    .slv_resp_t             ( axi_resp_oup_nci_dwc_t ),
+    .mst_req_t              ( axi_req_oup_nci_t      ),
+    .mst_resp_t             ( axi_resp_oup_nci_t     )
+  ) i_axi_iwc_cpulp2ext (
+    .clk_i      ( s_soc_clk           ),
+    .rst_ni     ( rst_ni              ),
+    .slv_req_i  ( to_ext_dwc_req      ),
+    .slv_resp_o ( to_ext_dwc_resp     ),
+    .mst_req_o  ( to_nci_req          ),
+    .mst_resp_i ( to_nci_resp         )
+  );
+
+  /////////////////////////////////
+  // nci_cp_top to PMS direction //
+  /////////////////////////////////
+
+  // AXI ID inp width conversion
+
+  // before ID conversion
+  `AXI_TYPEDEF_AW_CHAN_T(       axi_aw_inp_nci_t,     axi_addr_ext_t, axi_id_inp_nci_t, axi_user_ext_t);
+  `AXI_TYPEDEF_W_CHAN_T(        axi_w_inp_nci_t,      axi_data_inp_nci_t, axi_strb_inp_nci_t, axi_user_ext_t);
+  `AXI_TYPEDEF_B_CHAN_T(        axi_b_inp_nci_t,      axi_id_inp_nci_t, axi_user_ext_t);
+  `AXI_TYPEDEF_AR_CHAN_T(       axi_ar_inp_nci_t,     axi_addr_ext_t, axi_id_inp_nci_t, axi_user_ext_t);
+  `AXI_TYPEDEF_R_CHAN_T(        axi_r_inp_nci_t,      axi_data_inp_nci_t, axi_id_inp_nci_t, axi_user_ext_t);
+
+  `AXI_TYPEDEF_REQ_T(           axi_req_inp_nci_t,    axi_aw_inp_nci_t, axi_w_inp_nci_t, axi_ar_inp_nci_t);
+  `AXI_TYPEDEF_RESP_T(          axi_resp_inp_nci_t,   axi_b_inp_nci_t, axi_r_inp_nci_t);
+
+  axi_req_inp_nci_t      from_nci_req;
+  axi_resp_inp_nci_t     from_nci_resp;
+
+  // after ID conversion
+  `AXI_TYPEDEF_R_CHAN_T(        axi_r_inp_nci_idwc_t,      axi_data_inp_nci_t, axi_id_inp_ext_t, axi_user_ext_t);
+
+  `AXI_TYPEDEF_REQ_T(           axi_req_inp_nci_idwc_t,    axi_aw_inp_ext_t, axi_w_inp_nci_t, axi_ar_inp_ext_t);
+  `AXI_TYPEDEF_RESP_T(          axi_resp_inp_nci_idwc_t,   axi_b_inp_ext_t, axi_r_inp_nci_idwc_t);
 
   // nci_cp_top AXI Master
-  axi_req_inp_nci_idwc_t  from_nci_idwc_req;
-  axi_resp_inp_nci_idwc_t from_nci_idwc_resp;
+  axi_req_inp_nci_idwc_t      from_nci_idwc_req;
+  axi_resp_inp_nci_idwc_t     from_nci_idwc_resp;
 
-  if (USE_D2D) begin : gen_d2d
-    // tie AXI4 ports
-    assign to_nci_req    = '0;
-    assign from_nci_resp = '0;
+  axi_iw_converter #(
+    .AxiSlvPortIdWidth      ( AXI_ID_INP_WIDTH_EXT    ),
+    .AxiMstPortIdWidth      ( AXI_ID_INP_WIDTH_PMS    ),
+    .AxiSlvPortMaxUniqIds   ( 16                      ),
+    .AxiSlvPortMaxTxnsPerId ( 13                      ),
+    .AxiSlvPortMaxTxns      (                         ),
+    .AxiMstPortMaxUniqIds   (                         ),
+    .AxiMstPortMaxTxnsPerId (                         ),
+    .AxiAddrWidth           ( AXI_ADDR_WIDTH_PMS      ),
+    .AxiDataWidth           ( AXI_DATA_INP_WIDTH_EXT  ),
+    .AxiUserWidth           ( AXI_USER_WIDTH_PMS      ),
+    .slv_req_t              ( axi_req_inp_nci_t       ),
+    .slv_resp_t             ( axi_resp_inp_nci_t      ),
+    .mst_req_t              ( axi_req_inp_nci_idwc_t  ),
+    .mst_resp_t             ( axi_resp_inp_nci_idwc_t )
+  ) i_axi_iwc_ext2cpulp (
+    .clk_i      ( s_soc_clk            ),
+    .rst_ni     ( rst_ni               ),
+    .slv_req_i  ( from_nci_req         ),
+    .slv_resp_o ( from_nci_resp        ),
+    .mst_req_o  ( from_nci_idwc_req    ),
+    .mst_resp_i ( from_nci_idwc_resp   )
+  );
 
-  end else begin : gen_no_d2d
-    // Wrap req/resp structs from control_pulp module into flatten AXI ports //
+  // AXI data inp width conversion
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Define AXI request (req) and response (resp) type structs for control_pulp (internal AXI widths) //
-    //////////////////////////////////////////////////////////////////////////////////////////////////////
+  axi_dw_converter #(
+    .AxiSlvPortDataWidth   ( AXI_DATA_INP_WIDTH_EXT ), // dictated by nci_cp_top
+    .AxiMstPortDataWidth   ( AXI_DATA_INP_WIDTH_PMS ), // 64 bit
+    .AxiAddrWidth          ( AXI_ADDR_WIDTH_PMS     ), // 32 bit
+    .AxiIdWidth            ( AXI_ID_INP_WIDTH_PMS   ), // 7 bit
+    .aw_chan_t             ( axi_aw_inp_ext_t       ),
+    .mst_w_chan_t          ( axi_w_inp_ext_t        ),
+    .slv_w_chan_t          ( axi_w_inp_nci_t        ),
+    .b_chan_t              ( axi_b_inp_ext_t        ),
+    .ar_chan_t             ( axi_ar_inp_ext_t       ),
+    .mst_r_chan_t          ( axi_r_inp_ext_t        ),
+    .slv_r_chan_t          ( axi_r_inp_nci_idwc_t   ),
+    .axi_mst_req_t         ( axi_req_inp_ext_t      ),
+    .axi_mst_resp_t        ( axi_resp_inp_ext_t     ),
+    .axi_slv_req_t         ( axi_req_inp_nci_idwc_t ),
+    .axi_slv_resp_t        ( axi_resp_inp_nci_idwc_t)
+  ) i_axi_dwc_ext2cpulp (
+    .clk_i                 ( s_soc_clk ),
+    .rst_ni                ( rst_ni ),
+    // Slave interface
+    .slv_req_i         ( from_nci_idwc_req      ),
+    .slv_resp_o        ( from_nci_idwc_resp     ),
+    // Master interface
+    .mst_req_o         ( from_ext_req           ),
+    .mst_resp_i        ( from_ext_resp          )
+  );
 
-    // Tie atop to 0
-    assign to_ext_req_tied = '{
-      aw: '{
-        id:     to_ext_req.aw.id,
-        addr:   to_ext_req.aw.addr,
-        len:    to_ext_req.aw.len,
-        size:   to_ext_req.aw.size,
-        burst:  to_ext_req.aw.burst,
-        lock:   to_ext_req.aw.lock,
-        cache:  to_ext_req.aw.cache,
-        prot:   to_ext_req.aw.prot,
-        qos:    to_ext_req.aw.qos,
-        region: to_ext_req.aw.region,
-        atop:   '0,
-        user:   to_ext_req.aw.user,
-        default: '0
-      },
-      aw_valid: to_ext_req.aw_valid,
-      w:        to_ext_req.w,
-      w_valid:  to_ext_req.w_valid,
-      b_ready:  to_ext_req.b_ready,
-      ar: '{
-        id:     to_ext_req.ar.id,
-        addr:   to_ext_req.ar.addr,
-        len:    to_ext_req.ar.len,
-        size:   to_ext_req.ar.size,
-        burst:  to_ext_req.ar.burst,
-        lock:   to_ext_req.ar.lock,
-        cache:  to_ext_req.ar.cache,
-        prot:   to_ext_req.ar.prot,
-        qos:    to_ext_req.ar.qos,
-        region: to_ext_req.ar.region,
-        user:   to_ext_req.ar.user,
-        default: '0
-      },
-      ar_valid: to_ext_req.ar_valid,
-      r_ready:  to_ext_req.r_ready,
-      default: '0
-    };
+  /////////////////////////////////////////////////
+  // Connect req/resp structs and exploded ports //
+  /////////////////////////////////////////////////
 
-    `AXI_ASSIGN_RESP_STRUCT(to_ext_resp, to_ext_resp_tied);
+  // Wrap exploded slave to struct slave (after AXI widths conversion)
+  `AXI_WRAP_SLAVE_STRUCT(from_nci_req, from_nci_resp, slv);
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
-    // Conver AXI widths between nci_cp_top (dictated from external) and PMS (internal AXI widths) //
-    /////////////////////////////////////////////////////////////////////////////////////////////////
+  // Explode struct master to exploded master (after AXI widths conversion)
+  `AXI_EXPLODE_MASTER_STRUCT(to_nci_req, to_nci_resp, mst);
 
-    /////////////////////////////////
-    // PMS to nci_cp_top direction //
-    /////////////////////////////////
-
-    // AXI data oup width conversion
-
-    axi_dw_converter #(
-      .AxiSlvPortDataWidth   ( AXI_DATA_OUP_WIDTH_PMS ), // 64 bit
-      .AxiMstPortDataWidth   ( AXI_DATA_OUP_WIDTH_EXT ), // dictated by nci_cp_top
-      .AxiAddrWidth          ( AXI_ADDR_WIDTH_PMS     ), // 32 bit
-      .AxiIdWidth            ( AXI_ID_OUP_WIDTH_PMS   ), // 6 bit
-      .aw_chan_t             ( axi_aw_oup_ext_t       ),
-      .mst_w_chan_t          ( axi_w_oup_nci_dwc_t    ),
-      .slv_w_chan_t          ( axi_w_oup_ext_t        ),
-      .b_chan_t              ( axi_b_oup_ext_t        ),
-      .ar_chan_t             ( axi_ar_oup_ext_t       ),
-      .mst_r_chan_t          ( axi_r_oup_nci_dwc_t    ),
-      .slv_r_chan_t          ( axi_r_oup_ext_t        ),
-      .axi_mst_req_t         ( axi_req_oup_nci_dwc_t  ),
-      .axi_mst_resp_t        ( axi_resp_oup_nci_dwc_t ),
-      .axi_slv_req_t         ( axi_req_oup_ext_t      ),
-      .axi_slv_resp_t        ( axi_resp_oup_ext_t     )
-    ) i_axi_dwc_cpulp2ext (
-      .clk_i                 ( s_soc_clk ),
-      .rst_ni                ( rst_ni    ),
-      // Slave interface
-      .slv_req_i         ( to_ext_req_tied ),
-      .slv_resp_o        ( to_ext_resp_tied),
-      // Master interface
-      .mst_req_o         ( to_ext_dwc_req  ),
-      .mst_resp_i        ( to_ext_dwc_resp )
-    );
-
-    // AXI ID oup width conversion
-
-    axi_iw_converter #(
-      .AxiSlvPortIdWidth      ( AXI_ID_OUP_WIDTH_PMS   ),
-      .AxiMstPortIdWidth      ( AXI_ID_OUP_WIDTH_EXT   ),
-      .AxiSlvPortMaxUniqIds   ( 16                     ),
-      .AxiSlvPortMaxTxnsPerId ( 13                     ),
-      .AxiSlvPortMaxTxns      (                        ),
-      .AxiMstPortMaxUniqIds   (                        ),
-      .AxiMstPortMaxTxnsPerId (                        ),
-      .AxiAddrWidth           ( AXI_ADDR_WIDTH_PMS     ),
-      .AxiDataWidth           ( AXI_DATA_OUP_WIDTH_EXT ),
-      .AxiUserWidth           ( AXI_USER_WIDTH_PMS     ),
-      .slv_req_t              ( axi_req_oup_nci_dwc_t  ),
-      .slv_resp_t             ( axi_resp_oup_nci_dwc_t ),
-      .mst_req_t              ( axi_req_oup_nci_t      ),
-      .mst_resp_t             ( axi_resp_oup_nci_t     )
-    ) i_axi_iwc_cpulp2ext (
-      .clk_i      ( s_soc_clk           ),
-      .rst_ni     ( rst_ni              ),
-      .slv_req_i  ( to_ext_dwc_req      ),
-      .slv_resp_o ( to_ext_dwc_resp     ),
-      .mst_req_o  ( to_nci_req          ),
-      .mst_resp_i ( to_nci_resp         )
-    );
-
-    /////////////////////////////////
-    // nci_cp_top to PMS direction //
-    /////////////////////////////////
-
-    // AXI ID inp width conversion
-
-    axi_iw_converter #(
-      .AxiSlvPortIdWidth      ( AXI_ID_INP_WIDTH_EXT    ),
-      .AxiMstPortIdWidth      ( AXI_ID_INP_WIDTH_PMS    ),
-      .AxiSlvPortMaxUniqIds   ( 16                      ),
-      .AxiSlvPortMaxTxnsPerId ( 13                      ),
-      .AxiSlvPortMaxTxns      (                         ),
-      .AxiMstPortMaxUniqIds   (                         ),
-      .AxiMstPortMaxTxnsPerId (                         ),
-      .AxiAddrWidth           ( AXI_ADDR_WIDTH_PMS      ),
-      .AxiDataWidth           ( AXI_DATA_INP_WIDTH_EXT  ),
-      .AxiUserWidth           ( AXI_USER_WIDTH_PMS      ),
-      .slv_req_t              ( axi_req_inp_nci_t       ),
-      .slv_resp_t             ( axi_resp_inp_nci_t      ),
-      .mst_req_t              ( axi_req_inp_nci_idwc_t  ),
-      .mst_resp_t             ( axi_resp_inp_nci_idwc_t )
-    ) i_axi_iwc_ext2cpulp (
-      .clk_i      ( s_soc_clk            ),
-      .rst_ni     ( rst_ni               ),
-      .slv_req_i  ( from_nci_req         ),
-      .slv_resp_o ( from_nci_resp        ),
-      .mst_req_o  ( from_nci_idwc_req    ),
-      .mst_resp_i ( from_nci_idwc_resp   )
-    );
-
-    // AXI data inp width conversion
-
-    axi_dw_converter #(
-      .AxiSlvPortDataWidth   ( AXI_DATA_INP_WIDTH_EXT ), // dictated by nci_cp_top
-      .AxiMstPortDataWidth   ( AXI_DATA_INP_WIDTH_PMS ), // 64 bit
-      .AxiAddrWidth          ( AXI_ADDR_WIDTH_PMS     ), // 32 bit
-      .AxiIdWidth            ( AXI_ID_INP_WIDTH_PMS   ), // 7 bit
-      .aw_chan_t             ( axi_aw_inp_ext_t       ),
-      .mst_w_chan_t          ( axi_w_inp_ext_t        ),
-      .slv_w_chan_t          ( axi_w_inp_nci_t        ),
-      .b_chan_t              ( axi_b_inp_ext_t        ),
-      .ar_chan_t             ( axi_ar_inp_ext_t       ),
-      .mst_r_chan_t          ( axi_r_inp_ext_t        ),
-      .slv_r_chan_t          ( axi_r_inp_nci_idwc_t   ),
-      .axi_mst_req_t         ( axi_req_inp_ext_t      ),
-      .axi_mst_resp_t        ( axi_resp_inp_ext_t     ),
-      .axi_slv_req_t         ( axi_req_inp_nci_idwc_t ),
-      .axi_slv_resp_t        ( axi_resp_inp_nci_idwc_t)
-    ) i_axi_dwc_ext2cpulp (
-      .clk_i                 ( s_soc_clk ),
-      .rst_ni                ( rst_ni ),
-      // Slave interface
-      .slv_req_i         ( from_nci_idwc_req      ),
-      .slv_resp_o        ( from_nci_idwc_resp     ),
-      // Master interface
-      .mst_req_o         ( from_ext_req           ),
-      .mst_resp_i        ( from_ext_resp          )
-    );
-
-    /////////////////////////////////////////////////
-    // Connect req/resp structs and exploded ports //
-    /////////////////////////////////////////////////
-
-    // Wrap exploded slave to struct slave (after AXI widths conversion)
-    `AXI_WRAP_SLAVE_STRUCT(from_nci_req, from_nci_resp, slv);
-
-    // Explode struct master to exploded master (after AXI widths conversion)
-    `AXI_EXPLODE_MASTER_STRUCT(to_nci_req, to_nci_resp, mst);
-  end
 
   ////////////////////
   // I/O flattening //
@@ -1155,7 +1136,6 @@ module pms_top import pms_top_pkg::*; #(
     .MACRO_ROM(MACRO_ROM),
     .USE_CLUSTER(USE_CLUSTER),
     .DMA_TYPE(DMA_TYPE),
-    .SDMA_RT_MIDEND(SDMA_RT_MIDEND),
 
     .N_SOC_PERF_COUNTERS(N_SOC_PERF_COUNTERS),
     .N_CLUST_PERF_COUNTERS(N_CLUST_PERF_COUNTERS),
@@ -1170,12 +1150,8 @@ module pms_top import pms_top_pkg::*; #(
     .N_UART(N_UART),
     .CLUST_NB_FPU(CLUST_NB_FPU),
     .CLUST_NB_EXT_DIVSQRT(CLUST_NB_EXT_DIVSQRT),
-    // D2D link
-    .USE_D2D (USE_D2D),
-    .USE_D2D_DELAY_LINE (USE_D2D_DELAY_LINE),
-    .D2D_NUM_CHANNELS (D2D_NUM_CHANNELS),
-    .D2D_NUM_LANES (D2D_NUM_LANES),
-    .D2D_NUM_CREDITS (D2D_NUM_CREDITS),
+
+    .NUM_EXT_INTERRUPTS(NUM_EXT_INTERRUPTS),
 
      // nci_cp_top Master
     .axi_req_inp_ext_t       (axi_req_inp_ext_t),
@@ -1195,11 +1171,6 @@ module pms_top import pms_top_pkg::*; #(
     .to_ext_req_o         (to_ext_req),
     .to_ext_resp_i        (to_ext_resp),
 
-    .d2d_clk_i,
-    .d2d_data_i,
-    .d2d_clk_o,
-    .d2d_data_o,
-
     // on-pmu internal peripherals (soc)
 
     .soc_clk_i          ( s_soc_clk             ),
@@ -1218,7 +1189,7 @@ module pms_top import pms_top_pkg::*; #(
     .jtag_tck_i        ( jtag_tck_i             ),
     .jtag_tdi_i        ( jtag_tdi_i             ),
     .jtag_tms_i        ( jtag_tms_i             ),
-    .jtag_trst_ni      ( jtag_trst_ni           ),
+    .jtag_trst_i       ( jtag_trst_i            ),
 
     .sel_spi_dir_o     ( s_sel_spi_dir          ),
     .sel_i2c_mux_o     ( s_sel_i2c_dir          ),
@@ -1226,11 +1197,7 @@ module pms_top import pms_top_pkg::*; #(
     .wdt_alert_o,
     .wdt_alert_clear_i,
 
-    .scg_irq_i,
-    .scp_irq_i,
-    .scp_secure_irq_i,
-    .mbox_irq_i,
-    .mbox_secure_irq_i,
+    .irq_ext_i,
 
     .oe_qspi_sdio_o,
     .oe_qspi_csn_o,
@@ -1296,6 +1263,7 @@ module pms_top import pms_top_pkg::*; #(
     .fc_fetch_en_valid_i ( fc_fetch_en_valid_i ),
     .fc_fetch_en_i       ( fc_fetch_en_i       ),
 
+    .apb_serial_link_bus ( s_apb_serial_link_bus ),
     .apb_clk_ctrl_bus    ( s_apb_clk_ctrl_bus  ),
     .apb_pad_cfg_bus     ( s_apb_pad_cfg_bus   ),
     .clk_mux_sel_o       ( s_clk_mux_sel       ));

@@ -25,12 +25,6 @@ module control_pulp_fpga import pms_top_pkg::*; #(
   parameter int unsigned MACRO_ROM = 0,
   parameter int unsigned USE_CLUSTER = 0,
   parameter int unsigned DMA_TYPE  = 1,
-  parameter int unsigned SDMA_RT_MIDEND = 0,
-  parameter int unsigned USE_D2D = 0,
-  parameter int unsigned USE_D2D_DELAY_LINE = 0,
-  parameter int unsigned D2D_NUM_CHANNELS = 0,
-  parameter int unsigned D2D_NUM_LANES = 0,
-  parameter int unsigned D2D_NUM_CREDITS = 0,
 
   // Define AXI types
 
@@ -177,7 +171,7 @@ module control_pulp_fpga import pms_top_pkg::*; #(
   input logic                   jtag_tck_i,
   input logic                   jtag_tdi_i,
   input logic                   jtag_tms_i,
-  input logic                   jtag_trst_ni,
+  input logic                   jtag_trst_i,
 
   // wdt
   output logic [1:0]            wdt_alert_o,
@@ -280,8 +274,7 @@ module control_pulp_fpga import pms_top_pkg::*; #(
 
   // Doorbell interrupts
   localparam int unsigned  NUM_SCMI_CHANNELS = 64;
-  logic                    scg_irq, scp_irq, scp_secure_irq;
-  logic [60:0]             mbox_irq;
+  logic [NUM_EXT_INTERRUPTS-1:0] s_irq_ext;
 
 
   // Glue-logic for interfacing AXI ports between PS/PL (PL = control_pulp)
@@ -637,9 +630,11 @@ module control_pulp_fpga import pms_top_pkg::*; #(
     .axi_mbox_rsp    (to_mailbox_resp),
 
     .irq_completion_o    (/*TODO*/),  // completion irq platform->agent
-    .irq_doorbell_o      ({mbox_irq, scp_secure_irq, scp_irq, scg_irq})  // doorbell irq agent->platform
+    .irq_doorbell_o      (s_irq_ext[NUM_SCMI_CHANNELS-1:0])  // doorbell irq agent->platform
   );
 
+  // Tie unused external interrupts to 0
+  assign s_irq_ext[NUM_EXT_INTERRUPTS-1:NUM_SCMI_CHANNELS] = '0;
 
   // II. PL TO PS DIRECTION
 
@@ -1384,6 +1379,7 @@ module control_pulp_fpga import pms_top_pkg::*; #(
   logic                    s_clk_mux_sel;
   logic                    reset_mux_n;
 
+  APB_BUS                  s_apb_serial_link_bus();
   APB_BUS                  s_apb_clk_ctrl_bus();
   APB_BUS                  s_apb_pad_cfg_bus();
 
@@ -1416,6 +1412,11 @@ module control_pulp_fpga import pms_top_pkg::*; #(
     .clk_slow_o                 ( s_timer_clk                   ),
     .clk_cluster_o              ( s_cluster_clk                 )
   );
+
+  // Tie Serial Link APB port
+  assign s_apb_serial_link_bus.prdata = 1'b0;
+  assign s_apb_serial_link_bus.pready = 1'b0;
+  assign s_apb_serial_link_bus.pslverr = 1'b0;
 
   // Tie Padframe configuration APB port
   assign s_apb_pad_cfg_bus.prdata = 1'b0;
@@ -1506,7 +1507,7 @@ module control_pulp_fpga import pms_top_pkg::*; #(
          reset_mux_n = rst_ni;
        end
        2'h1: begin
-         reset_mux_n = ~rst_ni & jtag_trst_ni;
+         reset_mux_n = ~rst_ni & jtag_trst_i;
        end
        2'h2: begin
          reset_mux_n = rst_ni;
@@ -1976,6 +1977,7 @@ module control_pulp_fpga import pms_top_pkg::*; #(
 
     .apb_clk_ctrl_bus   ( s_apb_clk_ctrl_bus    ),
     .clk_mux_sel_o      ( s_clk_mux_sel         ),
+    .apb_serial_link_bus( s_apb_serial_link_bus ),
     .apb_pad_cfg_bus    ( s_apb_pad_cfg_bus     ),
 
     // on-pmu internal peripherals (soc)
@@ -1995,16 +1997,12 @@ module control_pulp_fpga import pms_top_pkg::*; #(
     .jtag_tck_i,
     .jtag_tdi_i,
     .jtag_tms_i,
-    .jtag_trst_ni,
+    .jtag_trst_i,
 
     .wdt_alert_o,
     .wdt_alert_clear_i,
 
-    .scg_irq_i                     (scg_irq                  ),
-    .scp_irq_i                     (scp_irq                  ),
-    .scp_secure_irq_i              (scp_secure_irq           ),
-    .mbox_irq_i                    ({11'h0, mbox_irq}        ),
-    .mbox_secure_irq_i             ('0                       ),
+    .irq_ext_i                     (s_irq_ext                ),
 
     .oe_qspi_sdio_o                ( s_oe_qspi_sdio          ),
     .oe_qspi_csn_o                 ( s_oe_qspi_csn           ),
