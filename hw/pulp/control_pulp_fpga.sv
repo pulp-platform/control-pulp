@@ -280,9 +280,7 @@ module control_pulp_fpga import pms_top_pkg::*; #(
 
   // Doorbell interrupts
   localparam int unsigned  NUM_SCMI_CHANNELS = 64;
-  logic                    scg_irq, scp_irq, scp_secure_irq;
-  logic [60:0]             mbox_irq;
-
+  logic [NUM_EXT_INTERRUPTS-1:0] s_irq_ext;
 
   // Glue-logic for interfacing AXI ports between PS/PL (PL = control_pulp)
   // The needs of PS in terms of address range, address width, data width, id width and user width are here satisfied with converter modules
@@ -637,9 +635,11 @@ module control_pulp_fpga import pms_top_pkg::*; #(
     .axi_mbox_rsp    (to_mailbox_resp),
 
     .irq_completion_o    (/*TODO*/),  // completion irq platform->agent
-    .irq_doorbell_o      ({mbox_irq, scp_secure_irq, scp_irq, scg_irq})  // doorbell irq agent->platform
+    .irq_doorbell_o      (s_irq_ext[NUM_SCMI_CHANNELS-1:0])  // doorbell irq agent->platform
   );
 
+  // Tie unused external interrupts to 0
+  assign s_irq_ext[NUM_EXT_INTERRUPTS-1:NUM_SCMI_CHANNELS] = '0;
 
   // II. PL TO PS DIRECTION
 
@@ -2000,11 +2000,7 @@ module control_pulp_fpga import pms_top_pkg::*; #(
     .wdt_alert_o,
     .wdt_alert_clear_i,
 
-    .scg_irq_i                     (scg_irq                  ),
-    .scp_irq_i                     (scp_irq                  ),
-    .scp_secure_irq_i              (scp_secure_irq           ),
-    .mbox_irq_i                    ({11'h0, mbox_irq}        ),
-    .mbox_secure_irq_i             ('0                       ),
+    .irq_ext_i                     (s_irq_ext                ),
 
     .oe_qspi_sdio_o                ( s_oe_qspi_sdio          ),
     .oe_qspi_csn_o                 ( s_oe_qspi_csn           ),
