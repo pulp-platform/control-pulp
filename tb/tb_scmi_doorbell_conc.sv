@@ -30,7 +30,7 @@ module tb_scmi_doorbell_conc;
 
   logic [31:0] entry_point;
   int exit_status;
-  logic [255:0] irq_mask = {256{1'b0}};
+  logic [pms_top_pkg::NUM_EXT_INTERRUPTS-1:0] irq_mask = {(pms_top_pkg::NUM_EXT_INTERRUPTS){1'b0}};
 
   // pms boot driver process (AXI)
   initial begin : axi_boot_process
@@ -95,7 +95,7 @@ module tb_scmi_doorbell_conc;
       // Program has notified the tb, trigger interrupt lines
       if (notifier[0] == 1) begin
         $display("[TB] %t - Trigger interrupts", $realtime);
-        irq_mask = {256{1'b1}};
+        irq_mask = {(pms_top_pkg::NUM_EXT_INTERRUPTS){1'b1}};
         fixt_pms.db_trigger_irq(irq_mask);
 
         #5ns fixt_pms.db_trigger_irq('0);

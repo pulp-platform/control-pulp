@@ -63,7 +63,8 @@ module soc_domain #(
     parameter int unsigned SIM_STDOUT = 0,
     parameter int unsigned MACRO_ROM = 0,
     parameter int unsigned USE_CLUSTER = 0,
-    parameter int unsigned SDMA_RT_MIDEND = 0
+    parameter int unsigned SDMA_RT_MIDEND = 0,
+    parameter int unsigned NUM_EXT_INTERRUPTS = 222
 )(
 
     input logic                               soc_clk_i,
@@ -93,11 +94,7 @@ module soc_domain #(
     output logic [1:0]                        wdt_alert_o,
     input  logic                              wdt_alert_clear_i,
 
-    input logic                               scg_irq_i,
-    input logic                               scp_irq_i,
-    input logic                               scp_secure_irq_i,
-    input logic [71:0]                        mbox_irq_i,
-    input logic [71:0]                        mbox_secure_irq_i,
+    input logic  [NUM_EXT_INTERRUPTS-1:0]     irq_ext_i,
 
     output logic [NB_CL_CORES-1:0]            dbg_irq_valid_o,
 
@@ -404,11 +401,7 @@ module soc_domain #(
         .jtag_trst_ni      (jtag_trst_ni),
         .jtag_tms_i        (jtag_tms_i),
         .jtag_tdi_i        (jtag_tdi_i),
-        .scg_irq_i         (scg_irq_i),
-        .scp_irq_i         (scp_irq_i),
-        .scp_secure_irq_i  (scp_secure_irq_i),
-        .mbox_irq_i        (mbox_irq_i),
-        .mbox_secure_irq_i (mbox_secure_irq_i),
+        .irq_ext_i,
         .wdt_alert_clear_i (wdt_alert_clear_i),
         .apb_serial_link_bus (apb_serial_link_bus),
         .apb_clk_ctrl_bus  (apb_clk_ctrl_bus),
