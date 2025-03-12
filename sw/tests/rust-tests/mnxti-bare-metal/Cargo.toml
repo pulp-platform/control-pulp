@@ -1,0 +1,14 @@
+[package]
+name = "nmxti-bare-metal"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+pulp-print = {git = "https://github.com/noahzarro/pulp-print.git"}
+pulp-device = {git = "https://github.com/noahzarro/pulp-device.git"}
+riscv-rt = { path = "/scratch/msc22h12/working-repos/riscv-rt", features=["clic", "nxti"] }
+riscv-rt-macros = { path = "/scratch/msc22h12/working-repos/riscv-rt/macros", features=["nxti"] }
+riscv-clic = {git = "https://github.com/noahzarro/riscv-clic.git", features=["critical-section-single-hart", "clic"]}
+
+[features]
+timer_measurement = []

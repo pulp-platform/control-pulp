@@ -1,0 +1,10 @@
+[target.riscv32imac-unknown-none-elf]
+rustflags = ["--emit=obj"]
+rustc-cfg = {have_basepri="true"}
+
+[target.riscv32imc-unknown-none-elf]
+rustflags = ["--emit=obj"]
+rustc-cfg = {have_basepri="true"}
+
+[profile.release]
+lto=true
