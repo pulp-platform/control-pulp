@@ -13,7 +13,6 @@ mod app {
 
     use riscv_monotonic::*;
 
-
     #[cfg(feature = "timer_measurement")]
     macro_rules! get_ticks {
         () => {
@@ -70,7 +69,6 @@ mod app {
         task1::spawn().ok();
         println!("In Task 2, spawned Task 1");
     }
-
 }
 
 #[panic_handler]

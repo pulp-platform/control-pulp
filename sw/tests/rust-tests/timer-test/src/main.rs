@@ -5,16 +5,15 @@ use core::panic::PanicInfo;
 use riscv_rt::interrupt_handler;
 use rtic::app;
 
+use numtoa::NumToA;
 use pulp_device::exit;
 use pulp_print::{print, print_nr, println, Format};
-use numtoa::NumToA;
-
 
 #[app(device = pulp_device, dispatchers = [DUMMY0, DUMMY1, DUMMY2])]
 mod app {
+    use numtoa::NumToA;
     use pulp_device::exit;
     use pulp_print::{print, print_nr, println, Format};
-    use numtoa::NumToA;
 
     #[shared]
     struct Shared {}
@@ -30,25 +29,24 @@ mod app {
     }
 
     #[idle]
-    fn idle(_:idle::Context) -> !{
-
+    fn idle(_: idle::Context) -> ! {
         /*
         let timer_int = pulp_device::Interrupt::TIMER_LO;
         let dummy_int = pulp_device::Interrupt::DUMMY0;
-        
+
         loop {
             let level = riscv_clic::register::mintstatus::read().mil();
             print_nr!("idle interrupt level", level, Format::Dec);
-            
+
             let counter_lo = riscv_clic::peripheral::SYST::get_counter_lo();
             print_nr!("counter_lo", counter_lo, Format::Hex);
 
             let comp_lo = riscv_clic::peripheral::SYST::get_compare_lo();
             print_nr!("comp_lo", comp_lo, Format::Hex);
-            
+
             let is_pend = riscv_clic::peripheral::CLIC::is_pending(timer_int) as u32;
             print_nr!("is_pend timer", is_pend, Format::Bin);
-            
+
             let is_pend = riscv_clic::peripheral::CLIC::is_pending(dummy_int) as u32;
             print_nr!("is_pend dummy", is_pend, Format::Bin);
 
@@ -57,14 +55,12 @@ mod app {
 
             let mie= riscv_clic::register::mstatus::read().mie() as u32;
             print_nr!("mie", mie, Format::Bin);
-            
-            
+
+
         }
         */
 
-        loop {
-            
-        }
+        loop {}
     }
 
     #[task(shared = [], local = [], priority = 1)]
@@ -77,11 +73,11 @@ mod app {
         // only once
         let mut periphs = unsafe { Peripherals::steal() };
         /*
-        
+
         // setup timer interrupt
         let timer_int = pulp_device::Interrupt::TIMER_LO;
         let dummy_int = pulp_device::Interrupt::DUMMY0;
-        
+
         unsafe {
             periphs.CLIC.enable_shv(timer_int);
             periphs.CLIC.set_priority(timer_int, 8);
@@ -90,7 +86,7 @@ mod app {
                 timer_int,
                 riscv_clic::peripheral::clic::Trigger::EdgePositive,
             );
-            
+
             riscv_clic::peripheral::CLIC::unmask(timer_int);
         }
         */
@@ -115,16 +111,12 @@ mod app {
         let level = riscv_clic::register::mintstatus::read().mil();
         print_nr!("foo interrupt level", level, Format::Dec);
 
-        
-        
         let level = riscv_clic::register::mintstatus::read().mil();
         print_nr!("foo interrupt level", level, Format::Dec);
-        
-        
-        
+
         // use lo timer independent from hi
         periphs.SYST.disable_cascaded_mode();
-        
+
         periphs.SYST.set_compare_lo(0x8000);
 
         periphs.SYST.enable_interrupt_lo();
@@ -132,24 +124,19 @@ mod app {
         periphs.SYST.set_cycle_mode_lo();
 
         periphs.SYST.enable_lo();
-        
-        
-        
+
         match nested::spawn() {
             Ok(_) => (),
             Err(_) => println!("spawning nested failed"),
         }
-        
+
         println!("Foo End");
-        
     }
-    
+
     #[task(shared = [], local = [], priority = 2)]
-    fn nested(_:nested::Context){
-        
+    fn nested(_: nested::Context) {
         let level = riscv_clic::register::mintstatus::read().mil();
         print_nr!("nested interrupt level", level, Format::Dec);
-        
 
         println!("Nested Start");
         match inner::spawn() {
@@ -157,29 +144,21 @@ mod app {
             Err(_) => println!("spawning inner failed"),
         }
         println!("Nested End");
-        
 
         let level = riscv_clic::register::mintstatus::read().mil();
         print_nr!("nested interrupt level", level, Format::Dec);
     }
 
     #[task(shared = [], local = [], priority = 3)]
-    fn inner(_:inner::Context){
-        
+    fn inner(_: inner::Context) {
         let level = riscv_clic::register::mintstatus::read().mil();
         print_nr!("inner interrupt level", level, Format::Dec);
-        
 
         println!("inner");
 
-        loop {
-            
-        }
-
+        loop {}
     }
 
-
-    
     #[task(binds = TIMER_LO, priority = 4)]
     fn timer_lo_handler(_cx: timer_lo_handler::Context) {
         println!("Hello from timer task");
@@ -189,8 +168,6 @@ mod app {
 
         exit(0);
     }
-    
-    
 }
 
 #[panic_handler]
@@ -210,7 +187,7 @@ fn timer_lo_handler() {
 
     let level = riscv_clic::register::mintstatus::read().mil();
     print_nr!("timer interrupt level", level, Format::Dec);
-    
+
     exit(0);
 }
 */

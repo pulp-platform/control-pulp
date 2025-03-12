@@ -9,7 +9,7 @@ use rtic::app;
 mod app {
 
     use pulp_device::exit;
-    use pulp_print::{print, print_nr, println, print_nr_only, Format};
+    use pulp_print::{print, print_nr, print_nr_only, println, Format};
 
     use riscv_monotonic::*;
 
@@ -56,7 +56,6 @@ mod app {
 
         task0::spawn().unwrap();
 
-
         (
             Shared {
                 pt1_last_schedule: 0,
@@ -88,11 +87,10 @@ mod app {
 
     #[task(shared = [pt1_last_schedule], local = [pt1_last_start, pt1_nr_of_runs, pt1_period, pt1_measured_periods], priority = 1)]
     fn periodic_task_1(mut cx: periodic_task_1::Context) {
-
         // end program after measurement
         if *cx.local.pt1_nr_of_runs == max_runs as u32 + 1 {
             exit(0);
-            loop{};
+            loop {}
         }
 
         // calculate jitter
@@ -108,14 +106,12 @@ mod app {
 
         // output measured periods, as soon as array is full
         if *cx.local.pt1_nr_of_runs == max_runs as u32 {
-
             print!("[");
             for measurement in *cx.local.pt1_measured_periods {
                 print_nr_only!(measurement, Format::Dec);
                 print!(", ");
             }
             println!("]");
-
         }
 
         // reschedule task to make it periodic
@@ -129,7 +125,6 @@ mod app {
             *pt1_last_schedule = start_at;
         });
         *cx.local.pt1_nr_of_runs += 1;
-    
     }
 }
 

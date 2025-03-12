@@ -172,15 +172,9 @@ fn main() -> u32 {
     println!("CLICINTCTLBITS", a );
     */
 
-
-    
-    
     // set interrupt threshold
-    unsafe {
-        asm!("csrw 0x347, 0")
-    }
-    
-    
+    unsafe { asm!("csrw 0x347, 0") }
+
     // trigger an interrupt manually
     println!("Triggering Interrupt");
     clic_mapper.write_byte(

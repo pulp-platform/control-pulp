@@ -5,7 +5,6 @@ use core::panic::PanicInfo;
 use rtic::app;
 //use rtic::export::Peripherals;
 
-
 macro_rules! println {
     ($($arg:tt),*) => {{
         $(
@@ -13,21 +12,19 @@ macro_rules! println {
             print(" ");
         )*
         print("\n");
-        
+
     }};
 }
 
-
 #[app(device = pulp_device, dispatchers = [TEST])]
 mod app {
-    
-    use pulp_device::exit;  
-    use core::arch::asm;
 
+    use core::arch::asm;
+    use pulp_device::exit;
 
     fn print(text: &str) {
         let print_addr = 0x1A10FF80;
-    
+
         for byte in text.as_bytes() {
             unsafe {
                 asm!(
@@ -38,7 +35,6 @@ mod app {
             }
         }
     }
-    
 
     #[shared]
     struct Shared {}
@@ -57,13 +53,11 @@ mod app {
     fn foo(_: foo::Context) {
         // This task is only spawned once in `init`, hence this task will run
         // only once
-    
+
         println!("foo");
         exit(0);
     }
 }
-
-
 
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {

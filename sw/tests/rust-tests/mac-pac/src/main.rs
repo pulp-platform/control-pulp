@@ -1,21 +1,19 @@
 #![no_std]
 #![no_main]
 
-use core::{panic::PanicInfo};
+use core::panic::PanicInfo;
+use numtoa::NumToA;
 use pulp_device::exit;
 use pulp_print::{print, println};
 use riscv_clic::{self};
-use numtoa::NumToA;
 
 use pulp_device;
 use riscv_rt;
 use riscv_rt::interrupt_handler;
 
-
 //#[entry]
 #[no_mangle]
 fn main() -> () {
-
     unsafe {
         riscv_clic::interrupt::enable();
     }
@@ -80,7 +78,6 @@ fn main() -> () {
 
     println!("back in main");
     exit(0);
-
 }
 
 #[no_mangle]
@@ -95,22 +92,20 @@ fn panic(_info: &PanicInfo) -> ! {
 
 #[interrupt_handler(0)]
 fn my_handler() {
-
     let val = riscv_clic::register::mintthresh::read().bits();
     let mut buf = [0u8; 100];
     let val = val.numtoa_str(16, &mut buf);
-    println!("mintthresh",val);
+    println!("mintthresh", val);
 
     let val = riscv_clic::register::mstatus::read().mie() as u32;
     let mut buf = [0u8; 100];
     let val = val.numtoa_str(16, &mut buf);
-    println!("mie",val);
+    println!("mie", val);
 
     let val = riscv_clic::register::mintstatus::read().mil() as u32;
     let mut buf = [0u8; 100];
     let val = val.numtoa_str(16, &mut buf);
-    println!("mil",val);
-    
+    println!("mil", val);
 
     println!("in interrupt 0");
 
@@ -118,21 +113,17 @@ fn my_handler() {
     let mut mintthresh_reg = riscv_clic::register::mintthresh::read();
     mintthresh_reg.set_thresh(5);
     riscv_clic::register::mintthresh::write(mintthresh_reg);
-    
-    
+
     let nested_int = pulp_device::Interrupt::DUMMY1;
     println!("pending the nested interrupt");
     riscv_clic::peripheral::CLIC::pend(nested_int);
-    
 
     println!("setting the interrupt threshold back to 0");
     let mut mintthresh_reg = riscv_clic::register::mintthresh::read();
     mintthresh_reg.set_thresh(0);
     riscv_clic::register::mintthresh::write(mintthresh_reg);
 
-
     println!("back in interrupt 0")
-
 }
 
 #[interrupt_handler(1)]

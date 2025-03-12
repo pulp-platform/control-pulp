@@ -1,21 +1,19 @@
 #![no_std]
 #![no_main]
 
-use core::{panic::PanicInfo};
-use pulp_device::exit;
-use pulp_print::{print, println, print_nr, Format};
-use riscv_clic::{self};
+use core::panic::PanicInfo;
 use numtoa::NumToA;
+use pulp_device::exit;
+use pulp_print::{print, print_nr, println, Format};
+use riscv_clic::{self};
 
 use pulp_device;
 use riscv_rt;
 use riscv_rt::interrupt_handler;
 
-
 //#[entry]
 #[no_mangle]
 fn main() -> () {
-
     unsafe {
         riscv_clic::interrupt::enable();
     }
@@ -59,13 +57,13 @@ fn main() -> () {
     riscv_clic::register::mintthresh::write(mintthresh_reg);
 
     let mtvt_val = riscv_clic::register::mtvt::read().bits();
-    print_nr!("mtvt_val", mtvt_val, Format::Hex); 
+    print_nr!("mtvt_val", mtvt_val, Format::Hex);
 
     /*
     // manually trigger interrupt
     println!("manually trigger interrupt 1");
     riscv_clic::peripheral::CLIC::pend(timer_int);
-    
+
     println!("back in main");
     exit(0);
     */
@@ -81,10 +79,7 @@ fn main() -> () {
 
     core_peripherals.SYST.enable_lo();
 
-    loop {
-        
-    }
-
+    loop {}
 }
 
 #[no_mangle]
