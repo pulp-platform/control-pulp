@@ -1984,6 +1984,11 @@ module control_pulp_fpga import pms_top_pkg::*; #(
     .to_ext_req_o         (from_pl_req),
     .to_ext_resp_i        (from_pl_resp),
 
+    .d2d_clk_i  ( '0 ),
+    .d2d_data_i ( '0 ),
+    .d2d_clk_o  ( ),
+    .d2d_data_o ( ),
+
     .apb_clk_ctrl_bus   ( s_apb_clk_ctrl_bus    ),
     .clk_mux_sel_o      ( s_clk_mux_sel         ),
     .apb_pad_cfg_bus    ( s_apb_pad_cfg_bus     ),
