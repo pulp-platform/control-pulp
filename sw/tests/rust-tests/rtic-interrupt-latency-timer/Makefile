@@ -16,6 +16,6 @@
 # Author: Noah Zarro (zarron@ethz.ch)
 # Author: Alessandro Ottaviano (aottaviano@ethz.ch)
 
-PROG := timer
+PROG := rtic-interrupt-latency-timer
 
 include ../common/default.mk

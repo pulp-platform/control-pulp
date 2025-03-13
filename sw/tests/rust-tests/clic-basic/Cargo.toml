@@ -1,5 +1,5 @@
 [package]
-name = "timer"
+name = "clic-basic"
 version = "0.1.0"
 edition = "2021"
 
@@ -11,3 +11,4 @@ riscv-clic = {git = "https://github.com/noahzarro/riscv-clic.git", features=["cr
 pulp-print = {git = "https://github.com/noahzarro/pulp-print.git"}
 pulp-device = {git = "https://github.com/noahzarro/pulp-device.git"}
 numtoa = "0.2.4"
+

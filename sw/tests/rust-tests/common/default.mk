@@ -1,4 +1,4 @@
-# Copyright 2020 ETH Zurich
+# Copyright 2025 ETH Zurich
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,10 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# SPDX-License-Identifier: Apache-2.0
 # Author: Noah Zarro (zarron@ethz.ch)
 # Author: Alessandro Ottaviano (aottaviano@ethz.ch)
 
-PROG := timer
+# Description: Makefile to build and run rust tests
 
-include ../common/default.mk
+RISCV         ?= $(HOME)/.riscv
+RISCV_PREFIX  ?= $(RISCV)/bin/riscv32-unknown-elf-
+OBJCOPY       = $(RISCV_PREFIX)objcopy
+OBJDUMP       = $(RISCV_PREFIX)objdump
+TARGET_FOLDER = $(if $(no_atomics), \
+                    target/riscv32imc-unknown-none-elf/release, \
+                    target/riscv32imac-unknown-none-elf/release)
+SIMDIR        = sim
+
+# Build
+include ../common/build.mk
+
+# Run
+include ../common/sim.mk
+
+.PHONY: clean
+clean:
+	rm -rf target sim

@@ -16,6 +16,6 @@
 # Author: Noah Zarro (zarron@ethz.ch)
 # Author: Alessandro Ottaviano (aottaviano@ethz.ch)
 
-PROG := timer
+PROG := rtic-interrupt-latency-mcycle
 
 include ../common/default.mk

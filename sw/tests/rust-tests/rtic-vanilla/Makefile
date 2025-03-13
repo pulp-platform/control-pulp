@@ -16,6 +16,6 @@
 # Author: Noah Zarro (zarron@ethz.ch)
 # Author: Alessandro Ottaviano (aottaviano@ethz.ch)
 
-PROG := timer
+PROG := rtic-vanilla
 
 include ../common/default.mk
