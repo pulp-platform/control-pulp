@@ -102,6 +102,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "fugit"
+version = "0.3.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7ab17bb279def6720d058cb6c052249938e7f99260ab534879281a95367a87e5"
+dependencies = [
+ "gcd",
+]
+
+[[package]]
+name = "gcd"
+version = "2.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1d758ba1b47b00caf47f24925c0074ecb20d6dfcffe7f6d53395c0465674841a"
+
+[[package]]
 name = "hash32"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -137,6 +152,21 @@ checksum = "1885e79c1fc4b10f0e172c475f458b7f7b93061064d98c3293e98c5ba0c8b399"
 dependencies = [
  "autocfg",
  "hashbrown",
+]
+
+[[package]]
+name = "interrupt_latency"
+version = "0.1.0"
+dependencies = [
+ "cortex-m-rtic",
+ "cortex-m-rtic-macros 1.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
+ "numtoa",
+ "pulp-device",
+ "pulp-print",
+ "riscv-clic",
+ "riscv-monotonic",
+ "riscv-rt 0.9.0 (git+https://github.com/noahzarro/riscv-rt?branch=pulp)",
+ "riscv-rt-macros 0.2.0 (git+https://github.com/noahzarro/riscv-rt?branch=pulp)",
 ]
 
 [[package]]
@@ -208,9 +238,9 @@ dependencies = [
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.49"
+version = "1.0.51"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "57a8eca9f9c4ffde41714334dee777596264c7825420f521abc92b5b5deb63a5"
+checksum = "5d727cae5b39d21da60fa540906919ad737832fe0b1c165da3a34d6548c849d6"
 dependencies = [
  "unicode-ident",
 ]
@@ -218,7 +248,7 @@ dependencies = [
 [[package]]
 name = "pulp-device"
 version = "0.1.0"
-source = "git+https://github.com/noahzarro/pulp-device.git#57c32c5747e0101fa39ec19ce9f903f3a33b8515"
+source = "git+https://github.com/noahzarro/pulp-device.git#24576e7eea1691cc5cdb1e78adc580d9e89658be"
 dependencies = [
  "riscv-clic",
 ]
@@ -226,7 +256,10 @@ dependencies = [
 [[package]]
 name = "pulp-print"
 version = "0.1.0"
-source = "git+https://github.com/noahzarro/pulp-print.git#c1f46bbd4f95cad3fa8c183c40eaaef1325ebcf5"
+source = "git+https://github.com/noahzarro/pulp-print.git#68441476a5d19166f8315eff84ed3109cce50506"
+dependencies = [
+ "numtoa",
+]
 
 [[package]]
 name = "quote"
@@ -245,9 +278,9 @@ checksum = "bd7a31eed1591dcbc95d92ad7161908e72f4677f8fabf2a32ca49b4237cbf211"
 
 [[package]]
 name = "regex"
-version = "1.7.0"
+version = "1.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e076559ef8e241f2ae3479e36f97bd5741c0330689e217ad51ce2c76808b868a"
+checksum = "48aaa5748ba571fb95cd2c85c09f629215d3a6ece942baa100950af03a34f733"
 dependencies = [
  "aho-corasick",
  "memchr",
@@ -274,7 +307,7 @@ dependencies = [
 [[package]]
 name = "riscv-clic"
 version = "0.10.0"
-source = "git+https://github.com/noahzarro/riscv-clic.git#17123737e67a606bc7aa85d5d6ad6d3a044dcead"
+source = "git+https://github.com/noahzarro/riscv-clic.git#f664edf8810bbe8b0db0f3ba095f236b65700cdd"
 dependencies = [
  "bit_field",
  "critical-section",
@@ -283,11 +316,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "riscv-monotonic"
+version = "0.1.0"
+source = "git+https://github.com/noahzarro/riscv-monotonic#21f9758d741b24690b2e141229d24462112d131e"
+dependencies = [
+ "fugit",
+ "riscv-clic",
+ "rtic-monotonic",
+]
+
+[[package]]
 name = "riscv-rt"
 version = "0.9.0"
-source = "git+https://github.com/noahzarro/riscv-rt?branch=pulp#7c7b86510bfb8c5e654676c31937816bb8ad23c0"
+source = "git+https://github.com/noahzarro/riscv-rt?branch=pulp#4ea751aa31bd5991ca7e70b2d9a7f6e64465db05"
 dependencies = [
  "r0",
+ "riscv",
  "riscv-clic",
  "riscv-rt-macros 0.2.0 (git+https://github.com/noahzarro/riscv-rt?branch=pulp)",
  "riscv-target",
@@ -308,7 +352,7 @@ dependencies = [
 [[package]]
 name = "riscv-rt-macros"
 version = "0.2.0"
-source = "git+https://github.com/noahzarro/riscv-rt?branch=pulp#7c7b86510bfb8c5e654676c31937816bb8ad23c0"
+source = "git+https://github.com/noahzarro/riscv-rt?branch=pulp#4ea751aa31bd5991ca7e70b2d9a7f6e64465db05"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -333,20 +377,6 @@ checksum = "88aa938cda42a0cf62a20cfe8d139ff1af20c2e681212b5b34adb5a58333f222"
 dependencies = [
  "lazy_static",
  "regex",
-]
-
-[[package]]
-name = "rtic"
-version = "0.1.0"
-dependencies = [
- "cortex-m-rtic",
- "cortex-m-rtic-macros 1.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
- "numtoa",
- "pulp-device",
- "pulp-print",
- "riscv-clic",
- "riscv-rt 0.9.0 (git+https://github.com/noahzarro/riscv-rt?branch=pulp)",
- "riscv-rt-macros 0.2.0 (git+https://github.com/noahzarro/riscv-rt?branch=pulp)",
 ]
 
 [[package]]
@@ -396,9 +426,9 @@ checksum = "58bc9567378fc7690d6b2addae4e60ac2eeea07becb2c64b9f218b53865cba2a"
 
 [[package]]
 name = "spin"
-version = "0.9.4"
+version = "0.9.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7f6002a767bff9e83f8eeecf883ecb8011875a21ae8da43bffb817a57e78cc09"
+checksum = "7dccf47db1b41fa1573ed27ccf5e08e3ca771cb994f776668c5ebda893b248fc"
 dependencies = [
  "lock_api",
 ]

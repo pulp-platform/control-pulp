@@ -27,8 +27,8 @@ SIZE		= $(RISCV_PREFIX)size
 PLPSTIM   = $(PULP_SDK_HOME)/scripts/pulpstim
 
 
-PROG=mac-pac
-TARGET_FOLDER=target/riscv32imc-unknown-none-elf/release
+PROG=interrupt_latency
+TARGET_FOLDER=target/riscv32imac-unknown-none-elf/release
 PROG_PATH=$(TARGET_FOLDER)/$(PROG)
 SIMDIR=sim
 
@@ -36,7 +36,6 @@ SIMDIR=sim
 
 .PHONY: all
 all: compile $(PROG_PATH).srec $(PROG_PATH).lst $(PROG_PATH).dump misc-info
-
 
 $(PROG_PATH).srec: $(PROG_PATH)
 	$(OBJCOPY) -O srec $(PROG_PATH) $@
@@ -115,6 +114,7 @@ ifndef VSIM_PATH
 	$(error "VSIM_PATH is undefined. Either call \
 	'source $$YOUR_HW_DIR/setup/vsim.sh' or set it manually.")
 endif
+	echo VSIM_PATH: $(VSIM_PATH)
 	cp $(PROG_PATH) $(SIMDIR)
 	cp $(PROG_PATH).srec $(SIMDIR)/prog.srec
 	cp $(PROG_PATH).lst $(SIMDIR)
@@ -125,7 +125,7 @@ endif
 	export VOPT_ACC_ENA="YES" && \
 	vsim -64 $(if $(gui),,-c) -do 'source $(VSIM_PATH)/tcl_files/config/run_and_exit.tcl' \
 		-do $(if $(or $(gui),$(interactive)), \
-				'source $(VSIM_PATH)/tcl_files/run.tcl; source waves/software.tcl', \
+				'source $(VSIM_PATH)/tcl_files/run.tcl; source waves/software.tcl; source waves/clic.tcl; source waves/timers.do; run 200000ns', \
 				'source $(VSIM_PATH)/tcl_files/run.tcl; run_and_exit; ') $(VSIM_ARGS)
 
 #include $(PROJ_ROOT)/default_targets.mk

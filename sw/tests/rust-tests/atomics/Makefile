@@ -35,11 +35,15 @@ SIMDIR=sim
 # compile process
 
 .PHONY: all
-all: compile $(PROG_PATH).srec $(PROG_PATH).lst $(PROG_PATH).dump misc-info
-
+all: compile $(PROG_PATH).srec  $(PROG_PATH).lst $(PROG_PATH).dump misc-info
 
 $(PROG_PATH).srec: $(PROG_PATH)
 	$(OBJCOPY) -O srec $(PROG_PATH) $@
+
+.PHONY:
+compile:
+	cargo build --release $(if $(timer_measurement),--features timer_measurement,) $(if $(nxti),--features nxti,) $(if $(no_atomics),--target "riscv32imc-unknown-none-elf",--target "riscv32imac-unknown-none-elf")
+	cargo expand --target riscv32imac-unknown-none-elf > target/riscv32imac-unknown-none-elf/release/expand.rs
 
 $(PROG_PATH).lst: $(PROG_PATH)
 	$(OBJDUMP) --source --all-headers --demangle --line-numbers --wide --prefix-addresses \
@@ -48,23 +52,11 @@ $(PROG_PATH).lst: $(PROG_PATH)
 $(PROG_PATH).dump : $(PROG_PATH)
 	$(OBJDUMP) -d --visualize-jumps $(PROG_PATH) > $@
 
-
-
 misc-info:
-
-.PHONY:
-compile:
-	cargo build --release $(if $(timer_measurement),--features timer_measurement,) $(if $(nxti),--features nxti,) $(if $(no_atomics),--target "riscv32imc-unknown-none-elf",--target "riscv32imac-unknown-none-elf")
-	cargo expand --target riscv32imac-unknown-none-elf > target/riscv32imac-unknown-none-elf/release/expand.rs
-	cargo expand --target riscv32imc-unknown-none-elf > target/riscv32imc-unknown-none-elf/release/expand.rs
-
-# clean
 
 .PHONY: clean
 clean:
-	rm -r target
-	rm -r sim
-
+	rm -rf target sim
 
 # creating symlink farm because PULP/PULPissimo relies on hardcoded paths
 

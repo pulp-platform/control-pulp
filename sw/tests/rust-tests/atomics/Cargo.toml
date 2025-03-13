@@ -6,14 +6,10 @@ edition = "2021"
 [dependencies]
 pulp-print = {git = "https://github.com/noahzarro/pulp-print.git"}
 pulp-device = {git = "https://github.com/noahzarro/pulp-device.git"}
-# cortex-m-rtic = { path = "../../../../../risc-v-rtic", features = ["nxti"] }
-cortex-m-rtic = { path = "../../../../../risc-v-rtic" }
-# cortex-m-rtic-macros = "1.1.5"
+cortex-m-rtic = { git = "https://github.com/noahzarro/risc-v-rtic.git" }
 numtoa = "0.2.4"
-# riscv-rt = { path = "/scratch/msc22h12/working-repos/riscv-rt", features=["clic", "nxti"] }
-riscv-rt = { path = "/scratch/msc22h12/working-repos/riscv-rt", features=["clic"] }
-riscv-rt-macros = { path = "/scratch/msc22h12/working-repos/riscv-rt/macros" }
-# riscv-rt-macros = { path = "/scratch/msc22h12/working-repos/riscv-rt/macros", features = ["nxti"] }
+riscv-rt = { git = "https://github.com/noahzarro/riscv-rt.git", features=["clic"] }
+riscv-rt-macros = { git = "https://github.com/noahzarro/riscv-rt.git" }
 riscv-monotonic = { git = "https://github.com/noahzarro/riscv-monotonic"}
 riscv-clic = {git = "https://github.com/noahzarro/riscv-clic.git", features=["critical-section-single-hart", "clic"]}
 

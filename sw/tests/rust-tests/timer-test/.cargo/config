@@ -1,6 +1,0 @@
-[target.riscv32imc-unknown-none-elf]
-rustflags = ["--emit=obj"]
-rustc-cfg = {have_basepri="true"}
-
-[build]
-target = "riscv32imc-unknown-none-elf"

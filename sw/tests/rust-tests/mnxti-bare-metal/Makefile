@@ -59,8 +59,7 @@ compile:
 
 .PHONY: clean
 clean:
-	rm -r target
-	rm -r sim
+	rm -rf target sim
 
 
 # creating symlink farm because PULP/PULPissimo relies on hardcoded paths

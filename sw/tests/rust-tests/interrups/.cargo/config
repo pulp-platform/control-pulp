@@ -1,5 +1,0 @@
-[target.riscv32imc-unknown-none-elf]
-rustflags = ["--emit=obj","-C", "link-arg=-T../memory.ld", "-C", "link-arg=-T../link.ld"]
-
-[build]
-target = "riscv32imc-unknown-none-elf"

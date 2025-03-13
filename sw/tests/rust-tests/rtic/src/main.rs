@@ -44,7 +44,6 @@ mod app {
 
     #[init]
     fn init(_: init::Context) -> (Shared, Local, init::Monotonics) {
-        let a = 1;
         foo::spawn().unwrap();
         (Shared {}, Local {}, init::Monotonics())
     }

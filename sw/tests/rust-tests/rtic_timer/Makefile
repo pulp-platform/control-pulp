@@ -27,7 +27,7 @@ SIZE		= $(RISCV_PREFIX)size
 PLPSTIM   = $(PULP_SDK_HOME)/scripts/pulpstim
 
 
-PROG=mac-pac
+PROG=timer_test
 TARGET_FOLDER=target/riscv32imc-unknown-none-elf/release
 PROG_PATH=$(TARGET_FOLDER)/$(PROG)
 SIMDIR=sim
@@ -59,6 +59,7 @@ compile:
 .PHONY: clean
 clean:
 	rm -rf target sim
+
 
 # creating symlink farm because PULP/PULPissimo relies on hardcoded paths
 
