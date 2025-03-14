@@ -105,7 +105,7 @@ hpc-cosim: sw/cosim
 sw/cosim:
 	git clone https://github.com/pulp-platform/pulp_hpc_cosim.git $@
 	cd $@; \
-	git checkout 647f0c0dbfa426605b813b933c679d9bdae4fcfd; \
+	git checkout b822e95bbf0dc627d60898d6c91f9676d452fc40; \
 	git submodule update --init --recursive
 
 #
