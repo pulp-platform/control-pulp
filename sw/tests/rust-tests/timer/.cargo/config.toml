@@ -1,0 +1,5 @@
+[target.riscv32imc-unknown-none-elf]
+rustflags = ["-C", "no-redzone=yes"]
+
+[build]
+target = "riscv32imc-unknown-none-elf"

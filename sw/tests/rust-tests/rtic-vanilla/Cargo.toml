@@ -1,0 +1,16 @@
+[package]
+name = "rtic-vanilla"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+pulp-print = {git = "https://github.com/noahzarro/pulp-print.git"}
+pulp-device = {git = "https://github.com/noahzarro/pulp-device.git"}
+cortex-m-rtic = { git = "https://github.com/noahzarro/risc-v-rtic.git" }
+cortex-m-rtic-macros = "1.1.5"
+numtoa = "0.2.4"
+riscv-clic = { git = "https://github.com/noahzarro/riscv-clic.git", features=["critical-section-single-hart", "clic"]}
+riscv-rt = { git = "https://github.com/noahzarro/riscv-rt", branch = "pulp", features=["clic"] }
+riscv-rt-macros = { git = "https://github.com/noahzarro/riscv-rt", branch = "pulp" }

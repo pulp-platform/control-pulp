@@ -18,6 +18,7 @@ variables:
   BENDER: "/home/balasr/.local/bin/bender"
   QUESTA: "questa-2022.3"
   VCSSIM: "vcs-2020.12"
+  RUSTUP_VERSION: "1.85.0"
 
 stages:
   - prepare
@@ -57,6 +58,12 @@ prepare:
     - ./tb/vip/get-vips.sh --yes #--gitlab
     - echo "Generate scripts with DPI and VIP support"
     - $QUESTA make gen-with-vip
+    # Ensure we have the latest version of rustup
+    - rustup self update
+    # Fix rustc and cargo versions to 1.85.0
+    - rustup default $RUSTUP_VERSION
+    # Install components for compiling rust code on RV32
+    - rustup target add riscv32imac-unknown-none-elf
 
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
@@ -104,6 +111,7 @@ verilator_rtl:
     paths:
       - sim/vpms
 
+# Templates
 .sim-vsim-runtime-tpl:
   stage: test
   before_script:
@@ -128,6 +136,18 @@ verilator_rtl:
      - sw/tests/${XML_DIR}/*.xml
    reports:
      junit: sw/tests/${XML_DIR}/*.xml
+
+.run-rust-test-tpl:
+  extends: .sim-vsim-runtime-tpl
+  stage: test
+  script:
+    - source env/env.sh
+    - cd sw/tests/rust-tests/${TEST}
+    - $QUESTA make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.6.0" clean all run
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
+    paths:
+     - sw/tests/rust-tests/${TEST}
 
 # Use simplified pulp-runtime to run a subset of tests
 rt_periph:
@@ -420,7 +440,7 @@ freertos_cluster_offload_async:
   script:
     - source env/env.sh
     - cd sw/freertos/tests/cluster/cluster_fork_async
-    - $QUESTA make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.5.0-rc1" CFLAGS="-Og -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32 -DFEATURE_CLUSTER=1 -D__PULP__=1 -DDEBUG" ASFLAGS="-Os -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32" clean all run
+    - $QUESTA make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.6.0" CFLAGS="-Og -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32 -DFEATURE_CLUSTER=1 -D__PULP__=1 -DDEBUG" ASFLAGS="-Os -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32" clean all run
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     paths:
@@ -459,12 +479,12 @@ freertos_cluster_idma_basic_8cores:
 #   script:
 #     - source env/env.sh
 #     - cd fw
-#     - $QUESTA make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.5.0-rc1" CFLAGS="-Og -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32 -DFEATURE_CLUSTER=1 -D__PULP__=1 -DDEBUG" ASFLAGS="-Os -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32" MAKE_FLAGS="-DUSE_INSTRUCTIONS_COMPOSITION -DTASKS_PERIOD_MULTIPLIER=5 -DCI_TEST -DCI_TEST_ITERATION=20 -UMEASURE_ACTIVE -DPRINTF_ACTIVE -DPCF_FREERTOS_TICK_RATE_HZ=1000 -DDEFAULT_SYSTEM_CLOCK=100000000u" all run
+#     - $QUESTA make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.6.0" CFLAGS="-Og -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32 -DFEATURE_CLUSTER=1 -D__PULP__=1 -DDEBUG" ASFLAGS="-Os -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32" MAKE_FLAGS="-DUSE_INSTRUCTIONS_COMPOSITION -DTASKS_PERIOD_MULTIPLIER=5 -DCI_TEST -DCI_TEST_ITERATION=20 -UMEASURE_ACTIVE -DPRINTF_ACTIVE -DPCF_FREERTOS_TICK_RATE_HZ=1000 -DDEFAULT_SYSTEM_CLOCK=100000000u" all run
 #   artifacts:
 #     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
 #     paths:
 #      - fw
-# 
+#
 # freertos_pms_fw_io:
 #   extends: .sim-vsim-freertos-tpl
 #   variables: { TOP: "tb_fw" }
@@ -476,12 +496,12 @@ freertos_cluster_idma_basic_8cores:
 #   script:
 #     - source env/env.sh
 #     - cd fw
-#     - $QUESTA make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.5.0-rc1" CFLAGS="-Og -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32 -DFEATURE_CLUSTER=1 -D__PULP__=1 -DDEBUG" ASFLAGS="-Os -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32" MAKE_FLAGS="-DTASKS_PERIOD_MULTIPLIER=5 -UCI_TEST -DMEASURE_ACTIVE=1 -DMEASURE_N_ITERATION=20 -DMEASURE_N_OUTPUTS=64 -DPRINTF_ACTIVE -DPCF_FREERTOS_TICK_RATE_HZ=1000 -DDEFAULT_SYSTEM_CLOCK=100000000u" all run
+#     - $QUESTA make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.6.0" CFLAGS="-Og -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32 -DFEATURE_CLUSTER=1 -D__PULP__=1 -DDEBUG" ASFLAGS="-Os -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32" MAKE_FLAGS="-DTASKS_PERIOD_MULTIPLIER=5 -UCI_TEST -DMEASURE_ACTIVE=1 -DMEASURE_N_ITERATION=20 -DMEASURE_N_OUTPUTS=64 -DPRINTF_ACTIVE -DPCF_FREERTOS_TICK_RATE_HZ=1000 -DDEFAULT_SYSTEM_CLOCK=100000000u" all run
 #   artifacts:
 #     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
 #     paths:
 #      - fw
-# 
+#
 # freertos_pms_fw_io_cluster_sync_offload:
 #   extends: .sim-vsim-freertos-tpl
 #   variables: { TOP: "tb_fw" }
@@ -493,12 +513,12 @@ freertos_cluster_idma_basic_8cores:
 #   script:
 #     - source env/env.sh
 #     - cd fw
-#     - $QUESTA make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.5.0-rc1" CFLAGS="-Og -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32 -DFEATURE_CLUSTER=1 -D__PULP__=1 -DDEBUG" ASFLAGS="-Os -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32" MAKE_FLAGS="-DTASKS_PERIOD_MULTIPLIER=5 -UCI_TEST -DMEASURE_ACTIVE=1 -DMEASURE_N_ITERATION=10 -DMEASURE_N_OUTPUTS=72 -DPRINTF_ACTIVE -DPCF_FREERTOS_TICK_RATE_HZ=1000 -DDEFAULT_SYSTEM_CLOCK=100000000u -DPCF_USE_CLUSTER -DPCF_USE_CLUSTER_PARALL" clean all run gui=1
+#     - $QUESTA make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.6.0" CFLAGS="-Og -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32 -DFEATURE_CLUSTER=1 -D__PULP__=1 -DDEBUG" ASFLAGS="-Os -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32" MAKE_FLAGS="-DTASKS_PERIOD_MULTIPLIER=5 -UCI_TEST -DMEASURE_ACTIVE=1 -DMEASURE_N_ITERATION=10 -DMEASURE_N_OUTPUTS=72 -DPRINTF_ACTIVE -DPCF_FREERTOS_TICK_RATE_HZ=1000 -DDEFAULT_SYSTEM_CLOCK=100000000u -DPCF_USE_CLUSTER -DPCF_USE_CLUSTER_PARALL" clean all run gui=1
 #   artifacts:
 #     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
 #     paths:
 #      - fw
-# 
+#
 # freertos_pms_fw_io_cluster_async_offload:
 #   extends: .sim-vsim-freertos-tpl
 #   variables: { TOP: "tb_fw" }
@@ -510,7 +530,7 @@ freertos_cluster_idma_basic_8cores:
 #   script:
 #     - source env/env.sh
 #     - cd fw
-#     - $QUESTA make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.5.0-rc1" CFLAGS="-Og -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32 -DFEATURE_CLUSTER=1 -D__PULP__=1 -DDEBUG" ASFLAGS="-Os -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32" MAKE_FLAGS="-DTASKS_PERIOD_MULTIPLIER=5 -UCI_TEST -DMEASURE_ACTIVE=1 -DMEASURE_N_ITERATION=10 -DMEASURE_N_OUTPUTS=72 -DPRINTF_ACTIVE -DPCF_FREERTOS_TICK_RATE_HZ=1000 -DDEFAULT_SYSTEM_CLOCK=100000000u -DPCF_USE_CLUSTER -DPCF_USE_CLUSTER_PARALL -DPCF_ASYNC" clean all run gui=1
+#     - $QUESTA make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.6.0" CFLAGS="-Og -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32 -DFEATURE_CLUSTER=1 -D__PULP__=1 -DDEBUG" ASFLAGS="-Os -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32" MAKE_FLAGS="-DTASKS_PERIOD_MULTIPLIER=5 -UCI_TEST -DMEASURE_ACTIVE=1 -DMEASURE_N_ITERATION=10 -DMEASURE_N_OUTPUTS=72 -DPRINTF_ACTIVE -DPCF_FREERTOS_TICK_RATE_HZ=1000 -DDEFAULT_SYSTEM_CLOCK=100000000u -DPCF_USE_CLUSTER -DPCF_USE_CLUSTER_PARALL -DPCF_ASYNC" clean all run gui=1
 #   artifacts:
 #     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
 #     paths:
@@ -549,7 +569,7 @@ freertos_mbox_agent_agent:
   script:
     - source env/env.sh
     - cd sw/tests/control-pulp-tests/clic/clic-mbox-freertos
-    - $QUESTA make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.5.0-rc1" CFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" ASFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" all run
+    - $QUESTA make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.6.0" CFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" ASFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" all run
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     paths:
@@ -562,7 +582,7 @@ freertos_mbox_platform_agent:
   script:
     - source env/env.sh
     - cd sw/tests/control-pulp-tests/clic/clic-mbox-ext-freertos
-    - $QUESTA make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.5.0-rc1" CFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" ASFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" all run
+    - $QUESTA make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.6.0" CFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" ASFLAGS="-Os -g3 -march=rv32imc_zfinx_xcorev -mabi=ilp32 -mno-pulp-hwloop" all run
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     paths:
@@ -643,6 +663,22 @@ axi_slv:
     - source env/env.sh
     - echo "Running axi slave testbench"
     - $QUESTA make test-axislv
+
+rust-tests:
+  extends: .run-rust-test-tpl
+  parallel:
+    matrix:
+      # bare-metal
+      - { TEST: clic-basic                    }
+      - { TEST: timer                         }
+      # rtic
+      - { TEST: rtic-interrupt-latency-mcycle }
+      - { TEST: rtic-interrupt-latency-timer  }
+      - { TEST: rtic-periodic                 }
+      - { TEST: rtic-realistic-workload       }
+      - { TEST: rtic-task-preemption          }
+      - { TEST: rtic-timer                    }
+      - { TEST: rtic-vanilla                  }
 
 fpga_synth_linux_zcu102:
   stage: test
