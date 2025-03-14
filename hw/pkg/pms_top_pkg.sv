@@ -37,6 +37,12 @@ package pms_top_pkg;
   parameter int unsigned CLUST_NB_FPU = 8; // Number of FPUs in the cluster. Default to 8 private per-core FPUs
   parameter int unsigned CLUST_NB_EXT_DIVSQRT = 1; // Number of external DIVSQRT units in the cluster. Default to 1.
 
+  parameter int unsigned NUM_EXT_INTERRUPTS = 222; // Number of external interrupts to the pms. An interrupt is considered
+                                                   // external if the interrupt source is outside the pms, which routes the
+                                                   // generated line(s) only. It equals NUM_INTERRUPTS-32-2, where NUM_INTERRUPTS
+                                                   // defaults to 256. 32 are the default internal CLINT interrupts, while 2
+                                                   // are the manager domain's DMA interrupts.
+
   import control_pulp_pkg::*;
 
   // Export AXI parameters from control_pulp
@@ -58,5 +64,5 @@ package pms_top_pkg;
   export control_pulp_pkg::axi_data_oup_ext_t;
   export control_pulp_pkg::axi_strb_oup_ext_t;
   export control_pulp_pkg::axi_addr_ext_t;
-  
+
 endpackage // pms_top_pkg

@@ -58,6 +58,8 @@ module control_pulp import control_pulp_pkg::*; #(
   parameter int unsigned D2D_NUM_LANES = 0,
   parameter int unsigned D2D_NUM_CREDITS = 0,
 
+  parameter int unsigned NUM_EXT_INTERRUPTS = 222,
+
   // axi req and resp types
 
   // nci_cp_top Master
@@ -114,12 +116,8 @@ module control_pulp import control_pulp_pkg::*; #(
   // wdt
   output logic [1:0]                       wdt_alert_o,
   input  logic                             wdt_alert_clear_i,
-  // interrupts
-  input logic                              scg_irq_i,
-  input logic                              scp_irq_i,
-  input logic                              scp_secure_irq_i,
-  input logic [71:0]                       mbox_irq_i,
-  input logic [71:0]                       mbox_secure_irq_i,
+  // external interrupts
+  input logic [NUM_EXT_INTERRUPTS-1:0]     irq_ext_i,
 
   // inout signals are split into input, output and enables
   // spi/i2c/uart
@@ -730,11 +728,7 @@ module control_pulp import control_pulp_pkg::*; #(
     .wdt_alert_o,
     .wdt_alert_clear_i,
 
-    .scg_irq_i,
-    .scp_irq_i,
-    .scp_secure_irq_i,
-    .mbox_irq_i,
-    .mbox_secure_irq_i,
+    .irq_ext_i,
 
     .gpio_in_i,
     .gpio_out_o,
