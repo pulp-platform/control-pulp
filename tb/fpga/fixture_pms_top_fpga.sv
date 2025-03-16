@@ -624,7 +624,21 @@ module fixture_pms_top_fpga;
     .clk_i    (s_soc_clk),
     .rst_ni   (s_rst_n),
     .axi_req_i(to_ps_req),
-    .axi_rsp_o(to_ps_resp)
+    .axi_rsp_o(to_ps_resp),
+    .mon_w_valid_o ( ),
+    .mon_w_addr_o  ( ),
+    .mon_w_data_o  ( ),
+    .mon_w_id_o    ( ),
+    .mon_w_user_o  ( ),
+    .mon_w_beat_count_o ( ),
+    .mon_w_last_o  ( ),
+    .mon_r_valid_o ( ),
+    .mon_r_addr_o  ( ),
+    .mon_r_data_o  ( ),
+    .mon_r_id_o    ( ),
+    .mon_r_user_o  ( ),
+    .mon_r_beat_count_o ( ),
+    .mon_r_last_o  ( )
   );
 
 

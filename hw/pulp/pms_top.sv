@@ -49,6 +49,8 @@ module pms_top import pms_top_pkg::*; #(
   parameter int unsigned  N_SPI = 8,
   parameter int unsigned  N_UART = 1,
 
+  parameter int unsigned  NUM_EXT_INTERRUPTS = 222,
+
   parameter int unsigned  AXI_DATA_INP_WIDTH_EXT = 64, // External parameter from nci_cp_top
   localparam int unsigned AXI_STRB_INP_WIDTH_EXT = AXI_DATA_INP_WIDTH_EXT/8,
   parameter int unsigned  AXI_DATA_OUP_WIDTH_EXT = 64, // External parameter from nci_cp_top
@@ -198,12 +200,8 @@ module pms_top import pms_top_pkg::*; #(
   // wdt
   output logic [1:0]                        wdt_alert_o,
   input logic                               wdt_alert_clear_i,
-  // interrupts
-  input logic                               scg_irq_i,
-  input logic                               scp_irq_i,
-  input logic                               scp_secure_irq_i,
-  input logic [71:0]                        mbox_irq_i,
-  input logic [71:0]                        mbox_secure_irq_i,
+  // external interrupts
+  input logic [NUM_EXT_INTERRUPTS-1:0]      irq_ext_i,
 
   // Inout signals are split into input, output and enables
 
@@ -1176,6 +1174,8 @@ module pms_top import pms_top_pkg::*; #(
     .D2D_NUM_CHANNELS (D2D_NUM_CHANNELS),
     .D2D_NUM_LANES (D2D_NUM_LANES),
     .D2D_NUM_CREDITS (D2D_NUM_CREDITS),
+    // External interrupts
+    .NUM_EXT_INTERRUPTS(NUM_EXT_INTERRUPTS),
 
      // nci_cp_top Master
     .axi_req_inp_ext_t       (axi_req_inp_ext_t),
@@ -1226,11 +1226,7 @@ module pms_top import pms_top_pkg::*; #(
     .wdt_alert_o,
     .wdt_alert_clear_i,
 
-    .scg_irq_i,
-    .scp_irq_i,
-    .scp_secure_irq_i,
-    .mbox_irq_i,
-    .mbox_secure_irq_i,
+    .irq_ext_i,
 
     .oe_qspi_sdio_o,
     .oe_qspi_csn_o,
