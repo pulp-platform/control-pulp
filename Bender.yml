@@ -131,3 +131,23 @@ sources:
       SPEEDSIM: ~
     files:
       - tb/vip/i2c_eeprom/24FC1025.v
+
+  # tech (gf22)
+  - target: gf22
+    files:
+      - nonfree/synth/gf22/sourcecode/tech_cells_gf22/pulp_power_gating.sv
+      - nonfree/synth/gf22/sourcecode/tech_cells_gf22/cluster_clock_inverter.sv
+      - nonfree/synth/gf22/sourcecode/tech_cells_gf22/cluster_clock_gating.sv
+      - nonfree/synth/gf22/sourcecode/tech_cells_gf22/pulp_clock_delay.sv
+      - nonfree/synth/gf22/sourcecode/tech_cells_gf22/pulp_clock_gating.sv
+      - nonfree/synth/gf22/sourcecode/tech_cells_gf22/pulp_clock_inverter.sv
+      - nonfree/synth/gf22/sourcecode/tech_cells_gf22/pulp_clock_mux2.sv
+      - nonfree/synth/gf22/sourcecode/tech_cells_gf22/pulp_clock_xor2.sv
+      - nonfree/synth/gf22/sourcecode/tech_cells_gf22/pulp_clock_gating_async.sv
+      - nonfree/synth/gf22/sourcecode/tech_mem_gf22/bootrom_macro_wrap.sv
+      - nonfree/synth/gf22/sourcecode/tech_mem_gf22/l2_sram_interleaved_macro_wrap.sv
+      - nonfree/synth/gf22/sourcecode/tech_mem_gf22/l2_sram_private_macro_wrap.sv
+      - nonfree/synth/gf22/sourcecode/tech_mem_gf22/l1_sram_macro_wrap.sv
+      - nonfree/synth/gf22/sourcecode/tech_mem_gf22/icache_data_sram_macro_wrap.sv
+      - nonfree/synth/gf22/sourcecode/tech_mem_gf22/icache_tag_sram_macro_wrap.sv
+      - nonfree/synth/gf22/sourcecode/tech_mem_gf22/mem_wrap.sv

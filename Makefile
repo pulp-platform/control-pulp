@@ -79,7 +79,7 @@ $(export_if_def VERILATOR)
 $(export_if_def QUESTA)
 
 NONFREE_REMOTE = git@iis-git.ee.ethz.ch:pms/control-pulp-nonfree.git
-NONFREE_COMMIT = d7bc211cecc0def0d4348bd063e16cf84ba3582c
+NONFREE_COMMIT = 5a817fb
 
 .PHONY: nonfree-init
 nonfree-init:
@@ -124,6 +124,7 @@ BENDER_SIM_TARGETS += -t test
 BENDER_SIM_TARGETS += -t simulation
 
 BENDER_SYNTH_TARGETS += -t synthesis
+BENDER_SYNTH_TARGETS += -t gf22
 
 BENDER_BASE_TARGETS += -t rtl
 BENDER_BASE_TARGETS += -t pulp
