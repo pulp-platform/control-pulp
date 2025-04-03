@@ -226,6 +226,9 @@ module pad_frame_fpga import control_pulp_pkg::*; (
   input logic [1:0]       out_cpu_socket_id_i,
   input logic [3:0]       out_cpu_strap_i,
 
+  input logic             out_doorbell,
+  input logic             out_completion,
+
 
   // PMB PADS INOUT WIRES
   inout wire              pad_pmb_vr1_pms0_sda,
@@ -318,6 +321,20 @@ module pad_frame_fpga import control_pulp_pkg::*; (
   // UART PADS INOUT WIRES
   inout wire              pad_uart1_pms0_rxd,
   inout wire              pad_uart1_pms0_txd,
+
+  inout wire              pad_bootsel0,
+  inout wire              pad_bootsel1,
+  inout wire              pad_bootsel_valid,
+  inout wire              pad_fc_fetch_en,
+  inout wire              pad_fc_fetch_en_valid,
+
+  inout wire              pad_doorbell_irq,
+  inout wire              pad_completion_irq,
+
+  output logic [1:0]      bootsel_o, 
+  output logic            bootsel_valid_o,
+  output logic            fc_fetch_en_o,
+  output logic            fc_fetch_en_valid_o,
 
   input logic [31:0][5:0] pad_cfg_i
 );
@@ -413,5 +430,17 @@ module pad_frame_fpga import control_pulp_pkg::*; (
   // UART PADS INSTANCES (We actually have only one UART, but the interface name is "uart1" in ATOS)
   pad_functional_pu padinst_uart1_pms0_rxd( .OEN(~oe_uart1_rxd_i ), .I(out_uart1_rxd_i ), .O(in_uart1_rxd_o ), .PAD(pad_uart1_pms0_rxd ), .PEN(1'b0 ));
   pad_functional_pu padinst_uart1_pms0_txd( .OEN(~oe_uart1_txd_i ), .I(out_uart1_txd_i ), .O(in_uart1_txd_o ), .PAD(pad_uart1_pms0_txd ), .PEN(1'b0 ));
+
+
+  // BOOT SELECTION SIGNALS
+  pad_functional_pd padinst_pad_bootsel0          ( .OEN(1'b1), .I(), .O(bootsel_o[0]),         .PAD(pad_bootsel0), .PEN(1'b0 ));
+  pad_functional_pd padinst_pad_bootsel1          ( .OEN(1'b1), .I(), .O(bootsel_o[1]),         .PAD(pad_bootsel1), .PEN(1'b0 ));
+  pad_functional_pd padinst_pad_bootsel_valid     ( .OEN(1'b1), .I(), .O(bootsel_valid_o),      .PAD(pad_bootsel_valid), .PEN(1'b0 ));
+  pad_functional_pd padinst_pad_fc_fetch_en       ( .OEN(1'b1), .I(), .O(fc_fetch_en_o),        .PAD(pad_fc_fetch_en), .PEN(1'b0 ));
+  pad_functional_pd padinst_pad_fc_fetch_en_valid ( .OEN(1'b1), .I(), .O(fc_fetch_en_valid_o),  .PAD(pad_fc_fetch_en_valid), .PEN(1'b0 ));
+
+  // TEST INTERRUPT SIGNALS
+  pad_functional_pd padinst_pad_doorbell_irq       ( .OEN(1'b0), .I(out_doorbell), .O(),        .PAD(pad_doorbell_irq), .PEN(1'b0 ));
+  pad_functional_pd padinst_pad_completion_irq     ( .OEN(1'b0), .I(out_completion), .O(),      .PAD(pad_completion_irq), .PEN(1'b0 ));
 
 endmodule
