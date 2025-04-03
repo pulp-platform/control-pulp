@@ -280,7 +280,7 @@ module control_pulp_fpga import pms_top_pkg::*; #(
 
   // UART PADS INOUT WIRES
   inout wire              pad_uart1_pms0_rxd,
-  inout wire              pad_uart1_pms0_txd
+  inout wire              pad_uart1_pms0_txd,
   
   //BOOT SELECTION INOUT WIRES
   inout wire              pad_bootsel0,
