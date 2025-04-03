@@ -194,6 +194,19 @@ module pms_top_fpga (
   inout wire              pad_uart1_pms0_rxd,
   inout wire              pad_uart1_pms0_txd
 
+  // BOOT SELECTION INOUT WIRES
+  inout wire              pad_bootsel0,
+  inout wire              pad_bootsel1,
+  inout wire              pad_bootsel_valid,
+  inout wire              pad_fc_fetch_en,
+  inout wire              pad_fc_fetch_en_valid,
+
+  // MAILBOX COMPLETION INTERRUPT OUTPUT WIRE
+  output wire             out_completion_irq,
+
+  // TEST INTERRUPT SIGNALS
+  inout wire pad_completion_irq,
+  inout wire pad_doorbell_irq
 );
 
   // SIM_STDOUT default is:
@@ -435,7 +448,15 @@ module pms_top_fpga (
     .pad_pms0_strap_0              ( pad_pms0_strap_0              ),
     .pad_pms0_strap_1              ( pad_pms0_strap_1              ),
     .pad_pms0_strap_2              ( pad_pms0_strap_2              ),
-    .pad_pms0_strap_3              ( pad_pms0_strap_3              )
+    .pad_pms0_strap_3              ( pad_pms0_strap_3              ),
+    .pad_bootsel0                  ( pad_bootsel0                  ),
+    .pad_bootsel1                  ( pad_bootsel1                  ),
+    .pad_bootsel_valid             ( pad_bootsel_valid             ),
+    .pad_fc_fetch_en               ( pad_fc_fetch_en               ),
+    .pad_fc_fetch_en_valid         ( pad_fc_fetch_en_valid         ),
+    .pad_completion_irq            ( pad_completion_irq            ),
+    .pad_doorbell_irq              ( pad_doorbell_irq              ),
+    .out_completion_irq            ( out_completion_irq            )
 );
 
 
