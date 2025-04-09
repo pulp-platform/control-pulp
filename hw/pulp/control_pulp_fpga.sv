@@ -167,10 +167,11 @@ module control_pulp_fpga import pms_top_pkg::*; #(
   input logic                   ref_clk_i,
   input logic                   sys_clk_i,
   input logic                   rst_ni,
-  // input logic                   bootsel_valid_i,
-  // input logic [1:0]             bootsel_i,
-  // input logic                   fc_fetch_en_valid_i,
-  // input logic                   fc_fetch_en_i,
+
+  input logic                   bootsel_valid_i,
+  input logic [1:0]             bootsel_i,
+  input logic                   fc_fetch_en_valid_i,
+  input logic                   fc_fetch_en_i,
 
   // jtag
   output logic                  jtag_tdo_o,

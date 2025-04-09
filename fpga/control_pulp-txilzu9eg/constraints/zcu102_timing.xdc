@@ -1,4 +1,4 @@
-// Timing constraints
+# Timing constraints
 
 # JTAG
 create_clock -period 100.000 -name tck -waveform {0.000 50.000} [get_ports jtag_tck_i_0]
@@ -36,7 +36,9 @@ set_false_path -to [get_pins control_pulp_exilzcu102_i/i_pms_top_fpga/inst/i_con
 
 # CDC FIFOs in UDMA
 set_max_delay 50.000 -through [get_pins control_pulp_exilzcu102_i/i_pms_top_fpga/inst/i_control_pulp_fpga/i_control_pulp/i_soc_domain/pulp_soc_i/soc_peripherals_i/i_udma/i_*/*dc*/i_cdc_fifo/i_*/i_spill_register/spill_register_flushable_i/*reg*/D]
+set_max_delay 50.000 -through [get_pins control_pulp_exilzcu102_i/i_pms_top_fpga/inst/i_control_pulp_fpga/i_control_pulp/i_soc_domain/pulp_soc_i/soc_peripherals_i/i_udma/i_*/*dc*/i_cdc_fifo/i_*/i_spill_register/spill_register_flushable_i/*reg*/C]
 set_max_delay 50.000 -through [get_pins control_pulp_exilzcu102_i/i_pms_top_fpga/inst/i_control_pulp_fpga/i_control_pulp/i_soc_domain/pulp_soc_i/soc_peripherals_i/i_udma/i_*/*dc*/i_cdc_fifo/i_*/*i_sync/*reg*/D]
+set_max_delay 50.000 -through [get_pins control_pulp_exilzcu102_i/i_pms_top_fpga/inst/i_control_pulp_fpga/i_control_pulp/i_soc_domain/pulp_soc_i/soc_peripherals_i/i_udma/i_*/*dc*/i_cdc_fifo/i_*/*reg*/D]
 
 # reset signal
 set_false_path -from [get_pins {control_pulp_exilzcu102_i/i_pms_top_fpga/inst/i_control_pulp_fpga/i_control_pulp/i_cluster_domain/cluster_i/rstgen_i/i_rstgen_bypass/synch_regs_q_reg[*]/C}]
