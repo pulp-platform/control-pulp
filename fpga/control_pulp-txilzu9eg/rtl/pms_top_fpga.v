@@ -192,7 +192,7 @@ module pms_top_fpga (
 
   // UART PADS INOUT WIRES
   inout wire              pad_uart1_pms0_rxd,
-  inout wire              pad_uart1_pms0_txd
+  inout wire              pad_uart1_pms0_txd,
 
   // BOOT SELECTION INOUT WIRES
   inout wire              pad_bootsel0,
