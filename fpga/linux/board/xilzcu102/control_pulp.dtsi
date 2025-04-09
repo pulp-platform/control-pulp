@@ -1,36 +1,48 @@
-/* #include "xilinx/zynqmp-zcu102.dts" */
-
-/ {
-    reserved-memory {
-        #address-cells = <2>;
-        #size-cells = <2>;
-        ranges;
-
-        /* contiguous L3 memory for PULP: last 128MiB of DRAM */
-        pulp_reserved: pulp_l3_mem@78000000 {
-            compatible = "pulp,bigpulp";
-            no-map;
-            reg = <0x0 0x78000000 0x0 0x8000000>;
+/ { //space after / is needed
+    firmware{
+        scmi {
+            compatible ="arm,scmi";
+            mboxes = <&mhu_bdr 0 &mhu_bdr 0>; //l'ultimo valore va bene a 0? negli esempi su bootlin è a 1
+            mbox-names = "tx","rx";
+            shmem = <&scp_scmi_mem>;
+            #address-cells = <1>;
+            #size-cells = <0>; 
         };
     };
 
-    /* Ensure serial terminal is enabled at boot. */
-    chosen {
-        bootargs = "earlycon clk_ignore_unused console=ttyPS0,115200 root=/dev/mmcblk0p2 rw rootwait";
-        stdout-path = "serial0:115200n8";
-    };
-};
+};//root node has to stay here (if amba is included in this node -> syntax error)
 
-&amba {
-    pulp: pulp@a0000000 {
-        memory-region = <&pulp_reserved>;
-        compatible = "pulp,bigpulp";
-        reg = <0x0 0xa0000000 0x0 0x10000000>;
-        iommus = <&smmu 0x280>, <&smmu 0x281>, <&smmu 0x282>; /* FIXME: check this */
-    };
-};
+//AGGIUNGERE CPU come nell'esempio scmi della doc di bootlin
 
-/* FIXME: test why this hangs */
-/*&smmu {
-    status = "okay";
-};*/
+
+&amba{
+    scmi_sram: sram@A6000000{
+        compatible = "mmio-sram";
+        reg = <0x0 0xA6000000 0x0 0xA0>; 
+        #address-cells = <1>;
+        #size-cells = <1>;
+        ranges = <0 0x0 0xA6000000 0xA0>; 
+
+        scp_scmi_mem: scp-shmem@0{ //nell'esempio su bootlin ne crea una LPRI e una HPRI 
+            compatible = "arm,scmi-shmem";
+            reg = <0x0 0xA0>;
+        };
+    }; 
+
+    mhu_bdr: mhu@A60000A0{ 
+        #mbox-cells = <1>;
+        compatible = "arm,mhu", "arm,primecell";
+        clock-names = "clk_apb"; //nel bus.c di amba ora cerca clk_apb al posto di apb_pclk che vorrebbe il driver originale
+        reg = <0x0 0xA60000A0 0x0 0x18>; //mappo 6 registri da 4 byte l'uno (32b)
+        interrupt-parent = <&gic>; // necessario altrimenti si piantano i driver nella ricerca delle porte degli intr
+        interrupts =    <0 89 1>,
+                        <0 91 1>,
+                        <0 92 1>;
+                        //salto 90 che era gia usato
+                        //x = 0 -> Shared Processor Interrupt
+                        //y = interrupt number (84 to 91 shoudl be PL->GIC but 84 is not free)
+                        //z=  1 -> low to high edge triggered 
+        interrupt-names = "mhu_bdr";
+        clocks = <&zynqmp_clk 31>;
+    };
+}; 
