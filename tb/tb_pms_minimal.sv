@@ -474,11 +474,7 @@ module tb_pms_minimal;
     .wdt_alert_o      (),
     .wdt_alert_clear_i('0),
 
-    .scg_irq_i        ('0),
-    .scp_irq_i        ('0),
-    .scp_secure_irq_i ('0),
-    .mbox_irq_i       ('0),
-    .mbox_secure_irq_i('0),
+    .irq_ext_i('0),
 
 
     // Inout signals are split into input, output and enables

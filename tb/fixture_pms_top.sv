@@ -734,9 +734,7 @@ module fixture_pms_top;
   assign                   sclIm            = w_i2c_slv_scl[0];
 
   // Control external interrupts
-  logic scg_irq, scp_irq, scp_secure_irq;
-  logic [71:0] mbox_irq, mbox_secure_irq;
-
+  logic [pms_top_pkg::NUM_EXT_INTERRUPTS-1:0] s_irq_ext;
 
   //
   // Simulation pad-frame
@@ -1212,6 +1210,7 @@ module fixture_pms_top;
     .N_I2C_SLV(pms_top_pkg::N_I2C_SLV),
     .N_SPI(pms_top_pkg::N_SPI),
     .N_UART(pms_top_pkg::N_UART),
+    .NUM_EXT_INTERRUPTS(pms_top_pkg::NUM_EXT_INTERRUPTS),
 
     // D2D link
     .USE_D2D (USE_D2D),
@@ -1358,11 +1357,7 @@ module fixture_pms_top;
     .wdt_alert_o      (),
     .wdt_alert_clear_i(1'b0),
 
-    .scg_irq_i        (scg_irq),
-    .scp_irq_i        (scp_irq),
-    .scp_secure_irq_i (scp_secure_irq),
-    .mbox_irq_i       (mbox_irq),
-    .mbox_secure_irq_i(mbox_secure_irq),
+    .irq_ext_i(s_irq_ext),
 
 
     // Inout signals are split into input, output and enables
@@ -1872,7 +1867,21 @@ module fixture_pms_top;
     .clk_i    (s_soc_clk),
     .rst_ni   (s_rst_n),
     .axi_req_i(to_sim_mem_req),
-    .axi_rsp_o(to_sim_mem_resp)
+    .axi_rsp_o(to_sim_mem_resp),
+    .mon_w_valid_o ( ),
+    .mon_w_addr_o  ( ),
+    .mon_w_data_o  ( ),
+    .mon_w_id_o    ( ),
+    .mon_w_user_o  ( ),
+    .mon_w_beat_count_o ( ),
+    .mon_w_last_o  ( ),
+    .mon_r_valid_o ( ),
+    .mon_r_addr_o  ( ),
+    .mon_r_data_o  ( ),
+    .mon_r_id_o    ( ),
+    .mon_r_user_o  ( ),
+    .mon_r_beat_count_o ( ),
+    .mon_r_last_o  ( )
   );
 
   // AXI mux to allow multiple external AXI drivers towards AXI simulation memory
@@ -1904,71 +1913,20 @@ module fixture_pms_top;
     .mst_resp_i (to_sim_mem_resp)
   );
 
-  // Very basic doorbell modules, one for each interrupt line (external + clint)
-  logic db_trigger_scg = 1'b0;
-  logic db_trigger_scp = 1'b0;
-  logic db_trigger_scp_secure = 1'b0;
-  logic db_scg_irq;
-  logic db_scp_irq;
-  logic db_scp_secure_irq;
-  logic [71:0] db_trigger_mbox = '0;
-  logic [71:0] db_trigger_mbox_secure = '0;
-  logic [71:0] db_mbox_irq;
-  logic [71:0] db_mbox_secure_irq;
-  // logic [31:0] db_trigger_clint;
-  // logic [31:0] db_clint_irq;
-
-  // Wrap trigger signals in one array
-  logic [255:0] db_trigger = {
-    {77{1'b0}},  // 77 (systemverilog has default:0 but that doesn't work reliably)
-    db_trigger_mbox_secure,  // 72
-    db_trigger_mbox,  // 72
-    db_trigger_scp_secure,  // 1
-    db_trigger_scp,  // 1
-    db_trigger_scg  // 1
-  };
+  // Very basic doorbell modules, one for each interrupt line. This is for fast
+  // tracking if we can trigger hardware interrupt lines.
+  logic [pms_top_pkg::NUM_EXT_INTERRUPTS-1:0] db_trigger;
+  logic [pms_top_pkg::NUM_EXT_INTERRUPTS-1:0] db;
 
   // Assign firing interrupt from doorbells to pms_top
-  assign scg_irq         = db_scg_irq;
-  assign scp_irq         = db_scp_irq;
-  assign scp_secure_irq  = db_scp_secure_irq;
-  assign mbox_irq        = db_mbox_irq;
-  assign mbox_secure_irq = db_mbox_secure_irq;
+  assign s_irq_ext = db;
 
-  doorbell i_doorbell_scg (
-    .clk_i       (s_clk_ref),
-    .rst_ni      (s_rst_n),
-    .db_trigger_i(db_trigger[0]),
-    .irq_o       (db_scg_irq)
-  );
-
-  doorbell i_doorbell_scp (
-    .clk_i       (s_clk_ref),
-    .rst_ni      (s_rst_n),
-    .db_trigger_i(db_trigger[1]),
-    .irq_o       (db_scp_irq)
-  );
-
-  doorbell i_doorbell_scp_sec (
-    .clk_i       (s_clk_ref),
-    .rst_ni      (s_rst_n),
-    .db_trigger_i(db_trigger[2]),
-    .irq_o       (db_scp_secure_irq)
-  );
-
-  for (genvar i = 0; i < 72; i++) begin : doorbell_mbox_irq
-    doorbell i_doorbell_mbox (
+  for (genvar i = 0; i < pms_top_pkg::NUM_EXT_INTERRUPTS-1; i++) begin : doorbell_irq
+    doorbell i_doorbell (
       .clk_i       (s_clk_ref),
       .rst_ni      (s_rst_n),
-      .db_trigger_i(db_trigger[i+3]),
-      .irq_o       (db_mbox_irq[i])
-    );
-
-    doorbell i_doorbell_mbox_sec (
-      .clk_i       (s_clk_ref),
-      .rst_ni      (s_rst_n),
-      .db_trigger_i(db_trigger[i+75]),
-      .irq_o       (db_mbox_secure_irq[i])
+      .db_trigger_i(db_trigger[i]),
+      .irq_o       (db[i])
     );
   end
 
@@ -2720,7 +2678,7 @@ module fixture_pms_top;
   // Interrupts control: driver tasks
   //
 
-  task db_trigger_irq(input logic [255:0] mask);
+  task db_trigger_irq(input logic [pms_top_pkg::NUM_EXT_INTERRUPTS-1:0] mask);
     db_trigger &= '0;  // make sure the irq array is zero
     db_trigger |= mask;
   endtask  // ext_irq_trigger
