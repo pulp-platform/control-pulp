@@ -627,6 +627,12 @@ $CPROOT/hw/ips/axi2mem/axi2mem.sv
 $CPROOT/hw/ips/axi_apb_i2c_slave/src/axi_apb_i2c_slave.sv
 $CPROOT/hw/ips/axi_apb_i2c_slave/src/i2cslave.sv
 $CPROOT/hw/ips/axi_apb_i2c_slave/src/i2csend.sv
+$CPROOT/hw/ips/axi_scmi_mailbox/include/typedef.svh
+$CPROOT/hw/ips/axi_scmi_mailbox/include/assign.svh
+$CPROOT/hw/ips/axi_scmi_mailbox/include/axi_typedef.svh
+$CPROOT/hw/ips/axi_scmi_mailbox/include/axi_assign.svh
+$CPROOT/hw/ips/axi_scmi_mailbox/include/prim_subreg.sv
+$CPROOT/hw/ips/axi_scmi_mailbox/include/prim_subreg_arb.sv
 $CPROOT/hw/ips/axi_scmi_mailbox/rtl/scmi_reg_pkg.sv
 $CPROOT/hw/ips/axi_scmi_mailbox/rtl/scmi_reg_top.sv
 $CPROOT/hw/ips/axi_scmi_mailbox/rtl/axi_scmi_mailbox.sv

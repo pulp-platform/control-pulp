@@ -75,8 +75,8 @@ module axi_scmi_mailbox
   scmi_reg_pkg::scmi_reg2hw_t reg2hw;
 
 % for i in range(src):
-  assign irq_doorbell_o[${i}]   = reg2hw.doorbell_c${i}.intr.q;
-  assign irq_completion_o[${i}] = reg2hw.completion_interrupt_c${i}.intr.q;
+  assign irq_doorbell_o[${i}]   = |(reg2hw.doorbell_c${i}.q);
+  assign irq_completion_o[${i}] = |(reg2hw.completion_interrupt_c${i}.q);
 % endfor
 
   scmi_reg_top #(

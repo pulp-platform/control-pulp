@@ -12,3 +12,6 @@ ocd-trace-*
 *.xml
 ips/tech_cells_GF22FDX/*
 .bender
+
+
+fpga/output.tar.gz

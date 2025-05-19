@@ -1,21 +1,3 @@
-# Copyright 2023 ETH Zurich and University of Bologna
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-# SPDX-License-Identifier: Apache-2.0
-
-# Alessandro Ottaviano<aottaviano@iis.ee.ethz.ch>
-
 # Common code
 #------------------------------------
 
@@ -47,6 +29,10 @@ include $(FREERTOS_PROJ_ROOT)/default_flags.mk
 # rtos and pulp sources
 include $(FREERTOS_PROJ_ROOT)/default_srcs.mk
 
+# ARE WE IN DEVELOPMENT ?
+CPPFLAGS += -DDEBUG_ACTIVE
+#####
+
 # FreeRTOS Definitions:
 #CPPFLAGS += -DPCF_FREERTOS_TICK_RATE_HZ=1000
 CPPFLAGS += -DDEFAULT_SYSTEM_CLOCK=20000000u
@@ -61,8 +47,9 @@ CPPFLAGS += -DDEBUG_PRINTF
 CPPFLAGS += -UDUMP_ONLY
 CPPFLAGS += -DHRO_PRINTF
 
+CPPFLAGS += -DALPHA_DEBUG 
 # Uncomment to add debug option
-#CPPFLAGS += -g
+CPPFLAGS += -g
 
 CPPFLAGS += -DINITIAL_WAITING_ITERATIONS=1000
 CPPFLAGS += -DINITIAL_WAITING_OVERFLOWS=4
@@ -89,8 +76,15 @@ CPPFLAGS += -DportasmHANDLE_INTERRUPT=vSystemIrqHandler
 CPPFLAGS += -I../../shared/include
 CPPFLAGS += $(addprefix -I$(USER_DIR)/, ".")
 
+CFLAGS += -Og -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32 -DFEATURE_CLUSTER=1 -D__PULP__=1 -DDEBUG
 #ADV
 SRCS += ./handler.S
 
+ASFLAGS=-Os -g3 -march=rv32imac_zfinx_xcorev -mabi=ilp32
+
 # compile, simulation and analysis targets
 include $(FREERTOS_PROJ_ROOT)/default_targets.mk
+    
+
+	# make RISCV="/usr/pack/riscv-1.0-kgf/pulp-gcc-2.5.0-rc1"
+	#  CFLAGS=""  clean all

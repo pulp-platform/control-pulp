@@ -1,0 +1,2 @@
+#! /bin/sh
+exec '/scratch2/adelvecchio/control-pulp/fpga/linux/buildroot-out/host/bin/bison' -y "$@"

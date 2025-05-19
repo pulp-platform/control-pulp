@@ -1,0 +1,123 @@
+/*
+
+Xilinx Vivado v2019.2.1 (64-bit) [Major: 2019, Minor: 2]
+SW Build: 2729669 on Thu Dec  5 04:48:12 MST 2019
+IP Build: 2729494 on Thu Dec  5 07:38:25 MST 2019
+
+Process ID (PID): 278500
+License: Customer
+
+Current time: 	Sun May 11 14:28:39 CEST 2025
+Time zone: 	Central European Standard Time (Europe/Zurich)
+
+OS: AlmaLinux release 8.9 (Midnight Oncilla)
+OS Version: 4.18.0-513.9.1.el8_9.x86_64
+OS Architecture: amd64
+Available processors (cores): 128
+
+Display: localhost:13.0
+Screen size: 1920x1200
+Screen resolution (DPI): 100
+Available screens: 2
+Available disk space: 25 GB
+Default font: family=Dialog,name=Dialog,style=plain,size=12
+
+Java version: 	9.0.4 64-bit
+Java home: 	/usr/pack/vitis-2019.2-kgf/Vivado/2019.2/tps/lnx64/jre9.0.4
+Java executable location: 	/usr/pack/vitis-2019.2-kgf/Vivado/2019.2/tps/lnx64/jre9.0.4/bin/java
+Java initial memory (-Xms): 	128 MB
+Java maximum memory (-Xmx):	 3 GB
+
+
+User name: 	adelvecchio
+User home directory: /home/adelvecchio
+User working directory: /scratch/adelvecchio/control-pulp-open/fpga
+User country: 	US
+User language: 	en
+User locale: 	en_US
+
+RDI_BASEROOT: /usr/pack/vitis-2019.2-kgf/Vivado
+HDI_APPROOT: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2
+RDI_DATADIR: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2/data
+RDI_BINDIR: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2/bin
+
+Vivado preferences file location: /home/adelvecchio/.Xilinx/Vivado/2019.2/vivado.xml
+Vivado preferences directory: /home/adelvecchio/.Xilinx/Vivado/2019.2/
+Vivado layouts directory: /home/adelvecchio/.Xilinx/Vivado/2019.2/layouts
+PlanAhead jar file location: 	/usr/pack/vitis-2019.2-kgf/Vivado/2019.2/lib/classes/planAhead.jar
+Vivado log file location: 	/scratch/adelvecchio/control-pulp-open/fpga/vivado.log
+Vivado journal file location: 	/scratch/adelvecchio/control-pulp-open/fpga/vivado.jou
+Engine tmp dir: 	./.Xil/Vivado-278500-larain10.ee.ethz.ch
+
+Xilinx Environment Variables
+----------------------------
+PULP_SDK_HOME: /scratch/adelvecchio/control-pulp-open/sw/pulp-runtime
+XILINX: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2/ids_lite/ISE
+XILINX_DSP: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2/ids_lite/ISE
+XILINX_PLANAHEAD: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2
+XILINX_SDK: /usr/pack/vitis-2019.2-kgf/Vitis/2019.2
+XILINX_VITIS: /usr/pack/vitis-2019.2-kgf/Vitis/2019.2
+XILINX_VIVADO: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2
+XILINX_VIVADO_HLS: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2
+
+
+GUI allocated memory:	448 MB
+GUI max memory:		3,072 MB
+Engine allocated memory: 1,586 MB
+
+Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+
+*/
+
+// TclEventType: START_GUI
+// Tcl Message: start_gui 
+// TclEventType: PROJECT_OPEN_DIALOG
+// [GUI Memory]: 114 MB (+117286kb) [00:00:07]
+// [Engine Memory]: 1,545 MB (+1468852kb) [00:00:07]
+// bB (cr):  Open Project : addNotify
+// Opening Vivado Project: control_pulp-txilzu9eg/control_pulp-exilzcu102.xpr. Version: Vivado v2019.2.1 
+// TclEventType: DEBUG_PROBE_SET_CHANGE
+// Tcl Message: open_project control_pulp-txilzu9eg/control_pulp-exilzcu102.xpr 
+// TclEventType: MSGMGR_MOVEMSG
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_DASHBOARD_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// HMemoryUtils.trashcanNow. Engine heap size: 1,329 MB. GUI used memory: 47 MB. Current time: 5/11/25, 2:28:41 PM CEST
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: PROJECT_NEW
+// [GUI Memory]: 130 MB (+10691kb) [00:00:17]
+// [GUI Memory]: 144 MB (+7727kb) [00:00:18]
+// [GUI Memory]: 158 MB (+6575kb) [00:00:18]
+// WARNING: HEventQueue.dispatchEvent() is taking  3711 ms.
+// Tcl Message: open_project control_pulp-txilzu9eg/control_pulp-exilzcu102.xpr 
+// Tcl Message: Scanning sources... Finished scanning sources 
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1700] Loaded user IP repository '/scratch/adelvecchio/control-pulp-open/fpga/control_pulp-txilzu9eg/ips/control_pulp_txilzu9eg/control_pulp_ip'. INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/usr/pack/vitis-2019.2-kgf/Vivado/2019.2/data/ip'. 
+// [Engine Memory]: 1,626 MB (+3957kb) [00:00:19]
+// Tcl Message: open_project: Time (s): cpu = 00:00:26 ; elapsed = 00:00:11 . Memory (MB): peak = 7244.398 ; gain = 211.281 ; free physical = 154031 ; free virtual = 488993 
+// [Engine Memory]: 2,278 MB (+597952kb) [00:00:20]
+// Project name: control_pulp-exilzcu102; location: /scratch/adelvecchio/control-pulp-open/fpga/control_pulp-txilzu9eg; part: xczu9eg-ffvb1156-2-e
+dismissDialog("Open Project"); // bB (cr)
+// [Engine Memory]: 3,117 MB (+760701kb) [00:00:23]
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// Tcl Message: update_compile_order -fileset sources_1 
+// HMemoryUtils.trashcanNow. Engine heap size: 1,642 MB. GUI used memory: 75 MB. Current time: 5/11/25, 2:28:56 PM CEST
+// a (cr): Critical Messages: addNotify

@@ -842,7 +842,7 @@ module fixture_pms_top_fpga;
     $display("[TB] %t - Load binary into L2 via AXI slave port", $realtime);
 
     // Check if stimuli exist
-    load_stim("./vectors/stim.txt", stim_fd);
+    load_stim("/scratch/adelvecchio/control-pulp-open/tb/simvectors/debug/stim.txt", stim_fd);
 
     // Load binary
     while (!$feof(stim_fd)) begin

@@ -63,13 +63,21 @@ cd linux-xlnx
 # write kernel configuration 
 sed -i "s/plnx_kernel.cfg/scmi_plnx_kernel.cfg/" $THIS_DIR/zcu102/project-spec/meta-plnx-generated/recipes-kernel/linux/linux-xlnx_%.bbappend
 
+<<<<<<< Updated upstream
 echo "KERNEL CONF WRITTEN ====================================================================================================================================="
+=======
+echo " ====== KERNEL CONFIG WRITTEN ======"
+>>>>>>> Stashed changes
 
 # add new command and then set it as default (so that if bootcmd is called in boot.scr, it works normally)
 sed -i '/PSSERIAL0 /a\    "run_script_cmd=load mmc 0:1 $loadaddr boot.scr; source $loadaddr\\0" \\' $THIS_DIR/zcu102/project-spec/meta-plnx-generated/recipes-bsp/u-boot/configs/platform-auto.h
 sed -i 's/#define CONFIG_BOOTCOMMAND	"run default_bootcmd"/#define CONFIG_BOOTCOMMAND	"run run_script_cmd"/' $THIS_DIR/zcu102/project-spec/meta-plnx-generated/recipes-bsp/u-boot/configs/platform-auto.h
 
+<<<<<<< Updated upstream
 echo "CONTROL PULP AUTOFLASH COMMAND CREATED =================================================================================================================="
+=======
+echo " ====== CONTROL PULP AUTOFLASH COMMAND CREATED ======"
+>>>>>>> Stashed changes
 
 
 if [[ ! -f "$THIS_DIR/../board/xilzcu102/control_pulp.dtsi" ]]; then
@@ -87,8 +95,12 @@ echo "
 " > project-spec/meta-user/recipes-bsp/device-tree/files/system-user.dtsi
 
 
+<<<<<<< Updated upstream
 echo "DTSI SOURCED =================================================================================================================="
 
+=======
+echo " ====== DTSI SOURCED ====== "
+>>>>>>> Stashed changes
 
 
 # start build
@@ -109,7 +121,11 @@ if [ ! -f regs.init ]; then
   echo ".set. 0xFF41A040 = 0x3;" > regs.init
 fi
 
+<<<<<<< Updated upstream
 echo "PETALINUX BUILD DONE =================================================================================================================="
+=======
+echo " ====== PETALINUX BUILD DONE ====== "
+>>>>>>> Stashed changes
 
 
 # add bitstream from local config

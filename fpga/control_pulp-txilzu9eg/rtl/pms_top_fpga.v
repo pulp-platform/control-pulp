@@ -356,10 +356,10 @@ module pms_top_fpga (
     .ref_clk_i                 ( ref_clk                   ),
     .sys_clk_i                 ( /*sys_clk_i*/             ), // unconnected for FPGA
     .rst_ni                    ( pad_reset                 ), //active_low
-    .bootsel_valid_i           ( 1'b0                      ), //0 -> memory-mapped reg
-    .bootsel_i                 ( 3'b0                      ), //has no effect if bootsel_valid == 0
-    .fc_fetch_en_valid_i       ( 1'b0                      ), //0 -> memory-mapped reg
-    .fc_fetch_en_i             ( 1'b0                      ), //has no effect if fetch_en_valid == 0
+    // .bootsel_valid_i           ( 1'b0                      ), //0 -> memory-mapped reg
+    // .bootsel_i                 ( 3'b0                      ), //has no effect if bootsel_valid == 0
+    // .fc_fetch_en_valid_i       ( 1'b0                      ), //0 -> memory-mapped reg
+    // .fc_fetch_en_i             ( 1'b0                      ), //has no effect if fetch_en_valid == 0
     .jtag_tdo_o                ( jtag_tdo_o                ),
     .jtag_tck_i                ( jtag_tck_i                ),
     .jtag_tdi_i                ( jtag_tdi_i                ),

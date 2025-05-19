@@ -2,18 +2,76 @@
     firmware{
         scmi {
             compatible ="arm,scmi";
+<<<<<<< Updated upstream
             mboxes = <&mhu_bdr 0 &mhu_bdr 0>; //l'ultimo valore va bene a 0? negli esempi su bootlin è a 1
+=======
+            mboxes = <&mhu_bdr 0 &mhu_bdr 0>; 
+>>>>>>> Stashed changes
             mbox-names = "tx","rx";
             shmem = <&scp_scmi_mem>;
             #address-cells = <1>;
             #size-cells = <0>; 
+<<<<<<< Updated upstream
+=======
+
+            
+    		scmi_devpd: protocol@11 {
+		    	reg = <0x11>;
+		    	#power-domain-cells = <1>;
+	    	};
+
+
+            scmi_dvfs: protocol@13 {
+			    reg = <0x13>;
+			    #clock-cells = <1>;
+		    };
+
+            scmi_clk: protocol@14 {
+			    reg = <0x14>;
+			    #clock-cells = <1>;
+	    	};
+
+            // scmi_reset: protocol@16 {
+			//     reg = <0x16>;
+			//     #reset-cells = <1>;
+	    	// };
+            
+            // scmi_volt: protocol@17 {
+			//     reg = <0x17>;
+			//     #clock-cells = <1>;
+	    	// };
+            
+>>>>>>> Stashed changes
         };
     };
 
 };//root node has to stay here (if amba is included in this node -> syntax error)
+<<<<<<< Updated upstream
 
 //AGGIUNGERE CPU come nell'esempio scmi della doc di bootlin
 
+=======
+
+&cpu0 {
+	clocks = <&scmi_clk 0>;
+    power-domains = <&scmi_devpd 0>;
+};
+
+&cpu1 {
+	clocks = <&scmi_clk 0>;
+    power-domains = <&scmi_devpd 0>;
+};
+
+&cpu2 {
+	clocks = <&scmi_clk 0>;
+    power-domains = <&scmi_devpd 0>;
+};
+
+&cpu3 {
+	clocks = <&scmi_clk 0>;
+	power-domains = <&scmi_devpd 0>;
+};
+>>>>>>> Stashed changes
 
 &amba{
     scmi_sram: sram@A6000000{
@@ -23,7 +81,11 @@
         #size-cells = <1>;
         ranges = <0 0x0 0xA6000000 0xA0>; 
 
+<<<<<<< Updated upstream
         scp_scmi_mem: scp-shmem@0{ //nell'esempio su bootlin ne crea una LPRI e una HPRI 
+=======
+        scp_scmi_mem: scp-shmem@0{
+>>>>>>> Stashed changes
             compatible = "arm,scmi-shmem";
             reg = <0x0 0xA0>;
         };
@@ -32,6 +94,7 @@
     mhu_bdr: mhu@A60000A0{ 
         #mbox-cells = <1>;
         compatible = "arm,mhu", "arm,primecell";
+<<<<<<< Updated upstream
         clock-names = "clk_apb"; //nel bus.c di amba ora cerca clk_apb al posto di apb_pclk che vorrebbe il driver originale
         reg = <0x0 0xA60000A0 0x0 0x18>; //mappo 6 registri da 4 byte l'uno (32b)
         interrupt-parent = <&gic>; // necessario altrimenti si piantano i driver nella ricerca delle porte degli intr
@@ -42,6 +105,14 @@
                         //x = 0 -> Shared Processor Interrupt
                         //y = interrupt number (84 to 91 shoudl be PL->GIC but 84 is not free)
                         //z=  1 -> low to high edge triggered 
+=======
+        clock-names = "clk_apb"; 
+        reg = <0x0 0xA60000A0 0x0 0x18>;
+        interrupt-parent = <&gic>; 
+        interrupts =    <0 89 1>,
+                        <0 91 1>,
+                        <0 92 1>;
+>>>>>>> Stashed changes
         interrupt-names = "mhu_bdr";
         clocks = <&zynqmp_clk 31>;
     };

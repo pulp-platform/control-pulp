@@ -1,0 +1,13 @@
+#-----------------------------------------------------------
+# Vivado v2019.2.1 (64-bit)
+# SW Build 2729669 on Thu Dec  5 04:48:12 MST 2019
+# IP Build 2729494 on Thu Dec  5 07:38:25 MST 2019
+# Start of session at: Mon May 12 18:59:12 2025
+# Process ID: 475961
+# Current directory: /scratch/adelvecchio/control-pulp-open
+# Command line: vivado fpga/control_pulp-txilzu9eg/control_pulp-exilzcu102.xpr
+# Log file: /scratch/adelvecchio/control-pulp-open/vivado.log
+# Journal file: /scratch/adelvecchio/control-pulp-open/vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project fpga/control_pulp-txilzu9eg/control_pulp-exilzcu102.xpr

@@ -904,6 +904,9 @@ $ROOT/hw/ips/axi_apb_i2c_slave/src/i2csend.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++incdir+$ROOT/hw/ips/axi/include
+$ROOT/hw/ips/axi_scmi_mailbox/include/prim_subreg.sv
+$ROOT/hw/ips/axi_scmi_mailbox/include/prim_subreg_arb.sv
 $ROOT/hw/ips/axi_scmi_mailbox/rtl/scmi_reg_pkg.sv
 $ROOT/hw/ips/axi_scmi_mailbox/rtl/scmi_reg_top.sv
 $ROOT/hw/ips/axi_scmi_mailbox/rtl/axi_scmi_mailbox.sv

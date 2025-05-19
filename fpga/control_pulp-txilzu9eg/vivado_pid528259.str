@@ -1,0 +1,424 @@
+/*
+
+Xilinx Vivado v2019.2.1 (64-bit) [Major: 2019, Minor: 2]
+SW Build: 2729669 on Thu Dec  5 04:48:12 MST 2019
+IP Build: 2729494 on Thu Dec  5 07:38:25 MST 2019
+
+Process ID (PID): 528259
+License: Customer
+
+Current time: 	Mon May 12 19:11:31 CEST 2025
+Time zone: 	Central European Standard Time (Europe/Zurich)
+
+OS: AlmaLinux release 8.9 (Midnight Oncilla)
+OS Version: 4.18.0-513.9.1.el8_9.x86_64
+OS Architecture: amd64
+Available processors (cores): 128
+
+Display: localhost:17.0
+Screen size: 1536x960
+Screen resolution (DPI): 100
+Available screens: 1
+Available disk space: 25 GB
+Default font: family=Dialog,name=Dialog,style=plain,size=12
+
+Java version: 	9.0.4 64-bit
+Java home: 	/usr/pack/vitis-2019.2-kgf/Vivado/2019.2/tps/lnx64/jre9.0.4
+Java executable location: 	/usr/pack/vitis-2019.2-kgf/Vivado/2019.2/tps/lnx64/jre9.0.4/bin/java
+Java initial memory (-Xms): 	128 MB
+Java maximum memory (-Xmx):	 3 GB
+
+
+User name: 	adelvecchio
+User home directory: /home/adelvecchio
+User working directory: /scratch/adelvecchio/control-pulp-open/fpga/control_pulp-txilzu9eg
+User country: 	US
+User language: 	en
+User locale: 	en_US
+
+RDI_BASEROOT: /usr/pack/vitis-2019.2-kgf/Vivado
+HDI_APPROOT: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2
+RDI_DATADIR: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2/data
+RDI_BINDIR: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2/bin
+
+Vivado preferences file location: /home/adelvecchio/.Xilinx/Vivado/2019.2/vivado.xml
+Vivado preferences directory: /home/adelvecchio/.Xilinx/Vivado/2019.2/
+Vivado layouts directory: /home/adelvecchio/.Xilinx/Vivado/2019.2/layouts
+PlanAhead jar file location: 	/usr/pack/vitis-2019.2-kgf/Vivado/2019.2/lib/classes/planAhead.jar
+Vivado log file location: 	/scratch/adelvecchio/control-pulp-open/fpga/control_pulp-txilzu9eg/vivado.log
+Vivado journal file location: 	/scratch/adelvecchio/control-pulp-open/fpga/control_pulp-txilzu9eg/vivado.jou
+Engine tmp dir: 	./.Xil/Vivado-528259-larain10.ee.ethz.ch
+
+Xilinx Environment Variables
+----------------------------
+XILINX: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2/ids_lite/ISE
+XILINX_DSP: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2/ids_lite/ISE
+XILINX_PLANAHEAD: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2
+XILINX_SDK: /usr/pack/vitis-2019.2-kgf/Vitis/2019.2
+XILINX_VITIS: /usr/pack/vitis-2019.2-kgf/Vitis/2019.2
+XILINX_VIVADO: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2
+XILINX_VIVADO_HLS: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2
+
+
+GUI allocated memory:	197 MB
+GUI max memory:		3,072 MB
+Engine allocated memory: 1,284 MB
+
+Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+
+*/
+
+// TclEventType: START_GUI
+// Tcl Message: start_gui 
+// TclEventType: PROJECT_OPEN_DIALOG
+// [GUI Memory]: 115 MB (+118035kb) [00:00:27]
+// [Engine Memory]: 1,236 MB (+1144875kb) [00:00:27]
+// Opening Vivado Project: control_pulp-exilzcu102.xpr. Version: Vivado v2019.2.1 
+// bB (cr):  Open Project : addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  3665 ms.
+// TclEventType: DEBUG_PROBE_SET_CHANGE
+// HMemoryUtils.trashcanNow. Engine heap size: 1,254 MB. GUI used memory: 47 MB. Current time: 5/12/25, 7:11:32 PM CEST
+// Tcl Message: open_project control_pulp-exilzcu102.xpr 
+// TclEventType: MSGMGR_MOVEMSG
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_DASHBOARD_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: PROJECT_NEW
+// [Engine Memory]: 1,381 MB (+86409kb) [00:00:40]
+// [GUI Memory]: 123 MB (+2846kb) [00:00:41]
+// [GUI Memory]: 132 MB (+2940kb) [00:00:41]
+// WARNING: HEventQueue.dispatchEvent() is taking  2234 ms.
+// Tcl Message: open_project control_pulp-exilzcu102.xpr 
+// Tcl Message: Scanning sources... Finished scanning sources 
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1700] Loaded user IP repository '/scratch/adelvecchio/control-pulp-open/fpga/control_pulp-txilzu9eg/ips/control_pulp_txilzu9eg/control_pulp_ip'. INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/usr/pack/vitis-2019.2-kgf/Vivado/2019.2/data/ip'. 
+// [Engine Memory]: 1,486 MB (+38255kb) [00:00:42]
+// Tcl Message: open_project: Time (s): cpu = 00:00:20 ; elapsed = 00:00:10 . Memory (MB): peak = 7248.570 ; gain = 228.449 ; free physical = 493784 ; free virtual = 1005336 
+// Project name: control_pulp-exilzcu102; location: /scratch/adelvecchio/control-pulp-open/fpga/control_pulp-txilzu9eg; part: xczu9eg-ffvb1156-2-e
+// [Engine Memory]: 1,563 MB (+3149kb) [00:00:43]
+dismissDialog("Open Project"); // bB (cr)
+// Tcl Message: update_compile_order -fileset sources_1 
+// HMemoryUtils.trashcanNow. Engine heap size: 1,637 MB. GUI used memory: 78 MB. Current time: 5/12/25, 7:11:51 PM CEST
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, IP Integrator, Open Block Design]", 7, false); // u (O, cr)
+// Run Command: PAResourceCommand.PACommandNames_OPEN_BLOCK_DESIGN
+// bB (cr):  Open Block Design : addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  2796 ms.
+// TclEventType: LOAD_FEATURE
+// Tcl Message: open_bd_design {/scratch/adelvecchio/control-pulp-open/fpga/control_pulp-txilzu9eg/control_pulp-exilzcu102.srcs/sources_1/bd/control_pulp_exilzcu102/control_pulp_exilzcu102.bd} 
+// TclEventType: RSB_CHANGE_CURRENT_DIAGRAM
+// TclEventType: LOAD_FEATURE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: RSB_OPEN_DIAGRAM
+// Tcl Message: Adding component instance block -- xilinx.com:ip:zynq_ultra_ps_e:3.3 - i_zynq_ps Adding component instance block -- ethz.ch:user:pms_top_fpga:1.0 - i_pms_top_fpga Successfully read diagram <control_pulp_exilzcu102> from BD file </scratch/adelvecchio/control-pulp-open/fpga/control_pulp-txilzu9eg/control_pulp-exilzcu102.srcs/sources_1/bd/control_pulp_exilzcu102/control_pulp_exilzcu102.bd> 
+// TclEventType: RSB_OPEN_DIAGRAM
+// [Engine Memory]: 1,669 MB (+28827kb) [00:00:59]
+// WARNING: HEventQueue.dispatchEvent() is taking  1124 ms.
+// TclEventType: RSB_CONNECTION_CHANGE
+// WARNING: HEventQueue.dispatchEvent() is taking  1822 ms.
+closeView(PAResourceOtoP.PAViews_PROJECT_SUMMARY, "Project Summary"); // v
+// TclEventType: RSB_CONNECTION_CHANGE
+// TclEventType: RSB_LOCK_CHANGE
+// Tcl Message: open_bd_design: Time (s): cpu = 00:00:07 ; elapsed = 00:00:06 . Memory (MB): peak = 7390.047 ; gain = 0.000 ; free physical = 489529 ; free virtual = 1000946 
+// 'bD' command handler elapsed time: 9 seconds
+dismissDialog("Open Block Design"); // bB (cr)
+// Elapsed time: 11 seconds
+collapseTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Implementation, Open Implemented Design]", 18); // u (O, cr)
+expandTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Implementation, Open Implemented Design]", 18); // u (O, cr)
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Implementation, Open Implemented Design, Schematic]", 28, false); // u (O, cr)
+// bJ (cr): Implementation is Out-of-date: addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  2776 ms.
+selectButton(PAResourceQtoS.StaleRunDialog_YES, "Yes"); // a (bJ)
+// bB (cr):  Open Implemented Design : addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  2747 ms.
+dismissDialog("Implementation is Out-of-date"); // bJ (cr)
+// Tcl Message: open_run impl_1 
+// HMemoryUtils.trashcanNow. Engine heap size: 1,944 MB. GUI used memory: 82 MB. Current time: 5/12/25, 7:12:31 PM CEST
+// HMemoryUtils.trashcanNow. Engine heap size: 2,706 MB. GUI used memory: 82 MB. Current time: 5/12/25, 7:13:06 PM CEST
+// HMemoryUtils.trashcanNow. Engine heap size: 2,968 MB. GUI used memory: 82 MB. Current time: 5/12/25, 7:13:21 PM CEST
+// [Engine Memory]: 2,972 MB (+1279136kb) [00:02:22]
+// HMemoryUtils.trashcanNow. Engine heap size: 3,758 MB. GUI used memory: 82 MB. Current time: 5/12/25, 7:13:41 PM CEST
+// TclEventType: SDC_CONSTRAINT_ADD
+// TclEventType: POWER_CNS_STALE
+// TclEventType: POWER_REPORT_STALE
+// TclEventType: SDC_CONSTRAINT_ADD
+// TclEventType: POWER_REPORT_STALE
+// TclEventType: SDC_CONSTRAINT_ADD
+// TclEventType: POWER_REPORT_STALE
+// TclEventType: SDC_CONSTRAINT_ADD
+// WARNING: HEventQueue.dispatchEvent() is taking  3701 ms.
+// HMemoryUtils.trashcanNow. Engine heap size: 4,630 MB. GUI used memory: 84 MB. Current time: 5/12/25, 7:13:57 PM CEST
+// TclEventType: FLOORPLAN_MODIFY
+// TclEventType: DESIGN_NEW
+// HMemoryUtils.trashcanNow. Engine heap size: 4,822 MB. GUI used memory: 84 MB. Current time: 5/12/25, 7:14:22 PM CEST
+// [Engine Memory]: 4,822 MB (+1784033kb) [00:03:22]
+// [GUI Memory]: 142 MB (+3229kb) [00:03:22]
+// TclEventType: DESIGN_NEW
+// Xgd.load filename: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2/data/parts/xilinx/zynquplus/devint/zynquplus/xczu9eg/xczu9eg.xgd; ZipEntry: xczu9eg_detail.xgd elapsed time: 1.1s
+// [GUI Memory]: 165 MB (+16792kb) [00:03:24]
+// [GUI Memory]: 193 MB (+20626kb) [00:03:24]
+// Device: addNotify
+// DeviceView Instantiated
+// [GUI Memory]: 204 MB (+688kb) [00:03:25]
+// WARNING: HEventQueue.dispatchEvent() is taking  2173 ms.
+// TclEventType: CURR_DESIGN_SET
+// Tcl Message: INFO: [Device 21-403] Loading part xczu9eg-ffvb1156-2-e 
+// Tcl Message: Netlist sorting complete. Time (s): cpu = 00:00:04 ; elapsed = 00:00:03 . Memory (MB): peak = 8662.430 ; gain = 15.000 ; free physical = 473917 ; free virtual = 985634 
+// Tcl Message: INFO: [Netlist 29-17] Analyzing 16865 Unisim elements for replacement INFO: [Netlist 29-28] Unisim Transformation completed in 1 CPU seconds INFO: [Project 1-479] Netlist was created with Vivado 2019.2.1 INFO: [Project 1-570] Preparing netlist for logic optimization 
+// Tcl Message: INFO: [Timing 38-478] Restoring timing data from binary archive. INFO: [Timing 38-479] Binary timing data restore complete. INFO: [Project 1-856] Restoring constraints from binary archive. INFO: [Project 1-853] Binary constraint restore complete. 
+// Tcl Message: Reading XDEF placement. Reading placer database... Reading XDEF routing. 
+// Tcl Message: Read XDEF File: Time (s): cpu = 00:00:17 ; elapsed = 00:00:17 . Memory (MB): peak = 10501.070 ; gain = 480.730 ; free physical = 480303 ; free virtual = 992142 
+// Tcl Message: Restored from archive | CPU: 18.240000 secs | Memory: 379.559494 MB | 
+// Tcl Message: Finished XDEF File Restore: Time (s): cpu = 00:00:18 ; elapsed = 00:00:17 . Memory (MB): peak = 10501.070 ; gain = 480.730 ; free physical = 480788 ; free virtual = 992627 Netlist sorting complete. Time (s): cpu = 00:00:00.06 ; elapsed = 00:00:00.06 . Memory (MB): peak = 10501.070 ; gain = 0.000 ; free physical = 468791 ; free virtual = 980630 
+// Tcl Message: INFO: [Project 1-111] Unisim Transformation Summary:   A total of 183 instances were transformed.   DSP48E2 => DSP48E2 (DSP_ALU, DSP_A_B_DATA, DSP_C_DATA, DSP_MULTIPLIER, DSP_M_DATA, DSP_OUTPUT, DSP_PREADD, DSP_PREADD_DATA): 93 instances   IBUF => IBUF (IBUFCTRL, INBUF): 5 instances   IOBUF => IOBUF (IBUFCTRL, INBUF, OBUFT): 85 instances  
+// Tcl Message: open_run: Time (s): cpu = 00:01:54 ; elapsed = 00:02:02 . Memory (MB): peak = 10581.980 ; gain = 3177.340 ; free physical = 467481 ; free virtual = 979323 
+// ExpRunCommands.openImplResults elapsed time: 125.6s
+// TclEventType: DRC_ADDED
+// Device view-level: 0.0
+// [Engine Memory]: 5,206 MB (+149441kb) [00:03:27]
+// WARNING: HEventQueue.dispatchEvent() is taking  1178 ms.
+// TclEventType: DRC_ADDED
+// TclEventType: METHODOLOGY_ADDED
+// [Engine Memory]: 5,502 MB (+37604kb) [00:03:29]
+// [GUI Memory]: 215 MB (+1186kb) [00:03:29]
+// TclEventType: POWER_UPDATED
+// [Engine Memory]: 6,175 MB (+416507kb) [00:03:32]
+// [GUI Memory]: 227 MB (+1206kb) [00:03:35]
+// [GUI Memory]: 240 MB (+2162kb) [00:03:37]
+// [Engine Memory]: 6,484 MB (+197kb) [00:03:37]
+// [Engine Memory]: 6,838 MB (+31398kb) [00:03:37]
+// [GUI Memory]: 253 MB (+329kb) [00:03:37]
+// [Engine Memory]: 7,257 MB (+81238kb) [00:03:39]
+// WARNING: HEventQueue.dispatchEvent() is taking  7716 ms.
+// TclEventType: TIMING_SUMMARY_UPDATED
+// HMemoryUtils.trashcanNow. Engine heap size: 6,008 MB. GUI used memory: 189 MB. Current time: 5/12/25, 7:14:40 PM CEST
+// TclEventType: TIMING_SUMMARY_UPDATED
+// OpenDesignTask elapsed time: 140s
+// Run Command: PAResourceCommand.PACommandNames_SCHEMATIC
+// Schematic: addNotify
+// Elapsed time: 138 seconds
+dismissDialog("Open Implemented Design"); // bB (cr)
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Implementation, Open Implemented Design, Schematic]", 29, false); // u (O, cr)
+// Run Command: PAResourceCommand.PACommandNames_SCHEMATIC
+// Schematic: addNotify
+closeView(PAResourceOtoP.PAViews_SCHEMATIC, "Schematic"); // f
+// [Engine Memory]: 7,632 MB (+12072kb) [00:03:49]
+// TclEventType: HFED_INIT_ROUTE_STORAGE_COMPLETED
+// RouteApi::loadEngineXgd elapsed time: 27.3s
+// HMemoryUtils.trashcanNow. Engine heap size: 7,601 MB. GUI used memory: 195 MB. Current time: 5/12/25, 7:15:01 PM CEST
+// u (cr):  Generate Schematic : addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  4189 ms.
+// Elapsed time: 21 seconds
+dismissDialog("Generate Schematic"); // u (cr)
+selectButton(PAResourceCommand.PACommandNames_ZOOM_FIT, "Schematic_zoom_fit"); // E (f, cr)
+// Run Command: PAResourceCommand.PACommandNames_ZOOM_FIT
+// RouteApi::initDelayMediator elapsed time: 44.3s
+// RouteApi: Init Delay Mediator Swing Worker Finished
+// u (cr):  Generate Schematic : addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  3831 ms.
+dismissDialog("Generate Schematic"); // u (cr)
+// WARNING: HEventQueue.dispatchEvent() is taking  2589 ms.
+expandTree(PAResourceItoN.NetlistTreeView_NETLIST_TREE, "[control_pulp_exilzcu102_wrapper, control_pulp_exilzcu102_i (control_pulp_exilzcu102)]", 3); // bD (O, cr)
+expandTree(PAResourceItoN.NetlistTreeView_NETLIST_TREE, "[control_pulp_exilzcu102_wrapper, control_pulp_exilzcu102_i (control_pulp_exilzcu102)]", 3); // bD (O, cr)
+expandTree(PAResourceItoN.NetlistTreeView_NETLIST_TREE, "[control_pulp_exilzcu102_wrapper, control_pulp_exilzcu102_i (control_pulp_exilzcu102), i_zynq_ps (control_pulp_exilzcu102_i_zynq_ps_0)]", 6); // bD (O, cr)
+expandTree(PAResourceItoN.NetlistTreeView_NETLIST_TREE, "[control_pulp_exilzcu102_wrapper, control_pulp_exilzcu102_i (control_pulp_exilzcu102), i_zynq_ps (control_pulp_exilzcu102_i_zynq_ps_0), inst (control_pulp_exilzcu102_i_zynq_ps_0_zynq_ultra_ps_e_v3_3_1_zynq_ultra_ps_e)]", 9); // bD (O, cr)
+// [GUI Memory]: 270 MB (+4765kb) [00:04:28]
+expandTree(PAResourceItoN.NetlistTreeView_NETLIST_TREE, "[control_pulp_exilzcu102_wrapper, control_pulp_exilzcu102_i (control_pulp_exilzcu102), i_pms_top_fpga (control_pulp_exilzcu102_pms_top_fpga_0_0)]", 5); // bD (O, cr)
+expandTree(PAResourceItoN.NetlistTreeView_NETLIST_TREE, "[control_pulp_exilzcu102_wrapper, control_pulp_exilzcu102_i (control_pulp_exilzcu102), i_pms_top_fpga (control_pulp_exilzcu102_pms_top_fpga_0_0), inst (control_pulp_exilzcu102_pms_top_fpga_0_0_pms_top_fpga)]", 7); // bD (O, cr)
+expandTree(PAResourceItoN.NetlistTreeView_NETLIST_TREE, "[control_pulp_exilzcu102_wrapper, control_pulp_exilzcu102_i (control_pulp_exilzcu102), i_pms_top_fpga (control_pulp_exilzcu102_pms_top_fpga_0_0), inst (control_pulp_exilzcu102_pms_top_fpga_0_0_pms_top_fpga), i_control_pulp_fpga (control_pulp_exilzcu102_pms_top_fpga_0_0_control_pulp_fpga)]", 10); // bD (O, cr)
+// PAPropertyPanels.initPanels (i_pad_frame (control_pulp_exilzcu102_pms_top_fpga_0_0_pad_frame_fpga)) elapsed time: 0.2s
+selectTree(PAResourceItoN.NetlistTreeView_NETLIST_TREE, "[control_pulp_exilzcu102_wrapper, control_pulp_exilzcu102_i (control_pulp_exilzcu102), i_pms_top_fpga (control_pulp_exilzcu102_pms_top_fpga_0_0), inst (control_pulp_exilzcu102_pms_top_fpga_0_0_pms_top_fpga), i_control_pulp_fpga (control_pulp_exilzcu102_pms_top_fpga_0_0_control_pulp_fpga), i_pad_frame (control_pulp_exilzcu102_pms_top_fpga_0_0_pad_frame_fpga)]", 16, false); // bD (O, cr)
+selectTree(PAResourceItoN.NetlistTreeView_NETLIST_TREE, "[control_pulp_exilzcu102_wrapper, control_pulp_exilzcu102_i (control_pulp_exilzcu102), i_pms_top_fpga (control_pulp_exilzcu102_pms_top_fpga_0_0), inst (control_pulp_exilzcu102_pms_top_fpga_0_0_pms_top_fpga), i_control_pulp_fpga (control_pulp_exilzcu102_pms_top_fpga_0_0_control_pulp_fpga), i_pad_frame (control_pulp_exilzcu102_pms_top_fpga_0_0_pad_frame_fpga)]", 16, false); // bD (O, cr)
+selectTree(PAResourceItoN.NetlistTreeView_NETLIST_TREE, "[control_pulp_exilzcu102_wrapper, control_pulp_exilzcu102_i (control_pulp_exilzcu102), i_pms_top_fpga (control_pulp_exilzcu102_pms_top_fpga_0_0), inst (control_pulp_exilzcu102_pms_top_fpga_0_0_pms_top_fpga), i_control_pulp_fpga (control_pulp_exilzcu102_pms_top_fpga_0_0_control_pulp_fpga), i_pad_frame (control_pulp_exilzcu102_pms_top_fpga_0_0_pad_frame_fpga)]", 16, true, false, false, false, false, true); // bD (O, cr) - Double Click - Node
+// Elapsed time: 20 seconds
+selectTree(PAResourceItoN.NetlistTreeView_NETLIST_TREE, "[control_pulp_exilzcu102_wrapper, control_pulp_exilzcu102_i (control_pulp_exilzcu102), i_pms_top_fpga (control_pulp_exilzcu102_pms_top_fpga_0_0), inst (control_pulp_exilzcu102_pms_top_fpga_0_0_pms_top_fpga), i_control_pulp_fpga (control_pulp_exilzcu102_pms_top_fpga_0_0_control_pulp_fpga), i_pad_frame (control_pulp_exilzcu102_pms_top_fpga_0_0_pad_frame_fpga), padinst_pad_completion_irq (control_pulp_exilzcu102_pms_top_fpga_0_0_pad_functional_pd_39)]", 37, false); // bD (O, cr)
+selectTree(PAResourceItoN.NetlistTreeView_NETLIST_TREE, "[control_pulp_exilzcu102_wrapper, control_pulp_exilzcu102_i (control_pulp_exilzcu102), i_pms_top_fpga (control_pulp_exilzcu102_pms_top_fpga_0_0), inst (control_pulp_exilzcu102_pms_top_fpga_0_0_pms_top_fpga), i_control_pulp_fpga (control_pulp_exilzcu102_pms_top_fpga_0_0_control_pulp_fpga), i_pad_frame (control_pulp_exilzcu102_pms_top_fpga_0_0_pad_frame_fpga), padinst_pad_completion_irq (control_pulp_exilzcu102_pms_top_fpga_0_0_pad_functional_pd_39)]", 37, true, false, false, false, false, true); // bD (O, cr) - Double Click - Node
+expandTree(PAResourceItoN.NetlistTreeView_NETLIST_TREE, "[control_pulp_exilzcu102_wrapper, control_pulp_exilzcu102_i (control_pulp_exilzcu102), i_pms_top_fpga (control_pulp_exilzcu102_pms_top_fpga_0_0), inst (control_pulp_exilzcu102_pms_top_fpga_0_0_pms_top_fpga), i_control_pulp_fpga (control_pulp_exilzcu102_pms_top_fpga_0_0_control_pulp_fpga), i_pad_frame (control_pulp_exilzcu102_pms_top_fpga_0_0_pad_frame_fpga), padinst_pad_completion_irq (control_pulp_exilzcu102_pms_top_fpga_0_0_pad_functional_pd_39), Leaf Cells (2)]", 39); // bD (O, cr)
+selectTree(PAResourceItoN.NetlistTreeView_NETLIST_TREE, "[control_pulp_exilzcu102_wrapper, control_pulp_exilzcu102_i (control_pulp_exilzcu102), i_pms_top_fpga (control_pulp_exilzcu102_pms_top_fpga_0_0), inst (control_pulp_exilzcu102_pms_top_fpga_0_0_pms_top_fpga), i_control_pulp_fpga (control_pulp_exilzcu102_pms_top_fpga_0_0_control_pulp_fpga), i_pad_frame (control_pulp_exilzcu102_pms_top_fpga_0_0_pad_frame_fpga), padinst_pad_completion_irq (control_pulp_exilzcu102_pms_top_fpga_0_0_pad_functional_pd_39)]", 37, true, false, false, false, true, false); // bD (O, cr) - Popup Trigger - Node
+selectMenu(PAResourceItoN.InstanceMenu_FLOORPLANNING, "Floorplanning"); // af (ao, cr)
+selectMenu(PAResourceOtoP.PrimitivesMenu_HIGHLIGHT_LEAF_CELLS, "Highlight Leaf Cells"); // af (ao, cr)
+selectMenu(PAResourceQtoS.SelectMenu_HIGHLIGHT, "Highlight"); // af (ao, cr)
+selectMenu(PAResourceQtoS.SelectMenu_MARK, "Mark"); // af (ao, cr)
+selectMenuItem(PAResourceCommand.PACommandNames_SCHEMATIC, "Schematic"); // ai (ao, cr)
+// Run Command: PAResourceCommand.PACommandNames_SCHEMATIC
+// Schematic: addNotify
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// WARNING: HEventQueue.dispatchEvent() is taking  12439 ms.
+// Thread: SyntheticaAnimation 25
+// 	at java.base@9.0.4/java.lang.Thread.sleep(Native Method)
+// 	at de.javasoft.plaf.synthetica.painter.AnimationThreadFactory$AnimationThread.run(AnimationThreadFactory.java:119)
+// Thread: SyntheticaCleanerThread
+// 	at java.base@9.0.4/java.lang.Thread.sleep(Native Method)
+// 	at de.javasoft.plaf.synthetica.StyleFactory$ComponentPropertyStore$1.run(StyleFactory.java:1885)
+// Thread: Thread-1
+// Thread: AWT-XAWT
+// 	at java.base@9.0.4/jdk.internal.misc.Unsafe.park(Native Method)
+// 	at java.base@9.0.4/java.util.concurrent.locks.LockSupport.park(Unknown Source)
+// 	at java.base@9.0.4/java.util.concurrent.locks.AbstractQueuedSynchronizer.parkAndCheckInterrupt(Unknown Source)
+// 	at java.base@9.0.4/java.util.concurrent.locks.AbstractQueuedSynchronizer.acquireQueued(Unknown Source)
+// 	at java.base@9.0.4/java.util.concurrent.locks.AbstractQueuedSynchronizer.acquire(Unknown Source)
+// 	at java.base@9.0.4/java.util.concurrent.locks.ReentrantLock.lock(Unknown Source)
+// 	at java.desktop@9.0.4/sun.awt.SunToolkit.awtLock(Unknown Source)
+// 	at java.desktop@9.0.4/sun.awt.X11.XToolkit.waitForEvents(Native Method)
+// 	at java.desktop@9.0.4/sun.awt.X11.XToolkit.run(Unknown Source)
+// 	at java.desktop@9.0.4/sun.awt.X11.XToolkit.run(Unknown Source)
+// 	at java.base@9.0.4/java.lang.Thread.run(Unknown Source)
+// Thread: Finalizer
+// 	at java.base@9.0.4/java.lang.Object.wait(Native Method)
+// 	at java.base@9.0.4/java.lang.ref.ReferenceQueue.remove(Unknown Source)
+// 	at java.base@9.0.4/java.lang.ref.ReferenceQueue.remove(Unknown Source)
+// 	at java.base@9.0.4/java.lang.ref.Finalizer$FinalizerThread.run(Unknown Source)
+// Thread: AWT-EventQueue-1
+// 	at java.desktop@9.0.4/sun.awt.X11.XRobotPeer.getRGBPixelsImpl(Native Method)
+// 	at java.desktop@9.0.4/sun.awt.X11.XRobotPeer.getRGBPixels(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.Robot.createCompatibleImage(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.Robot.createScreenCapture(Unknown Source)
+// 	at com.jidesoft.alert.a.<init>(Unknown Source)
+// 	at com.jidesoft.alert.Alert.a(Unknown Source)
+// 	at com.jidesoft.alert.Alert.internalShowPopup(Unknown Source)
+// 	at com.jidesoft.popup.JidePopup.showPopup(Unknown Source)
+// 	at com.jidesoft.popup.JidePopup.showPopup(Unknown Source)
+// 	at ui.utils.k.g.a.showPopup(SourceFile:122)
+// 	at ui.project.n.actionPerformed(SourceFile:426)
+// 	at java.desktop@9.0.4/javax.swing.Timer.fireActionPerformed(Unknown Source)
+// 	at ui.utils.D.fireActionPerformed(SourceFile:124)
+// 	at java.desktop@9.0.4/javax.swing.Timer$DoPostEvent.run(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.event.InvocationEvent.dispatch(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventQueue.dispatchEventImpl(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventQueue.access$500(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventQueue$3.run(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventQueue$3.run(Unknown Source)
+// 	at java.base@9.0.4/java.security.AccessController.doPrivileged(Native Method)
+// 	at java.base@9.0.4/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventQueue.dispatchEvent(Unknown Source)
+// 	at ui.frmwork.b.d.dispatchEvent(SourceFile:88)
+// 	at java.desktop@9.0.4/java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventDispatchThread.run(Unknown Source)
+// Thread: hw_ila_monitor
+// 	at java.base@9.0.4/java.lang.Object.wait(Native Method)
+// 	at java.base@9.0.4/java.lang.Object.wait(Unknown Source)
+// 	at java.base@9.0.4/java.util.TimerThread.mainLoop(Unknown Source)
+// 	at java.base@9.0.4/java.util.TimerThread.run(Unknown Source)
+// Thread: SyntheticaAnimation 50
+// 	at java.base@9.0.4/java.lang.Thread.sleep(Native Method)
+// 	at de.javasoft.plaf.synthetica.painter.AnimationThreadFactory$AnimationThread.run(AnimationThreadFactory.java:119)
+// Thread: SyntheticaAnimation 50
+// 	at java.base@9.0.4/java.lang.Thread.sleep(Native Method)
+// 	at ui.utils.lnf.b.run(SourceFile:100)
+// Thread: AWT-Shutdown
+// 	at java.base@9.0.4/java.lang.Object.wait(Native Method)
+// 	at java.base@9.0.4/java.lang.Object.wait(Unknown Source)
+// 	at java.desktop@9.0.4/sun.awt.AWTAutoShutdown.run(Unknown Source)
+// 	at java.base@9.0.4/java.lang.Thread.run(Unknown Source)
+// Thread: Image Animator 0
+// 	at java.base@9.0.4/java.lang.Thread.sleep(Native Method)
+// 	at java.desktop@9.0.4/sun.awt.image.GifFrame.dispose(Unknown Source)
+// 	at java.desktop@9.0.4/sun.awt.image.GifImageDecoder.readImage(Unknown Source)
+// 	at java.desktop@9.0.4/sun.awt.image.GifImageDecoder.produceImage(Unknown Source)
+// 	at java.desktop@9.0.4/sun.awt.image.InputStreamImageSource.doFetch(Unknown Source)
+// 	at java.desktop@9.0.4/sun.awt.image.ImageFetcher.fetchloop(Unknown Source)
+// 	at java.desktop@9.0.4/sun.awt.image.ImageFetcher.run(Unknown Source)
+// Thread: Attach Listener
+// Thread: main
+// 	at java.base@9.0.4/java.lang.Thread.sleep(Native Method)
+// 	at ui.PlanAhead.c(SourceFile:1058)
+// 	at ui.PlanAhead.jswMain(SourceFile:1101)
+// Thread: Batik CleanerThread
+// 	at java.base@9.0.4/java.lang.Object.wait(Native Method)
+// 	at java.base@9.0.4/java.lang.ref.ReferenceQueue.remove(Unknown Source)
+// 	at java.base@9.0.4/java.lang.ref.ReferenceQueue.remove(Unknown Source)
+// 	at org.apache.batik.util.CleanerThread.run(CleanerThread.java:106)
+// Thread: Common-Cleaner
+// 	at java.base@9.0.4/java.lang.Object.wait(Native Method)
+// 	at java.base@9.0.4/java.lang.ref.ReferenceQueue.remove(Unknown Source)
+// 	at java.base@9.0.4/jdk.internal.ref.CleanerImpl.run(Unknown Source)
+// 	at java.base@9.0.4/java.lang.Thread.run(Unknown Source)
+// 	at java.base@9.0.4/jdk.internal.misc.InnocuousThread.run(Unknown Source)
+// Thread: Process Messages Thread
+// 	at java.base@9.0.4/java.lang.Thread.sleep(Native Method)
+// 	at ui.frmwork.d.h.construct(SourceFile:133)
+// 	at ui.frmwork.A.run(SourceFile:199)
+// 	at java.base@9.0.4/java.lang.Thread.run(Unknown Source)
+// Thread: Reference Handler
+// 	at java.base@9.0.4/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+// 	at java.base@9.0.4/java.lang.ref.Reference.processPendingReferences(Unknown Source)
+// 	at java.base@9.0.4/java.lang.ref.Reference.access$000(Unknown Source)
+// 	at java.base@9.0.4/java.lang.ref.Reference$ReferenceHandler.run(Unknown Source)
+// Thread: Update Runs Swing Worker Thread
+// 	at java.base@9.0.4/java.lang.Thread.sleep(Native Method)
+// 	at ui.data.experiment.F.construct(SourceFile:317)
+// 	at ui.frmwork.A.run(SourceFile:199)
+// 	at java.base@9.0.4/java.lang.Thread.run(Unknown Source)
+// Thread: Monitor HEventQueue Thread
+// 	at java.base@9.0.4/java.lang.Thread.dumpThreads(Native Method)
+// 	at java.base@9.0.4/java.lang.Thread.getAllStackTraces(Unknown Source)
+// 	at ui.utils.d.c.eVM(SourceFile:486)
+// 	at ui.frmwork.b.e.construct(SourceFile:140)
+// 	at ui.frmwork.A.run(SourceFile:199)
+// 	at java.base@9.0.4/java.lang.Thread.run(Unknown Source)
+// Thread: SyntheticaAnimation 70
+// 	at java.base@9.0.4/java.lang.Thread.sleep(Native Method)
+// 	at de.javasoft.plaf.synthetica.painter.AnimationThreadFactory$AnimationThread.run(AnimationThreadFactory.java:119)
+// Thread: TimerQueue
+// 	at java.base@9.0.4/jdk.internal.misc.Unsafe.park(Native Method)
+// 	at java.base@9.0.4/java.util.concurrent.locks.LockSupport.parkNanos(Unknown Source)
+// 	at java.base@9.0.4/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(Unknown Source)
+// 	at java.base@9.0.4/java.util.concurrent.DelayQueue.take(Unknown Source)
+// 	at java.desktop@9.0.4/javax.swing.TimerQueue.run(Unknown Source)
+// 	at java.base@9.0.4/java.lang.Thread.run(Unknown Source)
+// Thread: Refresh Filesets Swing Worker Thread
+// 	at java.base@9.0.4/java.lang.Thread.sleep(Native Method)
+// 	at ui.data.design.y.construct(SourceFile:2503)
+// 	at ui.frmwork.A.run(SourceFile:199)
+// 	at java.base@9.0.4/java.lang.Thread.run(Unknown Source)
+// Thread: Java2D Disposer
+// 	at java.base@9.0.4/java.lang.Object.wait(Native Method)
+// 	at java.base@9.0.4/java.lang.ref.ReferenceQueue.remove(Unknown Source)
+// 	at java.base@9.0.4/java.lang.ref.ReferenceQueue.remove(Unknown Source)
+// 	at java.desktop@9.0.4/sun.java2d.Disposer.run(Unknown Source)
+// 	at java.base@9.0.4/java.lang.Thread.run(Unknown Source)
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// WARNING: HEventQueue.dispatchEvent() is taking  12424 ms.
+// HMemoryUtils.trashcanNow. Engine heap size: 7,884 MB. GUI used memory: 220 MB. Current time: 5/12/25, 7:45:04 PM CEST
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// aj (cr): Synthesis Completed: addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  3515 ms.
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// TclEventType: FILE_SET_CHANGE

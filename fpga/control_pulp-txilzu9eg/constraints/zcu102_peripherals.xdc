@@ -178,7 +178,11 @@ set_property -dict {PACKAGE_PIN A22 IOSTANDARD LVCMOS33} [get_ports jtag_tdo_o_0
 set_property -dict {PACKAGE_PIN A21 IOSTANDARD LVCMOS33} [get_ports jtag_tck_i_0]
 set_property -dict {PACKAGE_PIN B21 IOSTANDARD LVCMOS33} [get_ports jtag_trst_ni_0]
 
+<<<<<<< Updated upstream
 ## BOOTMODE SELECTION FROM SW13 ON ZCU102
+=======
+# BOOTMODE SELECTION FROM SW13 ON ZCU102
+>>>>>>> Stashed changes
 set_property -dict {PACKAGE_PIN AK13 IOSTANDARD LVCMOS33} [get_ports pad_bootsel0]
 set_property -dict {PACKAGE_PIN AL13 IOSTANDARD LVCMOS33} [get_ports pad_bootsel1]
 set_property -dict {PACKAGE_PIN AP12 IOSTANDARD LVCMOS33} [get_ports pad_bootsel_valid]
@@ -187,5 +191,9 @@ set_property -dict {PACKAGE_PIN AN13 IOSTANDARD LVCMOS33} [get_ports pad_fc_fetc
 
 # MAILBOX TEST INTERRUPT SIGNALS ON PMOD 1
 set_property -dict {PACKAGE_PIN D20 IOSTANDARD LVCMOS33} [get_ports pad_doorbell_irq]
+<<<<<<< Updated upstream
 set_property -dict {PACKAGE_PIN E20 IOSTANDARD LVCMOS33} [get_ports pad_completion_irq]
 
+=======
+set_property -dict {PACKAGE_PIN E20 IOSTANDARD LVCMOS33} [get_ports pad_completion_irq]
+>>>>>>> Stashed changes

@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# Vivado v2019.2.1 (64-bit)
+# SW Build 2729669 on Thu Dec  5 04:48:12 MST 2019
+# IP Build 2729494 on Thu Dec  5 07:38:25 MST 2019
+# Start of session at: Mon May 12 18:59:12 2025
+# Process ID: 475961
+# Current directory: /scratch/adelvecchio/control-pulp-open
+# Command line: vivado fpga/control_pulp-txilzu9eg/control_pulp-exilzcu102.xpr
+# Log file: /scratch/adelvecchio/control-pulp-open/vivado.log
+# Journal file: /scratch/adelvecchio/control-pulp-open/vivado.jou
+#-----------------------------------------------------------
+start_gui
+xterm: Xt error: Can't open display: 
+xterm: DISPLAY is not set
+ERROR: [Common 17-1374] Display test failed. Please check DISPLAY environment variable and X server permissions for remote display.
+open_project fpga/control_pulp-txilzu9eg/control_pulp-exilzcu102.xpr
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/scratch/adelvecchio/control-pulp-open/fpga/control_pulp-txilzu9eg/ips/control_pulp_txilzu9eg/control_pulp_ip'.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/usr/pack/vitis-2019.2-kgf/Vivado/2019.2/data/ip'.
+open_project: Time (s): cpu = 00:00:04 ; elapsed = 00:00:07 . Memory (MB): peak = 1754.730 ; gain = 98.609 ; free physical = 422012 ; free virtual = 933600
+exit
+INFO: [Common 17-206] Exiting Vivado at Mon May 12 19:02:05 2025...

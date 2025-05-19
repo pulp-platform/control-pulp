@@ -18,7 +18,12 @@
 CXX=aarch64-none-linux-gnu-g++
 C=aarch64-none-linux-gnu-gcc
 
+<<<<<<< Updated upstream
 all: pmsctl scmictl setspeed
+=======
+all: pmsctl scmictl 
+# setspeed
+>>>>>>> Stashed changes
 
 pmsctl: pmsctl.cc $(wildcard physmem/inc/*)
 	$(CXX) -std=c++11 -Wall -I. $(CXXFLAGS) $(CPPFLAGS) $< -o $@;
@@ -26,9 +31,23 @@ pmsctl: pmsctl.cc $(wildcard physmem/inc/*)
 scmictl: scmictl.cc $(wildcard physmem/inc/*)
 	$(CXX) -std=c++11 -Wall -I. $(CXXFLAGS) $(CPPFLAGS) $< -o $@;
 
+<<<<<<< Updated upstream
 setspeed: setspeed.c $(wildcard physmem/inc/*)
 	$(C) -std=c11 -Wall -I. $(CFLAGS) $(CPPFLAGS) $< -o $@;
 
+=======
+mhu_test: mhu_test.cc $(wildcard physmem/inc/*)
+	$(CXX) -std=c++11 -Wall -I. $(CXXFLAGS) $(CPPFLAGS) $< -o $@;
+
+pmsrst: pmsrst.c $(wildcard physmem/inc/*)
+	$(C) -std=c11 -Wall -I. $(CFLAGS) $(CPPFLAGS) $< -o $@;
+
+setspeed: setspeed.c $(wildcard physmem/inc/*)
+	$(C) -std=c11 -Wall -I. $(CFLAGS) $(CPPFLAGS) $< -o $@;
+
+
+
+>>>>>>> Stashed changes
 .PHONY: clean
 
 clean:

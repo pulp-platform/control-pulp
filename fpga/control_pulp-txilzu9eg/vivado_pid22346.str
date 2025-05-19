@@ -1,0 +1,901 @@
+/*
+
+Xilinx Vivado v2019.2.1 (64-bit) [Major: 2019, Minor: 2]
+SW Build: 2729669 on Thu Dec  5 04:48:12 MST 2019
+IP Build: 2729494 on Thu Dec  5 07:38:25 MST 2019
+
+Process ID (PID): 22346
+License: Customer
+
+Current time: 	Sun May 11 12:41:07 CEST 2025
+Time zone: 	Central European Standard Time (Europe/Zurich)
+
+OS: AlmaLinux release 8.9 (Midnight Oncilla)
+OS Version: 4.18.0-513.9.1.el8_9.x86_64
+OS Architecture: amd64
+Available processors (cores): 128
+
+Display: localhost:14.0
+Screen size: 1536x960
+Screen resolution (DPI): 100
+Available screens: 1
+Available disk space: 25 GB
+Default font: family=Dialog,name=Dialog,style=plain,size=12
+
+Java version: 	9.0.4 64-bit
+Java home: 	/usr/pack/vitis-2019.2-kgf/Vivado/2019.2/tps/lnx64/jre9.0.4
+Java executable location: 	/usr/pack/vitis-2019.2-kgf/Vivado/2019.2/tps/lnx64/jre9.0.4/bin/java
+Java initial memory (-Xms): 	128 MB
+Java maximum memory (-Xmx):	 3 GB
+
+
+User name: 	adelvecchio
+User home directory: /home/adelvecchio
+User working directory: /scratch/adelvecchio/control-pulp-open/fpga/control_pulp-txilzu9eg
+User country: 	US
+User language: 	en
+User locale: 	en_US
+
+RDI_BASEROOT: /usr/pack/vitis-2019.2-kgf/Vivado
+HDI_APPROOT: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2
+RDI_DATADIR: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2/data
+RDI_BINDIR: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2/bin
+
+Vivado preferences file location: /home/adelvecchio/.Xilinx/Vivado/2019.2/vivado.xml
+Vivado preferences directory: /home/adelvecchio/.Xilinx/Vivado/2019.2/
+Vivado layouts directory: /home/adelvecchio/.Xilinx/Vivado/2019.2/layouts
+PlanAhead jar file location: 	/usr/pack/vitis-2019.2-kgf/Vivado/2019.2/lib/classes/planAhead.jar
+Vivado log file location: 	/scratch/adelvecchio/control-pulp-open/fpga/control_pulp-txilzu9eg/vivado.log
+Vivado journal file location: 	/scratch/adelvecchio/control-pulp-open/fpga/control_pulp-txilzu9eg/vivado.jou
+Engine tmp dir: 	./.Xil/Vivado-22346-larain10.ee.ethz.ch
+
+Xilinx Environment Variables
+----------------------------
+XILINX: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2/ids_lite/ISE
+XILINX_DSP: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2/ids_lite/ISE
+XILINX_PLANAHEAD: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2
+XILINX_SDK: /usr/pack/vitis-2019.2-kgf/Vitis/2019.2
+XILINX_VITIS: /usr/pack/vitis-2019.2-kgf/Vitis/2019.2
+XILINX_VIVADO: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2
+XILINX_VIVADO_HLS: /usr/pack/vitis-2019.2-kgf/Vivado/2019.2
+
+
+GUI allocated memory:	222 MB
+GUI max memory:		3,072 MB
+Engine allocated memory: 1,287 MB
+
+Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+
+*/
+
+// TclEventType: START_GUI
+// Tcl Message: start_gui 
+// WARNING: HEventQueue.dispatchEvent() is taking  1274 ms.
+// TclEventType: PROJECT_OPEN_DIALOG
+// WARNING: HEventQueue.dispatchEvent() is taking  1157 ms.
+// TclEventType: PROJECT_OPEN_DIALOG
+// [GUI Memory]: 115 MB (+118234kb) [00:00:22]
+// [Engine Memory]: 1,296 MB (+1207421kb) [00:00:22]
+// Opening Vivado Project: control_pulp-exilzcu102.xpr. Version: Vivado v2019.2.1 
+// bB (cr):  Open Project : addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  4591 ms.
+// TclEventType: DEBUG_PROBE_SET_CHANGE
+// HMemoryUtils.trashcanNow. Engine heap size: 1,253 MB. GUI used memory: 47 MB. Current time: 5/11/25, 12:41:12 PM CEST
+// Tcl Message: open_project control_pulp-exilzcu102.xpr 
+// TclEventType: MSGMGR_MOVEMSG
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_DASHBOARD_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: PROJECT_NEW
+// [Engine Memory]: 1,370 MB (+10074kb) [00:00:36]
+// [Engine Memory]: 1,445 MB (+5909kb) [00:00:38]
+// [GUI Memory]: 123 MB (+2527kb) [00:00:38]
+// [GUI Memory]: 132 MB (+2945kb) [00:00:38]
+// WARNING: HEventQueue.dispatchEvent() is taking  3459 ms.
+// Tcl Message: open_project control_pulp-exilzcu102.xpr 
+// Tcl Message: Scanning sources... Finished scanning sources 
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1700] Loaded user IP repository '/scratch/adelvecchio/control-pulp-open/fpga/control_pulp-txilzu9eg/ips/control_pulp_txilzu9eg/control_pulp_ip'. INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/usr/pack/vitis-2019.2-kgf/Vivado/2019.2/data/ip'. 
+// [Engine Memory]: 1,522 MB (+5899kb) [00:00:39]
+// WARNING: HEventQueue.dispatchEvent() is taking  1120 ms.
+// Tcl Message: open_project: Time (s): cpu = 00:00:24 ; elapsed = 00:00:11 . Memory (MB): peak = 7243.617 ; gain = 215.848 ; free physical = 187759 ; free virtual = 521278 
+// Project name: control_pulp-exilzcu102; location: /scratch/adelvecchio/control-pulp-open/fpga/control_pulp-txilzu9eg; part: xczu9eg-ffvb1156-2-e
+// [Engine Memory]: 3,015 MB (+1484904kb) [00:00:41]
+// WARNING: HTimer (FileMgr Design Graph Update Timer) is taking 1097ms to process. Increasing delay to 3000 ms.
+// WARNING: HEventQueue.dispatchEvent() is taking  1101 ms.
+dismissDialog("Open Project"); // bB (cr)
+// [GUI Memory]: 141 MB (+2113kb) [00:00:44]
+// [Engine Memory]: 3,353 MB (+196974kb) [00:00:48]
+// Tcl Message: update_compile_order -fileset sources_1 
+// HMemoryUtils.trashcanNow. Engine heap size: 1,642 MB. GUI used memory: 78 MB. Current time: 5/11/25, 12:41:34 PM CEST
+// Elapsed time: 10 seconds
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, IP Integrator, Open Block Design]", 7, false); // u (O, cr)
+// Run Command: PAResourceCommand.PACommandNames_OPEN_BLOCK_DESIGN
+// bB (cr):  Open Block Design : addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  3599 ms.
+// TclEventType: LOAD_FEATURE
+// Tcl Message: open_bd_design {/scratch/adelvecchio/control-pulp-open/fpga/control_pulp-txilzu9eg/control_pulp-exilzcu102.srcs/sources_1/bd/control_pulp_exilzcu102/control_pulp_exilzcu102.bd} 
+// TclEventType: RSB_CHANGE_CURRENT_DIAGRAM
+// TclEventType: LOAD_FEATURE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: RSB_OPEN_DIAGRAM
+// Tcl Message: Adding component instance block -- xilinx.com:ip:zynq_ultra_ps_e:3.3 - i_zynq_ps Adding component instance block -- ethz.ch:user:pms_top_fpga:1.0 - i_pms_top_fpga Successfully read diagram <control_pulp_exilzcu102> from BD file </scratch/adelvecchio/control-pulp-open/fpga/control_pulp-txilzu9eg/control_pulp-exilzcu102.srcs/sources_1/bd/control_pulp_exilzcu102/control_pulp_exilzcu102.bd> 
+// TclEventType: RSB_OPEN_DIAGRAM
+// WARNING: HEventQueue.dispatchEvent() is taking  1859 ms.
+// TclEventType: RSB_CONNECTION_CHANGE
+// WARNING: HEventQueue.dispatchEvent() is taking  1838 ms.
+// Elapsed time: 11 seconds
+closeView(PAResourceOtoP.PAViews_PROJECT_SUMMARY, "Project Summary"); // v
+// TclEventType: RSB_CONNECTION_CHANGE
+// TclEventType: RSB_LOCK_CHANGE
+// Tcl Message: open_bd_design: Time (s): cpu = 00:00:11 ; elapsed = 00:00:08 . Memory (MB): peak = 7397.883 ; gain = 0.000 ; free physical = 183187 ; free virtual = 516721 
+// 'bD' command handler elapsed time: 11 seconds
+dismissDialog("Open Block Design"); // bB (cr)
+// Elapsed time: 85 seconds
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 162, 213, 780, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  3547 ms.
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 162, 213, 780, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+maximizeView(PAResourceOtoP.PAViews_BASE_WORKSPACE, "BaseWorkspace"); // S (aI, cr)
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 355, 444, 1185, 705, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  1816 ms.
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 393, 497, 1185, 705, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  1554 ms.
+selectMenu(PAResourceQtoS.SystemBuilderView_PINNING, "Pinning"); // af (ao, Popup.HeavyWeightWindow)
+selectMenuItem(PAResourceQtoS.SystemBuilderMenu_ADD_IP, "Add IP..."); // ai (ao, Popup.HeavyWeightWindow)
+setText("PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE_SEARCH_FIELD", "ila"); // OverlayTextField (ay, ResizableWindow)
+selectTreeTable(PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE, "ILA (Integrated Logic Analyzer)", 0, "ILA (Integrated Logic Analyzer)", 0, false); // L (O, ResizableWindow)
+selectTreeTable(PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE, "ILA (Integrated Logic Analyzer)", 0, "ILA (Integrated Logic Analyzer)", 0, false); // L (O, ResizableWindow)
+selectTreeTable(PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE, "ILA (Integrated Logic Analyzer)", 0, "ILA (Integrated Logic Analyzer)", 0, false); // L (O, ResizableWindow)
+applyEnter(PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE, (String) null); // L (O, ResizableWindow)
+// bB (cr):  Add IP : addNotify
+// TclEventType: REPORT_IP_STATUS_STALE
+// WARNING: HEventQueue.dispatchEvent() is taking  2789 ms.
+// Tcl Message: startgroup 
+// Tcl Message: create_bd_cell -type ip -vlnv xilinx.com:ip:ila:6.2 ila_0 
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: RSB_ADD_OBJECT
+// Tcl Message: INFO: [xilinx.com:ip:ila:6.2-6] /ila_0: Xilinx recommends using the System ILA IP in IP Integrator. The System ILA IP is functionally equivalent to an ILA and offers additional benefits in debugging interfaces both within IP Integrator and the Hardware Manager. Consult the Programming and Debug User Guide UG908 for further details. 
+// Tcl Message: endgroup 
+dismissDialog("Add IP"); // bB (cr)
+// Run Command: PAResourceCommand.PACommandNames_CUSTOMIZE_RSB_BLOC
+// r (cr): Re-customize IP: addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  6373 ms.
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 330, 489, 1185, 705, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  2344 ms.
+selectTab(PAResourceEtoH.HACGCTabbedPane_TABBED_PANE, (HResource) null, "Monitor Interface0", 1); // bh (E, r)
+selectTab(PAResourceEtoH.HACGCTabbedPane_TABBED_PANE, (HResource) null, "General Options", 0); // bh (E, r)
+selectRadioButton((HResource) null, "Native"); // aU
+// WARNING: HEventQueue.dispatchEvent() is taking  2911 ms.
+selectComboBox("Sample Data Depth (C_DATA_DEPTH)", "2048", 1); // E (E, r)
+selectCheckBox((HResource) null, "Capture Control", true); // g (o, r): TRUE
+selectCheckBox((HResource) null, "Capture Control", false); // g (o, r): FALSE
+// Elapsed time: 21 seconds
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a (r)
+// Tcl Command: 'set_property -dict [list CONFIG.C_DATA_DEPTH {2048} CONFIG.C_NUM_OF_PROBES {1} CONFIG.C_EN_STRG_QUAL {0} CONFIG.C_PROBE0_MU_CNT {2} CONFIG.ALL_PROBE_SAME_MU_CNT {2} CONFIG.C_ENABLE_ILA_AXI_MON {false} CONFIG.C_MONITOR_TYPE {Native}] [get_bd_cells ila_0]'
+dismissDialog("Re-customize IP"); // r (cr)
+// TclEventType: RSB_PROPERTY_CHANGE
+// r (cr): Re-customize IP: addNotify
+// bB (r):  Customize IP : addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  3599 ms.
+// Tcl Message: set_property -dict [list CONFIG.C_DATA_DEPTH {2048} CONFIG.C_NUM_OF_PROBES {1} CONFIG.C_EN_STRG_QUAL {0} CONFIG.C_PROBE0_MU_CNT {2} CONFIG.ALL_PROBE_SAME_MU_CNT {2} CONFIG.C_ENABLE_ILA_AXI_MON {false} CONFIG.C_MONITOR_TYPE {Native}] [get_bd_cells ila_0] 
+// TclEventType: RSB_PROPERTY_CHANGE
+// [GUI Memory]: 158 MB (+10636kb) [00:04:06]
+dismissDialog("Customize IP"); // bB (r)
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 341, 447, 1185, 705, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  2548 ms.
+selectMenu(PAResourceQtoS.SystemBuilderMenu_IP_DOCUMENTATION, "IP Documentation"); // af (ao, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SystemBuilderView_ORIENTATION, "Orientation"); // af (ao, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SystemBuilderView_PINNING, "Pinning"); // af (ao, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SystemBuilderView_PINNING, "Pinning"); // af (ao, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SystemBuilderView_ORIENTATION, "Orientation"); // af (ao, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SystemBuilderMenu_IP_DOCUMENTATION, "IP Documentation"); // af (ao, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SystemBuilderMenu_IP_DOCUMENTATION, "IP Documentation"); // af (ao, Popup.HeavyWeightWindow)
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 396, 461, 1185, 705, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  2645 ms.
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 385, 461, 1185, 705, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  2081 ms.
+selectMenuItem(PAResourceCommand.PACommandNames_MAKE_CONNECTION, "Make Connection..."); // ai (ao, Popup.HeavyWeightWindow)
+// Run Command: PAResourceCommand.PACommandNames_MAKE_CONNECTION
+// dC (cr): Make Connection: addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  2660 ms.
+selectTree(PAResourceQtoS.RSBSelectPinsDialog_PINS_TREE, "[, Reset type]", 10, true); // dE (O, dC) - Node
+selectTree(PAResourceQtoS.RSBSelectPinsDialog_PINS_TREE, "[, Interrupt type, i_pms_top_fpga, out_completion_irq]", 9, false); // dE (O, dC)
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a (dC)
+// 'bp' command handler elapsed time: 7 seconds
+// TclEventType: RSB_CONNECTION_CHANGE
+dismissDialog("Make Connection"); // dC (cr)
+// [GUI Memory]: 167 MB (+1161kb) [00:04:40]
+// Tcl Message: connect_bd_net [get_bd_pins ila_0/probe0] [get_bd_pins i_pms_top_fpga/out_completion_irq] 
+// bB (cr):  Make Connection : addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  3305 ms.
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 403, 429, 1185, 705, false, false, false, true, false); // go (i, cr) - Popup Trigger
+dismissDialog("Make Connection"); // bB (cr)
+// WARNING: HEventQueue.dispatchEvent() is taking  2576 ms.
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 403, 429, 1185, 705, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  2581 ms.
+selectMenu(PAResourceQtoS.SystemBuilderView_PINNING, "Pinning"); // af (ao, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SystemBuilderView_ORIENTATION, "Orientation"); // af (ao, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SystemBuilderMenu_IP_DOCUMENTATION, "IP Documentation"); // af (ao, Popup.HeavyWeightWindow)
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 327, 442, 1185, 705, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  2485 ms.
+selectMenuItem(PAResourceCommand.PACommandNames_MAKE_CONNECTION, "Make Connection..."); // ai (ao, Popup.HeavyWeightWindow)
+// Run Command: PAResourceCommand.PACommandNames_MAKE_CONNECTION
+// dC (cr): Make Connection: addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  3479 ms.
+selectTree(PAResourceQtoS.RSBSelectPinsDialog_PINS_TREE, "[, Clock type, i_zynq_ps, pl_clk0]", 4, false); // dE (O, dC)
+selectTree(PAResourceQtoS.RSBSelectPinsDialog_PINS_TREE, "[, Clock type, i_zynq_ps, pl_clk0]", 4, false); // dE (O, dC)
+selectTree(PAResourceQtoS.RSBSelectPinsDialog_PINS_TREE, "[, Clock type, i_zynq_ps, pl_clk0]", 4, false); // dE (O, dC)
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a (dC)
+// 'bp' command handler elapsed time: 5 seconds
+// TclEventType: RSB_CONNECTION_CHANGE
+dismissDialog("Make Connection"); // dC (cr)
+// Tcl Message: connect_bd_net [get_bd_pins ila_0/clk] [get_bd_pins i_zynq_ps/pl_clk0] 
+// bB (cr):  Make Connection : addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  2909 ms.
+dismissDialog("Make Connection"); // bB (cr)
+unMinimizeFrame(PAResourceOtoP.PAViews_TCL_CONSOLE, "Tcl Console"); // aA
+selectCodeEditor(RDIResource.TclConsoleView_TCL_CONSOLE_CODE_EDITOR, 107, 198); // dT (af, cr)
+// Elapsed time: 33 seconds
+selectCodeEditor(RDIResource.TclConsoleView_TCL_CONSOLE_CODE_EDITOR, 159, 156); // dT (af, cr)
+selectCodeEditor(RDIResource.TclConsoleView_TCL_CONSOLE_CODE_EDITOR, 879, 155); // dT (af, cr)
+selectCodeEditor(RDIResource.TclConsoleView_TCL_CONSOLE_CODE_EDITOR, 59, 166, false, false, false, true, false); // dT (af, cr) - Popup Trigger
+selectMenuItem(RDIResource.TclConsoleView_COPY, "Copy"); // ai (ao, Popup.HeavyWeightWindow)
+// Run Command: PAResourceCommand.PACommandNames_CUSTOMIZE_RSB_BLOC
+// r (cr): Re-customize IP: addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  6478 ms.
+// WARNING: HEventQueue.dispatchEvent() is taking  3189 ms.
+// Elapsed time: 100 seconds
+selectTab(PAResourceEtoH.HACGCTabbedPane_TABBED_PANE, (HResource) null, "Probe_Ports(0..0)", 1); // bh (E, r)
+// Elapsed time: 34 seconds
+dismissDialog("Re-customize IP"); // r (cr)
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 442, 337, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  2238 ms.
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 446, 339, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  2210 ms.
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 446, 339, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 446, 339, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  2454 ms.
+selectMenuItem(RDIResourceCommand.RDICommands_DELETE, "Delete"); // ai (ao, Popup.HeavyWeightWindow)
+// Run Command: RDIResourceCommand.RDICommands_DELETE
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: REPORT_IP_STATUS_STALE
+// Tcl Message: delete_bd_objs [get_bd_cells ila_0] 
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 148, 253, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+selectMenuItem(PAResourceQtoS.SystemBuilderMenu_ADD_IP, "Add IP..."); // ai (ao, cr)
+setText("PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE_SEARCH_FIELD", "conca"); // OverlayTextField (ay, ResizableWindow)
+// Elapsed time: 13 seconds
+setText("PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE_SEARCH_FIELD", "util_"); // OverlayTextField (ay, ResizableWindow)
+selectTreeTable(PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE, "Utility Vector Logic", 3, "Utility Vector Logic", 0, false); // L (O, ResizableWindow)
+selectTreeTable(PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE, "Utility Vector Logic", 3, "Utility Vector Logic", 0, false); // L (O, ResizableWindow)
+expandTreeTable(PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE, "Utility Vector Logic", 3); // L (O, ResizableWindow)
+selectTreeTable(PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE, "Utility Vector Logic", 3, "Utility Vector Logic", 0, false, false, false, false, false, true); // L (O, ResizableWindow) - Double Click
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: DG_GRAPH_STALE
+// bB (cr):  Add IP : addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  3785 ms.
+// TclEventType: DG_GRAPH_STALE
+// Tcl Message: startgroup 
+// Tcl Message: create_bd_cell -type ip -vlnv xilinx.com:ip:util_vector_logic:2.0 util_vector_logic_0 
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: RSB_ADD_OBJECT
+// Tcl Message: endgroup 
+dismissDialog("Add IP"); // bB (cr)
+// Run Command: PAResourceCommand.PACommandNames_CUSTOMIZE_RSB_BLOC
+// r (cr): Re-customize IP: addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  4530 ms.
+// [GUI Memory]: 177 MB (+1628kb) [00:09:09]
+// Elapsed time: 18 seconds
+dismissDialog("Re-customize IP"); // r (cr)
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 456, 197, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+selectMenuItem(PAResourceCommand.PACommandNames_UNHIGHLIGHT_SELECTION, "Unhighlight"); // ai (ao, cr)
+selectMenuItem(RDIResourceCommand.RDICommands_DELETE, "Delete"); // ai (ao, cr)
+// Run Command: RDIResourceCommand.RDICommands_DELETE
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_REMOVE_OBJECT
+// TclEventType: REPORT_IP_STATUS_STALE
+// Tcl Message: delete_bd_objs [get_bd_cells util_vector_logic_0] 
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 289, 184, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+selectMenuItem(PAResourceQtoS.SystemBuilderMenu_ADD_IP, "Add IP..."); // ai (ao, cr)
+setText("PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE_SEARCH_FIELD", "concat"); // OverlayTextField (ay, ResizableWindow)
+applyEnter(PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE, (String) null); // L (O, ResizableWindow)
+// HOptionPane Warning: 'A background task is running. Please wait until it completes and try again. (Background Task)'
+// WARNING: HEventQueue.dispatchEvent() is taking  3648 ms.
+selectButton("OptionPane.button", "OK"); // JButton (A, G)
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 328, 120, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+selectMenuItem(PAResourceQtoS.SystemBuilderMenu_ADD_IP, "Add IP..."); // ai (ao, cr)
+setText("PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE_SEARCH_FIELD", "concat"); // OverlayTextField (ay, ResizableWindow)
+applyEnter(PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE, (String) null); // L (O, ResizableWindow)
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: RSB_ADD_OBJECT
+// Tcl Message: startgroup 
+// Tcl Message: create_bd_cell -type ip -vlnv xilinx.com:ip:xlconcat:2.1 xlconcat_0 
+// Tcl Message: endgroup 
+// Run Command: PAResourceCommand.PACommandNames_CUSTOMIZE_RSB_BLOC
+// r (cr): Re-customize IP: addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  6211 ms.
+// Elapsed time: 16 seconds
+setText("Number of Ports", "1", true); // D (bi, r)
+selectButton(PAResourceEtoH.HACGCTextField_VALUE_OF_SPECIFIED_PARAMETER, "In0 Width (IN0_WIDTH)"); // x (E, r): TRUE
+selectButton(PAResourceEtoH.HACGCTextField_VALUE_OF_SPECIFIED_PARAMETER_MANUAL, "In0 Width (IN0_WIDTH)"); // x (E, r): FALSE
+setText("Dout Width", "1"); // D (bi, r)
+selectButton(PAResourceEtoH.HACGCTextField_VALUE_OF_SPECIFIED_PARAMETER, "In0 Width (IN0_WIDTH)"); // x (E, r): TRUE
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a (r)
+// Tcl Command: 'set_property -dict [list CONFIG.IN0_WIDTH.VALUE_SRC USER] [get_bd_cells xlconcat_0]'
+dismissDialog("Re-customize IP"); // r (cr)
+// TclEventType: RSB_PROPERTY_CHANGE
+// Tcl Message: set_property -dict [list CONFIG.IN0_WIDTH.VALUE_SRC USER] [get_bd_cells xlconcat_0] 
+// r (cr): Re-customize IP: addNotify
+// bB (r):  Customize IP : addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  3506 ms.
+// Tcl Command: 'set_property -dict [list CONFIG.NUM_PORTS {1}] [get_bd_cells xlconcat_0]'
+// TclEventType: RSB_PROPERTY_CHANGE
+// Tcl Message: set_property -dict [list CONFIG.NUM_PORTS {1}] [get_bd_cells xlconcat_0] 
+dismissDialog("Customize IP"); // bB (r)
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 632, 194, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  2395 ms.
+selectMenuItem(RDIResourceCommand.RDICommands_DELETE, "Delete"); // ai (ao, Popup.HeavyWeightWindow)
+// Run Command: RDIResourceCommand.RDICommands_DELETE
+// TclEventType: RSB_REMOVE_OBJECT
+// Tcl Message: delete_bd_objs [get_bd_nets i_pms_top_fpga_out_completion_irq] 
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 978, 128, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  2571 ms.
+selectMenu(PAResourceQtoS.SystemBuilderView_PINNING, "Pinning"); // af (ao, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SystemBuilderView_PINNING, "Pinning"); // af (ao, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SystemBuilderView_PINNING, "Pinning"); // af (ao, Popup.HeavyWeightWindow)
+selectMenuItem(PAResourceCommand.PACommandNames_MAKE_CONNECTION, "Make Connection..."); // ai (ao, Popup.HeavyWeightWindow)
+// Run Command: PAResourceCommand.PACommandNames_MAKE_CONNECTION
+// dC (cr): Make Connection: addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  3594 ms.
+selectCheckBoxTree(PAResourceQtoS.RSBSelectPinsDialog_PINS_TREE, "[, Other type, xlconcat_0, In0]", 5, false, true, ui.utils.TriState.True); // dO (O, dC)
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a (dC)
+// 'bp' command handler elapsed time: 7 seconds
+// TclEventType: RSB_CONNECTION_CHANGE
+dismissDialog("Make Connection"); // dC (cr)
+// Tcl Message: connect_bd_net [get_bd_pins i_pms_top_fpga/out_completion_irq] [get_bd_pins xlconcat_0/In0] 
+// bB (cr):  Make Connection : addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  3433 ms.
+dismissDialog("Make Connection"); // bB (cr)
+// Run Command: PAResourceCommand.PACommandNames_CUSTOMIZE_RSB_BLOC
+// r (cr): Re-customize IP: addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  5205 ms.
+// Elapsed time: 124 seconds
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a (r)
+dismissDialog("Re-customize IP"); // r (cr)
+// [GUI Memory]: 186 MB (+375kb) [00:13:00]
+// Tcl Message: startgroup 
+// Tcl Message: endgroup 
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 449, 237, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  3070 ms.
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 449, 237, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  3121 ms.
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 449, 237, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  3728 ms.
+selectMenuItem(PAResourceQtoS.SystemBuilderMenu_ADD_IP, "Add IP..."); // ai (ao, Popup.HeavyWeightWindow)
+setText("PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE_SEARCH_FIELD", "xlcons"); // OverlayTextField (ay, ResizableWindow)
+selectTreeTable(PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE, "Constant", 0, "Constant", 0, false); // L (O, ResizableWindow)
+selectTreeTable(PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE, "Constant", 0, "Constant", 0, false); // L (O, ResizableWindow)
+expandTreeTable(PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE, "Constant", 0); // L (O, ResizableWindow)
+selectTreeTable(PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE, "Constant", 0, "Constant", 0, false, false, false, false, false, true); // L (O, ResizableWindow) - Double Click
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: DG_GRAPH_STALE
+// bB (cr):  Add IP : addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  1157 ms.
+// TclEventType: DG_GRAPH_STALE
+// Tcl Message: startgroup 
+// TclEventType: DG_GRAPH_STALE
+// Tcl Message: create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 xlconstant_0 
+// WARNING: HEventQueue.dispatchEvent() is taking  4774 ms.
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: RSB_ADD_OBJECT
+// WARNING: HEventQueue.dispatchEvent() is taking  1008 ms.
+// Tcl Message: create_bd_cell: Time (s): cpu = 00:00:00.18 ; elapsed = 00:00:06 . Memory (MB): peak = 7778.008 ; gain = 0.000 ; free physical = 198523 ; free virtual = 532911 
+// Tcl Message: endgroup 
+dismissDialog("Add IP"); // bB (cr)
+// Run Command: PAResourceCommand.PACommandNames_CUSTOMIZE_RSB_BLOC
+// r (cr): Re-customize IP: addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  5434 ms.
+// Elapsed time: 22 seconds
+setText("Const Width", "7"); // D (bi, r)
+setText("Const Val", "0"); // D (bi, r)
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a (r)
+// Tcl Command: 'set_property -dict [list CONFIG.CONST_WIDTH {7} CONFIG.CONST_VAL {0}] [get_bd_cells xlconstant_0]'
+// TclEventType: RSB_PROPERTY_CHANGE
+dismissDialog("Re-customize IP"); // r (cr)
+// Tcl Message: set_property -dict [list CONFIG.CONST_WIDTH {7} CONFIG.CONST_VAL {0}] [get_bd_cells xlconstant_0] 
+// r (cr): Re-customize IP: addNotify
+// bB (r):  Customize IP : addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  3760 ms.
+dismissDialog("Customize IP"); // bB (r)
+// Run Command: PAResourceCommand.PACommandNames_CUSTOMIZE_RSB_BLOC
+// r (cr): Re-customize IP: addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  4537 ms.
+// Elapsed time: 12 seconds
+dismissDialog("Re-customize IP"); // r (cr)
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 584, 249, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  2781 ms.
+// Tcl Command: 'set_property location {1 155 2030} [get_bd_cells xlconstant_0]'
+// TclEventType: RSB_CANVAS_LOCATION
+// Tcl Message: set_property location {1 155 2030} [get_bd_cells xlconstant_0] 
+// Elapsed time: 12 seconds
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 275, 278, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  2705 ms.
+// Run Command: PAResourceCommand.PACommandNames_CUSTOMIZE_RSB_BLOC
+// r (cr): Re-customize IP: addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  6868 ms.
+// WARNING: HEventQueue.dispatchEvent() is taking  3175 ms.
+// Elapsed time: 23 seconds
+setText("Number of Ports", "1"); // D (bi, r)
+setText("In0 Width", "8", true); // D (bi, r)
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a (r)
+dismissDialog("Re-customize IP"); // r (cr)
+// Tcl Command: 'set_property -dict [list CONFIG.IN0_WIDTH {8}] [get_bd_cells xlconcat_0]'
+// TclEventType: RSB_PROPERTY_CHANGE
+// Tcl Message: startgroup 
+// Tcl Message: set_property -dict [list CONFIG.IN0_WIDTH {8}] [get_bd_cells xlconcat_0] 
+// Tcl Message: endgroup 
+// Tcl Command: 'set_property location {0.5 -45 2021} [get_bd_cells xlconstant_0]'
+// TclEventType: RSB_CANVAS_LOCATION
+// Tcl Message: set_property location {0.5 -45 2021} [get_bd_cells xlconstant_0] 
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 170, 272, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  2441 ms.
+selectMenu(PAResourceQtoS.SystemBuilderMenu_IP_DOCUMENTATION, "IP Documentation"); // af (ao, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SystemBuilderMenu_IP_DOCUMENTATION, "IP Documentation"); // af (ao, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SystemBuilderView_ORIENTATION, "Orientation"); // af (ao, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SystemBuilderView_PINNING, "Pinning"); // af (ao, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SystemBuilderView_ORIENTATION, "Orientation"); // af (ao, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SystemBuilderMenu_IP_DOCUMENTATION, "IP Documentation"); // af (ao, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SystemBuilderMenu_IP_DOCUMENTATION, "IP Documentation"); // af (ao, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SystemBuilderView_ORIENTATION, "Orientation"); // af (ao, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SystemBuilderView_PINNING, "Pinning"); // af (ao, Popup.HeavyWeightWindow)
+// Tcl Command: 'set_property location {0.5 -141 1911} [get_bd_cells xlconstant_0]'
+// TclEventType: RSB_CANVAS_LOCATION
+// Tcl Message: set_property location {0.5 -141 1911} [get_bd_cells xlconstant_0] 
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 96, 205, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// Run Command: PAResourceCommand.PACommandNames_CUSTOMIZE_RSB_BLOC
+// r (cr): Re-customize IP: addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  5440 ms.
+// Elapsed time: 16 seconds
+setText("Number of Ports", "2", true); // D (bi, r)
+setText("In0 Width", "1"); // D (bi, r)
+selectButton(PAResourceEtoH.HACGCTextField_VALUE_OF_SPECIFIED_PARAMETER, "In1 Width (IN1_WIDTH)"); // x (E, r): TRUE
+setText("In1 Width", "7", true); // D (bi, r)
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a (r)
+dismissDialog("Re-customize IP"); // r (cr)
+// Tcl Command: 'set_property -dict [list CONFIG.IN1_WIDTH.VALUE_SRC USER] [get_bd_cells xlconcat_0]'
+// TclEventType: RSB_PROPERTY_CHANGE
+// Tcl Command: 'set_property -dict [list CONFIG.NUM_PORTS {2} CONFIG.IN0_WIDTH {1} CONFIG.IN1_WIDTH {7}] [get_bd_cells xlconcat_0]'
+// TclEventType: RSB_PROPERTY_CHANGE
+// Tcl Message: startgroup 
+// Tcl Message: set_property -dict [list CONFIG.IN1_WIDTH.VALUE_SRC USER] [get_bd_cells xlconcat_0] 
+// Tcl Message: set_property -dict [list CONFIG.NUM_PORTS {2} CONFIG.IN0_WIDTH {1} CONFIG.IN1_WIDTH {7}] [get_bd_cells xlconcat_0] 
+// Tcl Message: endgroup 
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 117, 198, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+selectMenu(PAResourceQtoS.SystemBuilderMenu_IP_DOCUMENTATION, "IP Documentation"); // af (ao, cr)
+selectMenu(PAResourceQtoS.SystemBuilderView_ORIENTATION, "Orientation"); // af (ao, cr)
+selectMenu(PAResourceQtoS.SystemBuilderView_PINNING, "Pinning"); // af (ao, cr)
+selectMenu(PAResourceQtoS.SystemBuilderView_PINNING, "Pinning"); // af (ao, cr)
+selectMenu(PAResourceQtoS.SystemBuilderView_ORIENTATION, "Orientation"); // af (ao, cr)
+selectMenu(PAResourceQtoS.SystemBuilderMenu_IP_DOCUMENTATION, "IP Documentation"); // af (ao, cr)
+selectMenu(PAResourceQtoS.SelectMenu_HIGHLIGHT, "Highlight"); // af (ao, cr)
+selectMenu(PAResourceQtoS.SystemBuilderMenu_IP_DOCUMENTATION, "IP Documentation"); // af (ao, cr)
+selectMenu(PAResourceQtoS.SystemBuilderView_ORIENTATION, "Orientation"); // af (ao, cr)
+selectMenu(PAResourceQtoS.SystemBuilderView_PINNING, "Pinning"); // af (ao, cr)
+selectMenu(PAResourceQtoS.SystemBuilderView_PINNING, "Pinning"); // af (ao, cr)
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 693, 73, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+selectMenu(PAResourceQtoS.SelectMenu_HIGHLIGHT, "Highlight"); // af (ao, cr)
+selectMenu(PAResourceQtoS.SystemBuilderView_PINNING, "Pinning"); // af (ao, cr)
+selectMenuItem(PAResourceCommand.PACommandNames_MAKE_CONNECTION, "Make Connection..."); // ai (ao, cr)
+// Run Command: PAResourceCommand.PACommandNames_MAKE_CONNECTION
+// dC (cr): Make Connection: addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  3141 ms.
+selectCheckBoxTree(PAResourceQtoS.RSBSelectPinsDialog_PINS_TREE, "[, Other type, xlconcat_0, In1]", 5, false, true, ui.utils.TriState.True); // dO (O, dC)
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a (dC)
+// 'bp' command handler elapsed time: 6 seconds
+// TclEventType: RSB_CONNECTION_CHANGE
+dismissDialog("Make Connection"); // dC (cr)
+// Tcl Message: connect_bd_net [get_bd_pins xlconstant_0/dout] [get_bd_pins xlconcat_0/In1] 
+// bB (cr):  Make Connection : addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  3500 ms.
+dismissDialog("Make Connection"); // bB (cr)
+// Elapsed time: 12 seconds
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 804, 216, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  3074 ms.
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 804, 216, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  2305 ms.
+selectMenu(PAResourceQtoS.SystemBuilderView_PINNING, "Pinning"); // af (ao, Popup.HeavyWeightWindow)
+selectMenuItem(PAResourceQtoS.SystemBuilderMenu_ADD_IP, "Add IP..."); // ai (ao, Popup.HeavyWeightWindow)
+setText("PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE_SEARCH_FIELD", "ila"); // OverlayTextField (ay, ResizableWindow)
+selectTreeTable(PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE, "ILA (Integrated Logic Analyzer)", 0, "ILA (Integrated Logic Analyzer)", 0, false); // L (O, ResizableWindow)
+selectTreeTable(PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE, "ILA (Integrated Logic Analyzer)", 0, "ILA (Integrated Logic Analyzer)", 0, false); // L (O, ResizableWindow)
+expandTreeTable(PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE, "ILA (Integrated Logic Analyzer)", 0); // L (O, ResizableWindow)
+selectTreeTable(PAResourceAtoD.CoreTreeTablePanel_CORE_TREE_TABLE, "ILA (Integrated Logic Analyzer)", 0, "ILA (Integrated Logic Analyzer)", 0, false, false, false, false, false, true); // L (O, ResizableWindow) - Double Click
+// TclEventType: REPORT_IP_STATUS_STALE
+// bB (cr):  Add IP : addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  4444 ms.
+// TclEventType: REPORT_IP_STATUS_STALE
+// Tcl Message: startgroup 
+// Tcl Message: create_bd_cell -type ip -vlnv xilinx.com:ip:ila:6.2 ila_0 
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_PROPERTY_CHANGE
+// TclEventType: REPORT_IP_STATUS_STALE
+// TclEventType: RSB_ADD_OBJECT
+// Tcl Message: INFO: [xilinx.com:ip:ila:6.2-6] /ila_0: Xilinx recommends using the System ILA IP in IP Integrator. The System ILA IP is functionally equivalent to an ILA and offers additional benefits in debugging interfaces both within IP Integrator and the Hardware Manager. Consult the Programming and Debug User Guide UG908 for further details. 
+// Tcl Message: create_bd_cell: Time (s): cpu = 00:00:01 ; elapsed = 00:00:06 . Memory (MB): peak = 7794.016 ; gain = 0.000 ; free physical = 172320 ; free virtual = 506708 
+// Tcl Message: endgroup 
+dismissDialog("Add IP"); // bB (cr)
+// Run Command: PAResourceCommand.PACommandNames_CUSTOMIZE_RSB_BLOC
+// r (cr): Re-customize IP: addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  6661 ms.
+// Elapsed time: 16 seconds
+selectTab(PAResourceEtoH.HACGCTabbedPane_TABBED_PANE, (HResource) null, "Monitor Interface0", 1); // bh (E, r)
+selectTab(PAResourceEtoH.HACGCTabbedPane_TABBED_PANE, (HResource) null, "General Options", 0); // bh (E, r)
+selectRadioButton((HResource) null, "Native"); // aU
+// WARNING: HEventQueue.dispatchEvent() is taking  2781 ms.
+setText("Number of Probes", "1"); // D (bi, r)
+selectTab(PAResourceEtoH.HACGCTabbedPane_TABBED_PANE, (HResource) null, "Probe_Ports(0..0)", 1); // bh (E, r)
+setText("Probe0 Width", "8", true); // D (bi, r)
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a (r)
+// Tcl Command: 'set_property -dict [list CONFIG.C_PROBE0_WIDTH {8} CONFIG.C_NUM_OF_PROBES {1} CONFIG.C_ENABLE_ILA_AXI_MON {false} CONFIG.C_MONITOR_TYPE {Native}] [get_bd_cells ila_0]'
+dismissDialog("Re-customize IP"); // r (cr)
+// TclEventType: RSB_PROPERTY_CHANGE
+// Tcl Message: set_property -dict [list CONFIG.C_PROBE0_WIDTH {8} CONFIG.C_NUM_OF_PROBES {1} CONFIG.C_ENABLE_ILA_AXI_MON {false} CONFIG.C_MONITOR_TYPE {Native}] [get_bd_cells ila_0] 
+// r (cr): Re-customize IP: addNotify
+// bB (r):  Customize IP : addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  3930 ms.
+dismissDialog("Customize IP"); // bB (r)
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 614, 109, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+selectMenu(PAResourceQtoS.SelectMenu_HIGHLIGHT, "Highlight"); // af (ao, cr)
+selectMenu(PAResourceQtoS.SystemBuilderMenu_IP_DOCUMENTATION, "IP Documentation"); // af (ao, cr)
+selectMenu(PAResourceQtoS.SystemBuilderView_ORIENTATION, "Orientation"); // af (ao, cr)
+selectMenu(PAResourceQtoS.SystemBuilderView_PINNING, "Pinning"); // af (ao, cr)
+selectMenu(PAResourceQtoS.SystemBuilderView_ORIENTATION, "Orientation"); // af (ao, cr)
+selectMenu(PAResourceQtoS.SystemBuilderMenu_IP_DOCUMENTATION, "IP Documentation"); // af (ao, cr)
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 618, 133, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  2396 ms.
+selectMenu(PAResourceQtoS.SystemBuilderView_PINNING, "Pinning"); // af (ao, Popup.HeavyWeightWindow)
+selectMenuItem(PAResourceCommand.PACommandNames_MAKE_CONNECTION, "Make Connection..."); // ai (ao, Popup.HeavyWeightWindow)
+// Run Command: PAResourceCommand.PACommandNames_MAKE_CONNECTION
+// dC (cr): Make Connection: addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  3515 ms.
+selectCheckBoxTree(PAResourceQtoS.RSBSelectPinsDialog_PINS_TREE, "[, Other type, ila_0, probe0]", 8, false, true, ui.utils.TriState.True); // dO (O, dC)
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a (dC)
+// 'bp' command handler elapsed time: 7 seconds
+// TclEventType: RSB_CONNECTION_CHANGE
+dismissDialog("Make Connection"); // dC (cr)
+// Tcl Message: connect_bd_net [get_bd_pins xlconcat_0/dout] [get_bd_pins ila_0/probe0] 
+// bB (cr):  Make Connection : addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  3459 ms.
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 992, 209, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+dismissDialog("Make Connection"); // bB (cr)
+// WARNING: HEventQueue.dispatchEvent() is taking  2370 ms.
+selectMenu(PAResourceQtoS.SystemBuilderView_PINNING, "Pinning"); // af (ao, Popup.HeavyWeightWindow)
+selectMenuItem(PAResourceCommand.PACommandNames_MAKE_CONNECTION, "Make Connection..."); // ai (ao, Popup.HeavyWeightWindow)
+// Run Command: PAResourceCommand.PACommandNames_MAKE_CONNECTION
+// dC (cr): Make Connection: addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  3502 ms.
+selectTree(PAResourceQtoS.RSBSelectPinsDialog_PINS_TREE, "[, Clock type, i_zynq_ps, pl_clk0]", 4, false); // dE (O, dC)
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a (dC)
+// 'bp' command handler elapsed time: 8 seconds
+// TclEventType: RSB_CONNECTION_CHANGE
+dismissDialog("Make Connection"); // dC (cr)
+// Tcl Message: connect_bd_net [get_bd_pins ila_0/clk] [get_bd_pins i_zynq_ps/pl_clk0] 
+// bB (cr):  Make Connection : addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  3011 ms.
+dismissDialog("Make Connection"); // bB (cr)
+selectView(PAResourceOtoP.PAViews_SYSTEM, "System", 592, 229, 1185, 405, false, false, false, true, false); // go (i, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  2357 ms.
+// Elapsed time: 16 seconds
+selectMenu(PAResourceQtoS.SystemBuilderView_PINNING, "Pinning"); // af (ao, Popup.HeavyWeightWindow)
+selectMenuItem(PAResourceCommand.PACommandNames_MAKE_CONNECTION, "Make Connection..."); // ai (ao, Popup.HeavyWeightWindow)
+// Run Command: PAResourceCommand.PACommandNames_MAKE_CONNECTION
+// dC (cr): Make Connection: addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  3471 ms.
+selectCheckBoxTree(PAResourceQtoS.RSBSelectPinsDialog_PINS_TREE, "[, Interrupt type, i_zynq_ps, pl_ps_irq0]", 2, false, false, ui.utils.TriState.False); // dO (O, dC)
+selectCheckBoxTree(PAResourceQtoS.RSBSelectPinsDialog_PINS_TREE, "[, Interrupt type, i_zynq_ps, pl_ps_irq0]", 2, false, true, ui.utils.TriState.True); // dO (O, dC)
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a (dC)
+// 'bp' command handler elapsed time: 7 seconds
+// TclEventType: RSB_CONNECTION_CHANGE
+dismissDialog("Make Connection"); // dC (cr)
+// Tcl Message: connect_bd_net [get_bd_pins xlconcat_0/dout] [get_bd_pins i_zynq_ps/pl_ps_irq0] 
+// bB (cr):  Make Connection : addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  3257 ms.
+dismissDialog("Make Connection"); // bB (cr)
+// Run Command: PAResourceCommand.PACommandNames_CUSTOMIZE_RSB_PIN
+// r (cr): Customize Pin: addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  4239 ms.
+// WARNING: HEventQueue.dispatchEvent() is taking  2292 ms.
+// Elapsed time: 44 seconds
+setText("Interrupt Sensivity", "LEVEL_HIGH"); // D (bi, r)
+dismissDialog("Customize Pin"); // r (cr)
+// Run Command: PAResourceCommand.PACommandNames_SAVE_RSB_DESIGN
+// TclEventType: RSB_SAVE_DIAGRAM
+// Tcl Message: save_bd_design 
+// TclEventType: DG_GRAPH_STALE
+// bB (cr):  Save Design : addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  4260 ms.
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RSB_SAVE_DIAGRAM
+// Tcl Message: Wrote  : </scratch/adelvecchio/control-pulp-open/fpga/control_pulp-txilzu9eg/control_pulp-exilzcu102.srcs/sources_1/bd/control_pulp_exilzcu102/control_pulp_exilzcu102.bd>  Wrote  : </scratch/adelvecchio/control-pulp-open/fpga/control_pulp-txilzu9eg/control_pulp-exilzcu102.srcs/sources_1/bd/control_pulp_exilzcu102/ui/bd_130d8611.ui>  
+// Tcl Message: save_bd_design: Time (s): cpu = 00:00:00.44 ; elapsed = 00:00:05 . Memory (MB): peak = 7818.027 ; gain = 0.000 ; free physical = 240991 ; free virtual = 575834 
+dismissDialog("Save Design"); // bB (cr)
+// Elapsed time: 15 seconds
+selectCodeEditor(RDIResource.TclConsoleView_TCL_CONSOLE_CODE_EDITOR, 198, 113); // dT (af, cr)
+selectCodeEditor(RDIResource.TclConsoleView_TCL_CONSOLE_CODE_EDITOR, 226, 114, false, false, false, true, false); // dT (af, cr) - Popup Trigger
+// WARNING: HEventQueue.dispatchEvent() is taking  1456 ms.
+// Run Command: PAResourceCommand.PACommandNames_CUSTOMIZE_RSB_BLOC
+// O (cr):  Re-customize IP : addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  3031 ms.
+// Tcl Message: INFO: [PSU-1]  DP_AUDIO clock source: RPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_AUDIO PLL source to support runtime audio change  
+// r (cr): Re-customize IP: addNotify
+// WARNING: HEventQueue.dispatchEvent() is taking  22477 ms.
+// Thread: AWT-XAWT
+// 	at java.desktop@9.0.4/sun.awt.X11.XToolkit.waitForEvents(Native Method)
+// 	at java.desktop@9.0.4/sun.awt.X11.XToolkit.run(Unknown Source)
+// 	at java.desktop@9.0.4/sun.awt.X11.XToolkit.run(Unknown Source)
+// 	at java.base@9.0.4/java.lang.Thread.run(Unknown Source)
+// Thread: Image Fetcher 3
+// 	at java.base@9.0.4/java.lang.Object.wait(Native Method)
+// 	at java.desktop@9.0.4/sun.awt.image.ImageFetcher.nextImage(Unknown Source)
+// 	at java.desktop@9.0.4/sun.awt.image.ImageFetcher.fetchloop(Unknown Source)
+// 	at java.desktop@9.0.4/sun.awt.image.ImageFetcher.run(Unknown Source)
+// Thread: main
+// 	at java.base@9.0.4/java.lang.Thread.sleep(Native Method)
+// 	at ui.PlanAhead.c(SourceFile:1058)
+// 	at ui.PlanAhead.jswMain(SourceFile:1101)
+// Thread: Common-Cleaner
+// 	at java.base@9.0.4/java.lang.Object.wait(Native Method)
+// 	at java.base@9.0.4/java.lang.ref.ReferenceQueue.remove(Unknown Source)
+// 	at java.base@9.0.4/jdk.internal.ref.CleanerImpl.run(Unknown Source)
+// 	at java.base@9.0.4/java.lang.Thread.run(Unknown Source)
+// 	at java.base@9.0.4/jdk.internal.misc.InnocuousThread.run(Unknown Source)
+// Thread: hw_ila_monitor
+// 	at java.base@9.0.4/java.lang.Object.wait(Native Method)
+// 	at java.base@9.0.4/java.lang.Object.wait(Unknown Source)
+// 	at java.base@9.0.4/java.util.TimerThread.mainLoop(Unknown Source)
+// 	at java.base@9.0.4/java.util.TimerThread.run(Unknown Source)
+// Thread: Java2D Disposer
+// 	at java.base@9.0.4/java.lang.Object.wait(Native Method)
+// 	at java.base@9.0.4/java.lang.ref.ReferenceQueue.remove(Unknown Source)
+// 	at java.base@9.0.4/java.lang.ref.ReferenceQueue.remove(Unknown Source)
+// 	at java.desktop@9.0.4/sun.java2d.Disposer.run(Unknown Source)
+// 	at java.base@9.0.4/java.lang.Thread.run(Unknown Source)
+// Thread: AWT-EventQueue-1
+// 	at java.desktop@9.0.4/sun.awt.X11GraphicsConfig.pGetBounds(Native Method)
+// 	at java.desktop@9.0.4/sun.awt.X11GraphicsConfig.getBounds(Unknown Source)
+// 	at java.desktop@9.0.4/sun.awt.SunToolkit.getScreenSize(Unknown Source)
+// 	at ui.utils.p.ag.getScreenSize(SourceFile:304)
+// 	at ui.data.coregen.a.a.t.s.e(SourceFile:32)
+// 	at ui.data.coregen.a.a.t.j.b(SourceFile:271)
+// 	at ui.data.coregen.a.a.t.r.b(SourceFile:154)
+// 	at ui.data.coregen.a.a.t.aq.iA(SourceFile:536)
+// 	at ui.data.coregen.a.a.t.aq.a(SourceFile:419)
+// 	at ui.data.coregen.a.a.t.aq.a(SourceFile:445)
+// 	at ui.data.coregen.a.a.t.aq.a(SourceFile:445)
+// 	at ui.data.coregen.a.a.t.aq.a(SourceFile:445)
+// 	at ui.data.coregen.a.a.t.aq.adL(SourceFile:387)
+// 	at ui.data.coregen.a.a.t.aq.agn(SourceFile:118)
+// 	at ui.data.coregen.a.a.t.aq.<init>(SourceFile:73)
+// 	at ui.data.coregen.a.a.t.au.jT(SourceFile:76)
+// 	at ui.data.coregen.a.a.t.B.<init>(SourceFile:155)
+// 	at ui.data.coregen.a.a.t.A.createLayout(SourceFile:47)
+// 	at ui.data.coregen.a.a.t.A.setVisible(SourceFile:61)
+// 	at java.desktop@9.0.4/java.awt.CardLayout.addLayoutComponent(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.CardLayout.addLayoutComponent(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.Container.addImpl(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.Container.add(Unknown Source)
+// 	at ui.data.coregen.a.a.t.M.a(SourceFile:139)
+// 	at ui.data.coregen.a.a.t.M.agY(SourceFile:98)
+// 	at ui.data.coregen.a.a.t.M.<init>(SourceFile:86)
+// 	at ui.data.coregen.a.a.s.b.a(SourceFile:38)
+// 	at ui.data.coregen.a.L.a(SourceFile:201)
+// 	at ui.data.coregen.a.L.a(SourceFile:361)
+// 	at ui.data.coregen.a.b.initialize(SourceFile:332)
+// 	at ui.data.coregen.a.bu.initialize(SourceFile:51)
+// 	at ui.data.coregen.a.b.<init>(SourceFile:96)
+// 	at ui.data.coregen.a.bu.<init>(SourceFile:36)
+// 	at ui.data.coregen.a.bn.initialize(SourceFile:142)
+// 	at ui.data.coregen.a.bn.<init>(SourceFile:58)
+// 	at ui.b.f.r.dbJ(SourceFile:607)
+// 	at ui.b.f.r.fT(SourceFile:300)
+// 	at ui.b.f.r.i(SourceFile:149)
+// 	at ui.b.f.r.<init>(SourceFile:125)
+// 	at ui.views.S.a.b.a(SourceFile:66)
+// 	at ui.views.S.a.q.gTr(SourceFile:173)
+// 	at ui.views.S.a.q.taskEnded(SourceFile:154)
+// 	at ui.views.x.a.y.i(SourceFile:95)
+// 	at ui.views.S.a.q.i(SourceFile:126)
+// 	at ui.b.c.bB.cs(SourceFile:513)
+// 	at ui.b.c.bK.finished(SourceFile:1174)
+// 	at ui.frmwork.z.run(SourceFile:190)
+// 	at java.desktop@9.0.4/java.awt.event.InvocationEvent.dispatch(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventQueue.dispatchEventImpl(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventQueue.access$500(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventQueue$3.run(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventQueue$3.run(Unknown Source)
+// 	at java.base@9.0.4/java.security.AccessController.doPrivileged(Native Method)
+// 	at java.base@9.0.4/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventQueue.dispatchEvent(Unknown Source)
+// 	at ui.frmwork.b.d.dispatchEvent(SourceFile:88)
+// 	at java.desktop@9.0.4/java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.WaitDispatchSupport$2.run(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.WaitDispatchSupport$4.run(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.WaitDispatchSupport$4.run(Unknown Source)
+// 	at java.base@9.0.4/java.security.AccessController.doPrivileged(Native Method)
+// 	at java.desktop@9.0.4/java.awt.WaitDispatchSupport.enter(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.Dialog.show(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.Component.show(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.Component.setVisible(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.Window.setVisible(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.Dialog.setVisible(Unknown Source)
+// 	at ui.b.c.g.setVisible(SourceFile:919)
+// 	at ui.b.c.bB.showDialog(SourceFile:978)
+// 	at ui.b.c.bI.fQ(SourceFile:1123)
+// 	at ui.b.c.bI$$Lambda$246/1576601325.run(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.event.InvocationEvent.dispatch(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventQueue.dispatchEventImpl(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventQueue.access$500(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventQueue$3.run(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventQueue$3.run(Unknown Source)
+// 	at java.base@9.0.4/java.security.AccessController.doPrivileged(Native Method)
+// 	at java.base@9.0.4/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventQueue.dispatchEvent(Unknown Source)
+// 	at ui.frmwork.b.d.dispatchEvent(SourceFile:88)
+// 	at java.desktop@9.0.4/java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventDispatchThread.run(Unknown Source)
+// Thread: SyntheticaAnimation 70
+// 	at java.base@9.0.4/java.lang.Thread.sleep(Native Method)
+// 	at de.javasoft.plaf.synthetica.painter.AnimationThreadFactory$AnimationThread.run(AnimationThreadFactory.java:119)
+// Thread: SyntheticaCleanerThread
+// 	at java.base@9.0.4/java.lang.Thread.sleep(Native Method)
+// 	at de.javasoft.plaf.synthetica.StyleFactory$ComponentPropertyStore$1.run(StyleFactory.java:1885)
+// Thread: Process Messages Thread
+// 	at java.base@9.0.4/java.lang.Thread.sleep(Native Method)
+// 	at ui.frmwork.d.h.construct(SourceFile:133)
+// 	at ui.frmwork.A.run(SourceFile:199)
+// 	at java.base@9.0.4/java.lang.Thread.run(Unknown Source)
+// Thread: Thread-1267
+// 	at java.base@9.0.4/java.lang.Object.wait(Native Method)
+// 	at java.base@9.0.4/java.lang.Object.wait(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventQueue.invokeAndWait(Unknown Source)
+// 	at java.desktop@9.0.4/java.awt.EventQueue.invokeAndWait(Unknown Source)
+// 	at org.apache.batik.util.EventDispatcher.fireEvent(EventDispatcher.java:50)
+// 	at org.apache.batik.swing.svg.GVTTreeBuilder.fireEvent(GVTTreeBuilder.java:149)
+// 	at org.apache.batik.swing.svg.GVTTreeBuilder.run(GVTTreeBuilder.java:83)
+// Thread: SyntheticaAnimation 25
+// 	at java.base@9.0.4/java.lang.Thread.sleep(Native Method)
+// 	at de.javasoft.plaf.synthetica.painter.AnimationThreadFactory$AnimationThread.run(AnimationThreadFactory.java:119)
+// Thread: SyntheticaAnimation 50
+// 	at java.base@9.0.4/java.lang.Thread.sleep(Native Method)
+// 	at de.javasoft.plaf.synthetica.painter.AnimationThreadFactory$AnimationThread.run(AnimationThreadFactory.java:119)
+// Thread: AWT-Shutdown
+// 	at java.base@9.0.4/java.lang.Object.wait(Native Method)
+// 	at java.base@9.0.4/java.lang.Object.wait(Unknown Source)
+// 	at java.desktop@9.0.4/sun.awt.AWTAutoShutdown.run(Unknown Source)
+// 	at java.base@9.0.4/java.lang.Thread.run(Unknown Source)
+// Thread: Finalizer
+// 	at java.base@9.0.4/java.lang.Object.wait(Native Method)
+// 	at java.base@9.0.4/java.lang.ref.ReferenceQueue.remove(Unknown Source)
+// 	at java.base@9.0.4/java.lang.ref.ReferenceQueue.remove(Unknown Source)
+// 	at java.base@9.0.4/java.lang.ref.Finalizer$FinalizerThread.run(Unknown Source)
+// Thread: Monitor HEventQueue Thread
+// 	at java.base@9.0.4/java.lang.Thread.dumpThreads(Native Method)
+// 	at java.base@9.0.4/java.lang.Thread.getAllStackTraces(Unknown Source)
+// 	at ui.utils.d.c.eVM(SourceFile:486)
+// 	at ui.frmwork.b.e.construct(SourceFile:140)
+// 	at ui.frmwork.A.run(SourceFile:199)
+// 	at java.base@9.0.4/java.lang.Thread.run(Unknown Source)
+// Thread: SyntheticaAnimation 50
+// 	at java.base@9.0.4/java.lang.Thread.sleep(Native Method)
+// 	at ui.utils.lnf.b.run(SourceFile:100)
+// Thread: Thread-1
+// Thread: Refresh Filesets Swing Worker Thread
+// 	at java.base@9.0.4/java.lang.Thread.sleep(Native Method)
+// 	at ui.data.design.y.construct(SourceFile:2503)
+// 	at ui.frmwork.A.run(SourceFile:199)
+// 	at java.base@9.0.4/java.lang.Thread.run(Unknown Source)
+// Thread: Batik CleanerThread
+// 	at java.base@9.0.4/java.lang.Object.wait(Native Method)
+// 	at java.base@9.0.4/java.lang.ref.ReferenceQueue.remove(Unknown Source)
+// 	at java.base@9.0.4/java.lang.ref.ReferenceQueue.remove(Unknown Source)
+// 	at org.apache.batik.util.CleanerThread.run(CleanerThread.java:106)
+// Thread: TimerQueue
+// 	at java.base@9.0.4/jdk.internal.misc.Unsafe.park(Native Method)
+// 	at java.base@9.0.4/java.util.concurrent.locks.LockSupport.parkNanos(Unknown Source)
+// 	at java.base@9.0.4/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(Unknown Source)
+// 	at java.base@9.0.4/java.util.concurrent.DelayQueue.take(Unknown Source)
+// 	at java.desktop@9.0.4/javax.swing.TimerQueue.run(Unknown Source)
+// 	at java.base@9.0.4/java.lang.Thread.run(Unknown Source)
+// Thread: Attach Listener
+// Thread: Update Runs Swing Worker Thread
+// 	at java.base@9.0.4/java.lang.Thread.sleep(Native Method)
+// 	at ui.data.experiment.F.construct(SourceFile:317)
+// 	at ui.frmwork.A.run(SourceFile:199)
+// 	at java.base@9.0.4/java.lang.Thread.run(Unknown Source)
+// Thread: Reference Handler
+// 	at java.base@9.0.4/java.lang.ref.Reference.waitForReferencePendingList(Native Method)
+// 	at java.base@9.0.4/java.lang.ref.Reference.processPendingReferences(Unknown Source)
+// 	at java.base@9.0.4/java.lang.ref.Reference.access$000(Unknown Source)
+// 	at java.base@9.0.4/java.lang.ref.Reference$ReferenceHandler.run(Unknown Source)
+// Tcl Message: INFO: [PSU-1]  DP_AUDIO clock source: RPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_AUDIO PLL source to support runtime audio change  
+// Elapsed time: 75 seconds
+dismissDialog("Re-customize IP"); // O (cr)
+// WARNING: HEventQueue.dispatchEvent() is taking  1126 ms.
+// Elapsed time: 11 seconds
+selectCheckBox(PAResourceOtoP.PSSPanelMainPage_SWITCH_TO_ADVANCED_MODE, "Switch To Advanced Mode", true); // T (R, r): TRUE
+// [GUI Memory]: 198 MB (+2299kb) [00:21:52]
+dismissDialog("Re-customize IP"); // r (cr)
+// [GUI Memory]: 222 MB (+14301kb) [00:22:21]
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// WARNING: HEventQueue.dispatchEvent() is taking  24663 ms.
+// HMemoryUtils.trashcanNow. Engine heap size: 2,193 MB. GUI used memory: 150 MB. Current time: 5/11/25, 1:11:34 PM CEST
+// WARNING: HEventQueue.dispatchEvent() is taking  245099 ms.
+// Tcl Command: 'set_property location {3 687 1913} [get_bd_cells ila_0]'
+// TclEventType: RSB_CANVAS_LOCATION
+// Tcl Message: set_property location {3 687 1913} [get_bd_cells ila_0] 
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// WARNING: HEventQueue.dispatchEvent() is taking  11439 ms.
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// HMemoryUtils.trashcanNow. Engine heap size: 2,194 MB. GUI used memory: 143 MB. Current time: 5/11/25, 1:41:34 PM CEST
+// TclEventType: RUN_STEP_COMPLETED
+// HMemoryUtils.trashcanNow. Engine heap size: 2,194 MB. GUI used memory: 141 MB. Current time: 5/11/25, 2:11:34 PM CEST

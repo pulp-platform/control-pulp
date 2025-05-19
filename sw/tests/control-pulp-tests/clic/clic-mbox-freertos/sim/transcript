@@ -1,0 +1,130 @@
+# //  Questa Sim-64
+# //  Version 10.7b_1 linux_x86_64 Jul 26 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# source /scratch/adelvecchio/control-pulp-open/sim//tcl_files/config/run_and_exit.tcl
+# source /scratch/adelvecchio/control-pulp-open/sim//tcl_files/run.tcl
+# vsim -c -quiet vopt_tb -suppress 3009 -suppress 8386 -t ps "+nowarnTRAN" "+nowarnTSCALE" "+nowarnTFMPC" "+UVM_NO_RELNOTES" -permit_unmatched_virtual_intf "+srec=prog.srec" "+jtag_load_tap=pulp" 
+# Start time: 16:56:24 on Apr 23,2025
+# ** Warning: (vsim-3015) [PCDPC] - Port size (72) does not match connection size (12) for port 'mbox_irq_i'. The port definition is at: /scratch/adelvecchio/control-pulp-open/hw/pulp/control_pulp.sv(121).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_mbox_fpga/fixt_pms_fpga/i_dut/i_control_pulp_fpga/i_control_pulp File: /scratch/adelvecchio/control-pulp-open/hw/pulp/control_pulp_fpga.sv Line: 2010
+# ** Warning: This clock divider is deprecated and not reccomended since  the generated output clock has a very unbalanced duty cycle  (1/RATIO). For new designs we reccomend using the at-runtime configurable clk_int_div module which always generates 50%  duty cycle clock. If you don't need at runtime configuration support, you can instantiate clk_int_div as follows to       obtain a module with roughly the same behavior (except for   the 50 % duty cycle):
+#                                      
+#                                                              clk_int_div #(
+#                                                .DIV_VALUE_WIDTH($clog2(RATIO+1)),
+#                          .DEFAULT_DIV_VALUE(RATIO)
+#                                 ) i_clk_int_div(
+#                                              .clk_i,
+#                                                     .rst_ni,
+#                                                    .test_mode_en_i(testmode_i),
+#                                .en_i,
+#                                                      .div_i('1), // Ignored, used default value
+#                  .div_valid_i(1'b0),
+#                                         .div_ready_o(),
+#                                             .clk_o
+#                                                    );                                                         
+#                                                            If you know what your are doing and want to disable this     warning message, you can disable it by overriding the new    optional clk_div parameter SHOW_WARNING to 1'b0.
+#    Time: 0 ps  Scope: tb_mbox_fpga.fixt_pms_fpga.i_dut.i_control_pulp_fpga.i_system_clk_rst_gen.i_clk_div_timer.gen_elab_warning File: /scratch/adelvecchio/control-pulp-open/hw/ips/common_cells/src/deprecated/clk_div.sv Line: 46
+#  
+add wave -position insertpoint sim:/tb_mbox_fpga/fixt_pms_fpga/i_dut/i_control_pulp_fpga/i_control_pulp/i_soc_domain/pulp_soc_i/fc_subsystem_i/i_clic/*
+run -all
+# ----------------------------------------------------------------
+# UVM-1.1d
+# (C) 2007-2013 Mentor Graphics Corporation
+# (C) 2007-2013 Cadence Design Systems, Inc.
+# (C) 2006-2013 Synopsys, Inc.
+# (C) 2011-2013 Cypress Semiconductor Corp.
+# ----------------------------------------------------------------
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(215) @ 0: reporter [Questa UVM] QUESTA_UVM-1.2.3
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(216) @ 0: reporter [Questa UVM]  questa_uvm::init(+struct)
+# [cv32e40p_core]: PULP_XPULP =          1, PULP_CLUSTER =           0, FPU          1, PULP_ZFINX          1, NUM_MHPMCOUNTERS         16, NUM_INTERRUPTS        256
+# [cv32e40p_core]: PULP_XPULP =           1, PULP_CLUSTER =           1, FPU          1, PULP_ZFINX          1, NUM_MHPMCOUNTERS         16, NUM_INTERRUPTS         32
+# [cv32e40p_core]: PULP_XPULP =           1, PULP_CLUSTER =           1, FPU          1, PULP_ZFINX          1, NUM_MHPMCOUNTERS         16, NUM_INTERRUPTS         32
+# [cv32e40p_core]: PULP_XPULP =           1, PULP_CLUSTER =           1, FPU          1, PULP_ZFINX          1, NUM_MHPMCOUNTERS         16, NUM_INTERRUPTS         32
+# [cv32e40p_core]: PULP_XPULP =           1, PULP_CLUSTER =           1, FPU          1, PULP_ZFINX          1, NUM_MHPMCOUNTERS         16, NUM_INTERRUPTS         32
+# [cv32e40p_core]: PULP_XPULP =           1, PULP_CLUSTER =           1, FPU          1, PULP_ZFINX          1, NUM_MHPMCOUNTERS         16, NUM_INTERRUPTS         32
+# [cv32e40p_core]: PULP_XPULP =           1, PULP_CLUSTER =           1, FPU          1, PULP_ZFINX          1, NUM_MHPMCOUNTERS         16, NUM_INTERRUPTS         32
+# [cv32e40p_core]: PULP_XPULP =           1, PULP_CLUSTER =           1, FPU          1, PULP_ZFINX          1, NUM_MHPMCOUNTERS         16, NUM_INTERRUPTS         32
+# [cv32e40p_core]: PULP_XPULP =           1, PULP_CLUSTER =           1, FPU          1, PULP_ZFINX          1, NUM_MHPMCOUNTERS         16, NUM_INTERRUPTS         32
+# [TB]       0ns - Entry point is set to 0x1c000880
+# [TB]       0ns - Asserting hard reset and jtag reset
+# ** Warning: (vsim-8360) The if/case statement is not unique.
+#    Time: 0 ps  Iteration: 0  Process: /tb_mbox_fpga/fixt_pms_fpga/i_dut/i_control_pulp_fpga/i_control_pulp/i_soc_domain/pulp_soc_i/fc_subsystem_i/i_clic/u_reg/#ALWAYS#520 File: /scratch/adelvecchio/control-pulp-open/hw/ips/clic/src/clic_reg_top.sv Line: 522
+# ** Info: [system_clk_rst_gen]        0ns - Detected legacy CLKDIV program request
+#    Time: 0 ps Started: 0 ps  Scope: tb_mbox_fpga.fixt_pms_fpga.i_dut.i_control_pulp_fpga.i_system_clk_rst_gen File: /scratch/adelvecchio/control-pulp-open/hw/pulp/system_clk_rst_gen.sv Line: 78
+# ** Info: [system_clk_rst_gen]        0ns - Detected legacy FLL program request
+#    Time: 0 ps Started: 0 ps  Scope: tb_mbox_fpga.fixt_pms_fpga.i_dut.i_control_pulp_fpga.i_system_clk_rst_gen File: /scratch/adelvecchio/control-pulp-open/hw/pulp/system_clk_rst_gen.sv Line: 71
+# ** Info: [soc_clk_rst_gen]        0ns - Detected legacy CLINT access
+#    Time: 0 ps Started: 0 ps  Scope: tb_mbox_fpga.fixt_pms_fpga.i_dut.i_control_pulp_fpga.i_control_pulp.i_soc_domain.pulp_soc_i.fc_subsystem_i File: /scratch/adelvecchio/control-pulp-open/hw/ips/pulp_soc/rtl/fc/fc_subsystem.sv Line: 300
+# [TB]    1000ns - Releasing hard reset and jtag reset
+# [TB]    6000ns - Write bootmode to bootsel register
+# [TB]    6050ns - Read bootmode from bootsel register
+# [TB]   11120ns - Load binary into L2 via AXI slave port
+# [TB]   11120ns - Write burst @001c000000 for 1024 bytes
+# [TB]   26480ns - Write burst @001c0007f0 for 1024 bytes
+# [TB]   41840ns - Write burst @001c000bf0 for 1024 bytes
+# [TB]   57200ns - Write burst @001c000ff0 for 1024 bytes
+# [TB]   72560ns - Write burst @001c0013f0 for 1024 bytes
+# [TB]   87920ns - Write burst @001c0017f0 for 1024 bytes
+# [TB]  103280ns - Write burst @001c001bf0 for 1024 bytes
+# [TB]  118640ns - Write burst @001c001ff0 for 1024 bytes
+# [TB]  134000ns - Write burst @001c0023f0 for 1024 bytes
+# [TB]  149360ns - Write burst @001c0027f0 for 1024 bytes
+# [TB]  164720ns - Write burst @001c002bf0 for 1024 bytes
+# [TB]  180080ns - Write burst @001c002ff0 for 1024 bytes
+# [TB]  195440ns - Write burst @001c0033f0 for 1024 bytes
+# [TB]  210800ns - Write burst @001c0037f0 for 1024 bytes
+# [TB]  226160ns - Write burst @001c008150 for 1024 bytes
+# [TB]  241520ns - Write burst @001c008550 for 1024 bytes
+# [TB]  256880ns - Write burst @001c008950 for 1024 bytes
+# [TB]  272240ns - Write burst @001c008d50 for 1024 bytes
+# [TB]  287600ns - Write burst @001c009150 for 1024 bytes
+# [TB]  302960ns - Write burst @001c009550 for 1024 bytes
+# [TB]  318320ns - Write burst @001c009950 for 1024 bytes
+# [TB]  333680ns - Write burst @001c009d50 for 1024 bytes
+# [TB]  349040ns - Write burst @001c00a150 for 1024 bytes
+# [TB]  364400ns - Write burst @001c00a550 for 1024 bytes
+# [TB]  379760ns - Write burst @001c00a950 for 1024 bytes
+# [TB]  395120ns - Write burst @001c00ad50 for 1024 bytes
+# [TB]  410480ns - Write burst @001c00b150 for 1024 bytes
+# [TB]  425840ns - Write burst @001c00b550 for 1024 bytes
+# [TB]  441200ns - Write burst @001c00b950 for 1024 bytes
+# [TB]  456560ns - Write burst @001c00bd50 for 1024 bytes
+# [TB]  471920ns - Write burst @001c00c150 for 1024 bytes
+# [TB]  487280ns - Write burst @001c00c550 for 1024 bytes
+# [TB]  502640ns - Write burst @001c00c950 for 1024 bytes
+# [TB]  518000ns - Write burst @001c00cd50 for 1024 bytes
+# [TB]  533360ns - Write burst @001c00d150 for 1024 bytes
+# [TB]  548720ns - Write burst @001c00d550 for 1024 bytes
+# [TB]  564080ns - Write burst @001c00d950 for 1024 bytes
+# [TB]  577240ns - Write burst @001c010370 for 1024 bytes
+# [TB]  588140ns - Write entry point into boot address register (reset vector): 0x1c000880 @ 0x1a104004
+# [TB]  588190ns - Read entry point into boot address register (reset vector): 0x1c000880 @ 0x1a104004
+# [TB] - Write 1 to fetch enable register
+# [TB] - Read 1 from fetch enable register
+# [TB]  588380ns - writing to C000_0000
+# [TB]  588440ns - writing flags
+# [TB]  588490ns - writing length
+# [TB]  588540ns - writing header
+# [TB]  588590ns - writing payload
+# [TB]  588640ns - mark channel status ad busy
+# [TB]  588690ns - writing to mailbox doorbell register
+# [TB]  588740ns - writing to mailbox doorbell register
+# [UART]: m€#[TB] 1088380ns - Waiting for end of computation
+# Break key hit
+# Break in VlGenerateBlock gen_reduce at /scratch/adelvecchio/control-pulp-open/hw/ips/common_cells/src/rr_arb_tree.sv line 273
+Ó@ACan't move the Now cursor.
+# Can't move the Now cursor.
+# Can't move the Now cursor.
+# End time: 16:59:46 on Apr 23,2025, Elapsed time: 0:03:22
+# Errors: 3, Warnings: 3

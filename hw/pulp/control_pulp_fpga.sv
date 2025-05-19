@@ -168,10 +168,17 @@ module control_pulp_fpga import pms_top_pkg::*; #(
   input logic                   sys_clk_i,
   input logic                   rst_ni,
 
+<<<<<<< Updated upstream
   input logic                   bootsel_valid_i,
   input logic [1:0]             bootsel_i,
   input logic                   fc_fetch_en_valid_i,
   input logic                   fc_fetch_en_i,
+=======
+  // input logic                   bootsel_valid_i,
+  // input logic [1:0]             bootsel_i,
+  // input logic                   fc_fetch_en_valid_i,
+  // input logic                   fc_fetch_en_i,
+>>>>>>> Stashed changes
 
   // jtag
   output logic                  jtag_tdo_o,
@@ -658,11 +665,19 @@ module control_pulp_fpga import pms_top_pkg::*; #(
 
     // .irq_completion_o    (/*TODO*/),  // completion irq platform->agent
     // .irq_doorbell_o      ({mbox_irq, scp_secure_irq, scp_irq, scg_irq})  // doorbell irq agent->platform
+<<<<<<< Updated upstream
 
     .irq_completion_o    (s_completion_irq),  // completion irq platform->agent
     .irq_doorbell_o      (s_doorbell_irq)  // doorbell irq agent->platform
   );
+=======
+>>>>>>> Stashed changes
 
+    .irq_completion_o    (s_completion_irq),  // completion irq platform->agent
+    .irq_doorbell_o      (s_doorbell_irq)  // doorbell irq agent->platform
+  );
+  
+  assign out_completion_irq = s_completion_irq;
 
   // II. PL TO PS DIRECTION
 

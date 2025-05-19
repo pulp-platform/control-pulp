@@ -175,7 +175,8 @@ int main(void)
 	/* write to mailbox channel 0 doorbell register */
 	writew(0x01, MBOX_START_ADDRESS + SCMI_DOORBELL_C0_REG_OFFSET);
 
-	for (volatile int i = 0; i < 1000000; i++)
+
+	for (volatile int i = 0; i < 1; i++)
 		;
 
 	printf("Interrupt took too long\n\r");
