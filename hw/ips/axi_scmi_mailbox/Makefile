@@ -5,20 +5,24 @@
 
 # Generate C header file
 
-NUM_CHANNELS = 64
+PYTHON_VER = python3.6
+
+NUM_CHANNELS = 1
 
 REGTOOL=../register_interface/vendor/lowrisc_opentitan/util/regtool.py
 
-all: rtl/axi_scmi_mailbox.sv scmi.hjson headers
+all: rtl/axi_scmi_mailbox.sv scmi.hjson headers registers
 
 rtl/axi_scmi_mailbox.sv: rtl/axi_scmi_mailbox.sv.tpl
-	python3.6 scmi.py -s $(NUM_CHANNELS) < $< > $@
+	$(PYTHON_VER) scmi.py -s $(NUM_CHANNELS) < $< > $@
 
 scmi.hjson: scmi.hjson.tpl
-	python3.6 scmi.py -s $(NUM_CHANNELS) < $< > $@
+	$(PYTHON_VER) scmi.py -s $(NUM_CHANNELS) < $< > $@
 
 headers: scmi.h
 
 scmi.h: scmi.hjson
 	$(REGTOOL)  --cdefines $< > $@
 
+registers: scmi.hjson
+	$(REGTOOL) -r -t rtl/ $<
