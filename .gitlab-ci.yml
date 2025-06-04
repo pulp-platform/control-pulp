@@ -58,11 +58,15 @@ prepare:
     - ./tb/vip/get-vips.sh --yes #--gitlab
     - echo "Generate scripts with DPI and VIP support"
     - $QUESTA make gen-with-vip
+    # Install rustup the recommended way (if not already installed)
+    - curl https://sh.rustup.rs -sSf | sh -s -- -y
+    - source $HOME/.cargo/env
     # Ensure we have the latest version of rustup
     - rustup self update
-    # Fix rustc and cargo versions to 1.85.0
+    # Fix rustc and cargo versions to $RUSTUP_VERSION
+    - rustup install $RUSTUP_VERSION
     - rustup default $RUSTUP_VERSION
-    # Install components for compiling rust code on RV32
+    # Install components for compiling Rust code on RV32
     - rustup target add riscv32imac-unknown-none-elf
 
   artifacts:
