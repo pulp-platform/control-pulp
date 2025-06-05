@@ -67,7 +67,7 @@ int main() {
   // 2. load L2
   std::cout << "Load L2 memory from stimuli file \n";
 
-  int i = 0;
+  
   std::string line;
   std::ifstream myfile;
   myfile.open("stim.txt");
