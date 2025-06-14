@@ -15,7 +15,6 @@ variables:
   PULP_RUNTIME_GCC_TOOLCHAIN: "/usr/pack/riscv-1.0-kgf/pulp-gcc-2.5.0"
   CPULP_INSTALL: "/home/balasr/.aarch64-8.3.0"
   VERILATOR: "/home/balasr/.local/bin/verilator"
-  BENDER: "/home/balasr/.local/bin/bender"
   QUESTA: "questa-2022.3"
   VCSSIM: "vcs-2020.12"
   RUSTUP_VERSION: "1.85.0"
