@@ -148,6 +148,9 @@ gen:
 	if [[ -d nonfree ]]; then \
 	echo 'set ROOT [file normalize [file dirname [info script]]/../..]' > nonfree/gen/synopsys.tcl; \
 	echo 'lappend search_path "$$ROOT/hw/includes"' >> nonfree/gen/synopsys.tcl; \
+	echo 'lappend search_path "$$ROOT/hw/ips/axi/include"' >> nonfree/gen/synopsys.tcl; \
+	echo 'lappend search_path "$$ROOT/hw/ips/common_cells/include"' >> nonfree/gen/synopsys.tcl; \
+	echo 'lappend search_path "$$ROOT/hw/ips/register_interface/include"' >> nonfree/gen/synopsys.tcl; \
 	$(BENDER) script synopsys $(BENDER_SYNTH_TARGETS) $(BENDER_BASE_TARGETS) | grep -v 'set ROOT' >> nonfree/gen/synopsys.tcl; \
 	fi
 
