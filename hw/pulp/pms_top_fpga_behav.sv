@@ -249,7 +249,7 @@ module pms_top_fpga_behav (
 
   // USE_D2D default is 0. If set to 1, update the other dependent parameters
   // accordingly
-  localparam int unsigned USE_D2D = 1;
+  localparam int unsigned USE_D2D = 0;
 
   control_pulp_fpga #(
     .CORE_TYPE(0),
