@@ -134,7 +134,7 @@ BENDER_BASE_TARGETS += -t cv32e40p_use_ff_regfile
 ## (Re)generate file lists and compilation scripts. Use GEN_FLAGS=--help for help.
 gen:
 # Questa
-	$(BENDER) script flist $(BENDER_SIM_TARGETS) $(BENDER_BASE_TARGETS) > sim/gen/sim.f
+	$(BENDER) script flist-plus $(BENDER_SIM_TARGETS) $(BENDER_BASE_TARGETS) > sim/gen/sim.f
 	sed -i 's?$(ROOT_DIR)?\$$CPROOT?g' sim/gen/sim.f
 # Verilator
 	$(BENDER) script verilator $(BENDER_BASE_TARGETS) > sim/gen/veri.f
