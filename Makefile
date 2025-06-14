@@ -22,7 +22,8 @@ SHELL = /bin/bash
 CTAGS  ?= ctags
 BENDER ?= bender
 
-ROOT_DIR      = $(strip $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST)))))
+ROOT_DIR        = $(strip $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST)))))
+CPULP_SLINK_DIR := $(shell $(BENDER) path serial_link)
 
 TARGET        ?= .
 TARGET_ABS    = $(abspath $(lastword $(TARGET)))
@@ -132,7 +133,7 @@ BENDER_BASE_TARGETS += -t cv32e40p_use_ff_regfile
 
 .PHONY: gen
 ## (Re)generate file lists and compilation scripts. Use GEN_FLAGS=--help for help.
-gen:
+gen: update-serial-link
 # Questa
 	$(BENDER) script flist $(BENDER_SIM_TARGETS) $(BENDER_BASE_TARGETS) > sim/gen/sim.f
 	sed -i 's?$(ROOT_DIR)?\$$CPROOT?g' sim/gen/sim.f
@@ -151,6 +152,11 @@ gen:
 	$(BENDER) script synopsys $(BENDER_SYNTH_TARGETS) $(BENDER_BASE_TARGETS) | grep -v 'set ROOT' >> nonfree/gen/synopsys.tcl; \
 	fi
 
+.PHONY: update-serial-link
+# Custom serial link
+update-serial-link: $(ROOT_DIR)/hw/serial_link.hjson
+	cp $< $(CPULP_SLINK_DIR)/src/regs/serial_link.hjson
+	$(MAKE) -C $(CPULP_SLINK_DIR) update-regs BENDER="$(BENDER)"
 
 .PHONY: gen-with-vip
 ## (Re)generate file lists and compilation scripts including all VIPs.
