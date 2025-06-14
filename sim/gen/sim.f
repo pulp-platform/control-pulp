@@ -786,13 +786,7 @@ $CPROOT/hw/ips/serial_link/src/serial_link_physical_delay_line.sv
 $CPROOT/hw/ips/serial_link/src/serial_link.sv
 $CPROOT/hw/ips/serial_link/src/serial_link_wrapper.sv
 $CPROOT/hw/ips/serial_link/src/serial_link_occamy_wrapper.sv
-$CPROOT/hw/ips/serial_link/test/axi_channel_compare.sv
 $CPROOT/hw/ips/serial_link/models/configurable_delay.behav.sv
-$CPROOT/hw/ips/serial_link/test/tb_axi_serial_link.sv
-$CPROOT/hw/ips/serial_link/test/tb_ch_calib_serial_link.sv
-$CPROOT/hw/ips/serial_link/test/tb_stream_chopper.sv
-$CPROOT/hw/ips/serial_link/test/tb_stream_chopper_dechopper.sv
-$CPROOT/hw/ips/serial_link/test/tb_channel_allocator.sv
 $CPROOT/hw/ips/wdt/src/counter_wdt.sv
 $CPROOT/hw/ips/wdt/src/ovf_detect.sv
 $CPROOT/hw/ips/wdt/src/wdt.sv
