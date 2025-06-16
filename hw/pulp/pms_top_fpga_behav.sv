@@ -368,10 +368,10 @@ module pms_top_fpga_behav (
     .ref_clk_i                 ( ref_clk                   ),
     .sys_clk_i                 ( sys_clk                   ), // unconnected for FPGA
     .rst_ni                    ( pad_reset                 ), //active_low
-    .bootsel_valid_i           ( 1'b0                      ), //0 -> memory-mapped reg
-    .bootsel_i                 ( 2'b0                      ), //has no effect if bootsel_valid == 0
-    .fc_fetch_en_valid_i       ( 1'b0                      ), //0 -> memory-mapped reg
-    .fc_fetch_en_i             ( 1'b0                      ), //has no effect if fetch_en_valid == 0
+    // .bootsel_valid_i           ( 1'b0                      ), //0 -> memory-mapped reg
+    // .bootsel_i                 ( 2'b0                      ), //has no effect if bootsel_valid == 0
+    // .fc_fetch_en_valid_i       ( 1'b0                      ), //0 -> memory-mapped reg
+    // .fc_fetch_en_i             ( 1'b0                      ), //has no effect if fetch_en_valid == 0
 
     .jtag_tdo_o,
     .jtag_tck_i,
@@ -461,8 +461,15 @@ module pms_top_fpga_behav (
     .pad_pms0_strap_0              ( pad_pms0_strap_0              ),
     .pad_pms0_strap_1              ( pad_pms0_strap_1              ),
     .pad_pms0_strap_2              ( pad_pms0_strap_2              ),
-    .pad_pms0_strap_3              ( pad_pms0_strap_3              )
-
+    .pad_pms0_strap_3              ( pad_pms0_strap_3              ),
+    .pad_bootsel0                  ( 1'b0                          ),
+    .pad_bootsel1                  ( 1'b0                          ),
+    .pad_bootsel_valid             ( 1'b0                          ),
+    .pad_fc_fetch_en               ( 1'b0                          ),
+    .pad_fc_fetch_en_valid         ( 1'b0                          ),
+    .pad_completion_irq            ( 1'b0                          ),
+    .pad_doorbell_irq              ( 1'b0                          ),
+    .out_completion_irq            ( 1'b0                          )
 );
 
 endmodule
