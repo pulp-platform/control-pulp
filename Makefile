@@ -22,7 +22,8 @@ SHELL = /bin/bash
 CTAGS  ?= ctags
 BENDER ?= bender
 
-ROOT_DIR      = $(strip $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST)))))
+ROOT_DIR        = $(strip $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST)))))
+CPULP_SLINK_DIR := $(shell $(BENDER) path serial_link)
 
 TARGET        ?= .
 TARGET_ABS    = $(abspath $(lastword $(TARGET)))
@@ -79,7 +80,7 @@ $(export_if_def VERILATOR)
 $(export_if_def QUESTA)
 
 NONFREE_REMOTE = git@iis-git.ee.ethz.ch:pms/control-pulp-nonfree.git
-NONFREE_COMMIT = 5a817fb
+NONFREE_COMMIT = 748e821
 
 .PHONY: nonfree-init
 nonfree-init:
@@ -132,9 +133,9 @@ BENDER_BASE_TARGETS += -t cv32e40p_use_ff_regfile
 
 .PHONY: gen
 ## (Re)generate file lists and compilation scripts. Use GEN_FLAGS=--help for help.
-gen:
+gen: update-serial-link
 # Questa
-	$(BENDER) script flist $(BENDER_SIM_TARGETS) $(BENDER_BASE_TARGETS) > sim/gen/sim.f
+	$(BENDER) script flist-plus $(BENDER_SIM_TARGETS) $(BENDER_BASE_TARGETS) > sim/gen/sim.f
 	sed -i 's?$(ROOT_DIR)?\$$CPROOT?g' sim/gen/sim.f
 # Verilator
 	$(BENDER) script verilator $(BENDER_BASE_TARGETS) > sim/gen/veri.f
@@ -148,9 +149,17 @@ gen:
 	if [[ -d nonfree ]]; then \
 	echo 'set ROOT [file normalize [file dirname [info script]]/../..]' > nonfree/gen/synopsys.tcl; \
 	echo 'lappend search_path "$$ROOT/hw/includes"' >> nonfree/gen/synopsys.tcl; \
+	echo 'lappend search_path "$$ROOT/hw/ips/axi/include"' >> nonfree/gen/synopsys.tcl; \
+	echo 'lappend search_path "$$ROOT/hw/ips/common_cells/include"' >> nonfree/gen/synopsys.tcl; \
+	echo 'lappend search_path "$$ROOT/hw/ips/register_interface/include"' >> nonfree/gen/synopsys.tcl; \
 	$(BENDER) script synopsys $(BENDER_SYNTH_TARGETS) $(BENDER_BASE_TARGETS) | grep -v 'set ROOT' >> nonfree/gen/synopsys.tcl; \
 	fi
 
+.PHONY: update-serial-link
+# Custom serial link
+update-serial-link: $(ROOT_DIR)/hw/serial_link.hjson
+	cp $< $(CPULP_SLINK_DIR)/src/regs/serial_link.hjson
+	$(MAKE) -C $(CPULP_SLINK_DIR) update-regs BENDER="$(BENDER)"
 
 .PHONY: gen-with-vip
 ## (Re)generate file lists and compilation scripts including all VIPs.

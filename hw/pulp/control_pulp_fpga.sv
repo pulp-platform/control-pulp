@@ -1996,6 +1996,11 @@ module control_pulp_fpga import pms_top_pkg::*; #(
     .MACRO_ROM(MACRO_ROM),
     .USE_CLUSTER(USE_CLUSTER),
     .DMA_TYPE(DMA_TYPE),
+    .USE_D2D(USE_D2D),
+    .USE_D2D_DELAY_LINE(USE_D2D_DELAY_LINE),
+    .D2D_NUM_CHANNELS(D2D_NUM_CHANNELS),
+    .D2D_NUM_LANES(D2D_NUM_LANES),
+    .D2D_NUM_CREDITS(D2D_NUM_CREDITS),
 
     .N_SOC_PERF_COUNTERS(16),  // for RTL/FPGA 16 perf counters one for each event
     .N_CLUST_PERF_COUNTERS(16),
