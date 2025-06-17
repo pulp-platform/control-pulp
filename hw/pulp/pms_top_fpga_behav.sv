@@ -469,7 +469,7 @@ module pms_top_fpga_behav (
     .pad_fc_fetch_en_valid         ( 1'b0                          ),
     .pad_completion_irq            ( 1'b0                          ),
     .pad_doorbell_irq              ( 1'b0                          ),
-    .out_completion_irq            ( 1'b0                          )
+    .out_completion_irq            (                               )
 );
 
 endmodule
