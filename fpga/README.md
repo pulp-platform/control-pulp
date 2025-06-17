@@ -98,7 +98,7 @@ The Linux kernel can be started on the ARM Processing System using Xilinx Petali
 and generates the binaries needed to start the kernel and program the FPGA with te Control PULP bitstream. In the `fpga/` directory, type:
 
 ```
-make zcu102-bootimgs
+make zcu102-boot-images
 ```
 
 The command will create a petalinux project under `petalinux/zcu102`. Booting images can be found under `fpga/output/{BOOT.BIN,image.ub}`.
@@ -108,7 +108,7 @@ The command will create a petalinux project under `petalinux/zcu102`. Booting im
 The linux root filesystem is generated using Buildroot. It needs an installed ARM AArch64 toolchain. From the `fpga/` directory, type:
 
 ```
-make zcu-buildroot
+make zcu102-buildroot
 ```
 
 The filesystem can be found under `fpga/output/rootfs.tar`
@@ -121,19 +121,28 @@ If the FPGA board is not connected directly to the development machine, start th
 vitis-2020.2 bash hw_server <hostname>:<port>
 ```
 
-For ETH FPGA remote cluster:
+## Local Setup
+
+A local setup can be established by connecting the micro-USB port labeled UART on the zcu102 board to your local machine using a USB cable.
+A terminal session can then be opened using the `screen` utility.
+To identify which device nodes correspond to the zcu102 UART interfaces, after connecting the USB cable, run:
 
 ```
-ssh <username>@bordcomputer
-~zcu102-<FPGA#ID>/hw_server.sh
+dmesg | grep /dev/tty
 ```
-Where `<hostname> = bordcomputer`, and `<port>` is indicated in the `.sh` script.
 
-Where `FPGA#ID` is the number of the board in the cluster (with leading 0 if FPGA#ID < 10).
+At this point, you can connect to the device with the lowest identifier to access the `PS` and interact with the running Linux OS. The third device listed, instead, corresponds to the ControlPULP output from the `PL` and can be used to monitor its standard output.
 
-## Open minicom
+The command to connect to a specific device is:
 
-A minicom session can be set up to display kernel messages during boot. It is
+```
+sudo screen /dev/ttyUSBX 115200
+```
+where:
+`X` is the device identifier,
+`115200` is the baudrate.
+
+As an alternative to `screen`, a `minicom` session can be set up to display kernel messages during boot. It is
 connected to the PS UART on the FPGA board. There is a minicom configuration
 available as `minirc.dfl`. You can use it like this:
 
@@ -143,14 +152,6 @@ minicom -D /dev/ttyUSBX minirc.dfl
 
 where `X` is the number your usb-to-uart cable is mapped to (can be checked with
 e.g. `dmesg`).
-
-For doing this on the ETH FPGA remote cluster:
-
-```
-ssh <username>@bordcomputer
-tty-zcu102 <FPGA#ID>
-```
-without leading 0 if FPGA#ID < 10.
 
 ## Start the Linux kernel
 
