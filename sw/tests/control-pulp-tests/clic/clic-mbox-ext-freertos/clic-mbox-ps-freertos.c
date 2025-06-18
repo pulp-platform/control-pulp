@@ -701,10 +701,8 @@ int main(void)
 	clic_isr_hook[0] = exit_success;
 	csr_write(CSR_MINTTHRESH, 0); /* 0 < 0xaa */
 
-	while(1){
-		// *timestamp1 = 0xcafecafe;
-	}
-	
+        for(volatile int i=0; i < 1000000; i++);
+
 	return 1;
 }
 
