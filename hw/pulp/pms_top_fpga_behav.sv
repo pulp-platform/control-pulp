@@ -209,7 +209,21 @@ module pms_top_fpga_behav (
 
   // UART PADS INOUT WIRES
   inout wire              pad_uart1_pms0_rxd,
-  inout wire              pad_uart1_pms0_txd
+  inout wire              pad_uart1_pms0_txd,
+
+  // BOOT SELECTION INOUT WIRES
+  inout wire              pad_bootsel0,
+  inout wire              pad_bootsel1,
+  inout wire              pad_bootsel_valid,
+  inout wire              pad_fc_fetch_en,
+  inout wire              pad_fc_fetch_en_valid,
+
+  // MAILBOX COMPLETION INTERRUPT OUTPUT WIRE
+  output wire             out_completion_irq,
+
+  // TEST INTERRUPT SIGNALS
+  inout wire pad_completion_irq,
+  inout wire pad_doorbell_irq
 
 );
 
@@ -462,14 +476,14 @@ module pms_top_fpga_behav (
     .pad_pms0_strap_1              ( pad_pms0_strap_1              ),
     .pad_pms0_strap_2              ( pad_pms0_strap_2              ),
     .pad_pms0_strap_3              ( pad_pms0_strap_3              ),
-    .pad_bootsel0                  ( 1'b0                          ),
-    .pad_bootsel1                  ( 1'b0                          ),
-    .pad_bootsel_valid             ( 1'b0                          ),
-    .pad_fc_fetch_en               ( 1'b0                          ),
-    .pad_fc_fetch_en_valid         ( 1'b0                          ),
-    .pad_completion_irq            ( 1'b0                          ),
-    .pad_doorbell_irq              ( 1'b0                          ),
-    .out_completion_irq            (                               )
+    .pad_bootsel0                  ( pad_bootsel0                  ),
+    .pad_bootsel1                  ( pad_bootsel1                  ),
+    .pad_bootsel_valid             ( pad_bootsel_valid             ),
+    .pad_fc_fetch_en               ( pad_fc_fetch_en               ), 
+    .pad_fc_fetch_en_valid         ( pad_fc_fetch_en_valid         ),
+    .pad_completion_irq            ( pad_completion_irq            ),
+    .pad_doorbell_irq              ( pad_doorbell_irq              ),
+    .out_completion_irq            ( out_completion_irq            )
 );
 
 endmodule
