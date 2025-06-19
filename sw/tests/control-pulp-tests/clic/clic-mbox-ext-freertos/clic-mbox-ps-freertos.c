@@ -57,7 +57,6 @@ void vApplicationTickHook(void);
 
 #define MBOX_START_ADDRESS 0xFFFF0000
 
-// #define INTR_ID 32
 #define INTR_ID 35
 
 #define CLIC_BASE_ADDR 0x1A200000
@@ -81,6 +80,10 @@ void vApplicationTickHook(void);
 		}                                                              \
 	} while (0)
 
+int first = 0;
+uint32_t ft = 1;
+volatile int set_cnt = 0;
+
 void clic_setup_mtvec(void);
 void clic_setup_mtvt(void);
 
@@ -93,9 +96,13 @@ void exit_fail(void)
 	exit(1);
 }
 
-int first = 0;
-uint32_t ft = 1;
-volatile int set_cnt = 0;
+void exit_success(void)
+{
+	printf("someone wrote to mailbox!");
+	exit(0);  	//---------------------------REMOVE THIS LINE IF IT IS NOT A SIMULATION
+	callee_scmi_handler();
+}
+
 
 void complete_msg(uint32_t header, uint32_t agent_id){
 	// write the header back
@@ -111,9 +118,10 @@ void complete_msg(uint32_t header, uint32_t agent_id){
 
 void callee_scmi_handler(void)
 {	
+
 	// set_cnt++;
 	// printf("set_cnt: %d\r\n", set_cnt);
-	printf("callee_scmi_handler");
+	
 
 	uint32_t agent_id = 0x0;
 	uint32_t data = 0x0;
@@ -610,12 +618,6 @@ void callee_scmi_handler(void)
 
 }
 
-/* need void functions for isr table entries */
-void exit_success(void)
-{
-	printf("someone wrote to mailbox! Precharged FW");
-	callee_scmi_handler();
-}
 
 
 int main(void)
@@ -639,8 +641,6 @@ int main(void)
 	 */
 
 	/* TODO: hook illegal insn handler to exit(1) */
-
-	
 
 	printf("test csr accesses\r\n");
 	uint32_t thresh = 0xffaa;
@@ -687,9 +687,7 @@ int main(void)
 
 	// printf("enable interrupt\n");
 
-
 	// int *timestamp1 = (int *)(DRAM_BASE_ADDR);
-
 	
 	/* enable interrupt globally */
 	irq_clint_global_enable();
@@ -701,7 +699,8 @@ int main(void)
 	clic_isr_hook[0] = exit_success;
 	csr_write(CSR_MINTTHRESH, 0); /* 0 < 0xaa */
 
-        for(volatile int i=0; i < 1000000; i++);
+
+    for(volatile int i=0; i < 1000000; i++);
 
 	return 1;
 }
