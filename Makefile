@@ -147,12 +147,8 @@ gen: update-serial-link
 	sed -i 's/current_fileset/get_filesets control_pulp_exilzcu102_pms_top_fpga_0_0/g' fpga/gen/vivado_includes.tcl
 # Synthesis
 	if [[ -d nonfree ]]; then \
-	echo 'set ROOT [file normalize [file dirname [info script]]/../..]' > nonfree/gen/synopsys.tcl; \
-	echo 'lappend search_path "$$ROOT/hw/includes"' >> nonfree/gen/synopsys.tcl; \
-	echo 'lappend search_path "$$ROOT/hw/ips/axi/include"' >> nonfree/gen/synopsys.tcl; \
-	echo 'lappend search_path "$$ROOT/hw/ips/common_cells/include"' >> nonfree/gen/synopsys.tcl; \
-	echo 'lappend search_path "$$ROOT/hw/ips/register_interface/include"' >> nonfree/gen/synopsys.tcl; \
-	$(BENDER) script synopsys $(BENDER_SYNTH_TARGETS) $(BENDER_BASE_TARGETS) | grep -v 'set ROOT' >> nonfree/gen/synopsys.tcl; \
+	$(BENDER) script flist-plus $(BENDER_SYNTH_TARGETS) $(BENDER_BASE_TARGETS) > nonfree/gen/synopsys.f; \
+	sed -i 's?$(ROOT_DIR)?\$$CPROOT?g' nonfree/gen/synopsys.f; \
 	fi
 
 .PHONY: update-serial-link
