@@ -26,7 +26,8 @@ CONFIG_SUBSYSTEM_COMPONENT_LINUX__KERNEL_NAME_EXT__LOCAL__SRC=y
 #
 # External linux-kernel local source settings
 #
-CONFIG_SUBSYSTEM_COMPONENT_LINUX__KERNEL_NAME_EXT_LOCAL_SRC_PATH="/scratch/adelvecchio/control-pulp-open/fpga/linux/petalinux/zcu102/build/components/ext_sources/linux-xlnx"
+CONFIG_SUBSYSTEM_COMPONENT_LINUX__KERNEL_NAME_EXT_LOCAL_SRC_PATH="${TOPDIR}/../components/ext_sources/linux-xlnx"
+
 
 #
 # Auto Config Settings
