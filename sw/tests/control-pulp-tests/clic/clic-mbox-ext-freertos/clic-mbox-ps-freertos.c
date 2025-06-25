@@ -81,7 +81,9 @@ void vApplicationTickHook(void);
 	} while (0)
 
 int first = 0;
-uint32_t ft = 1;
+
+volatile uint32_t ft = 1;
+
 volatile int set_cnt = 0;
 
 void clic_setup_mtvec(void);
@@ -98,9 +100,9 @@ void exit_fail(void)
 
 void exit_success(void)
 {
-	printf("someone wrote to mailbox!");
-	exit(0);  	//---------------------------REMOVE THIS LINE IF IT IS NOT A SIMULATION
+	// printf("someone wrote to mailbox!\r\n");	
 	callee_scmi_handler();
+	exit(0);  	//---------------------------REMOVE THIS LINE IF IT IS NOT A SIMULATION
 }
 
 
@@ -129,8 +131,8 @@ void callee_scmi_handler(void)
 	uint32_t protocol_id = 0x0;
 	uint32_t message_id = 0x0;
 	uint32_t payload0 = 0x0;
-	uint32_t payload1 = 0x0;
-	uint32_t payload2 = 0x0;
+	// uint32_t payload1 = 0x0;
+	// uint32_t payload2 = 0x0;
 
 	// read agent_id from doorbell 
 	agent_id = readw(MBOX_START_ADDRESS + SCMI_DOORBELL_C0_REG_OFFSET);
@@ -418,7 +420,8 @@ void callee_scmi_handler(void)
 			writew(response,
 				MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_0_C0_REG_OFFSET);
 
-			response = ft; //current perf level
+			response = ft;
+			
 			writew(response,
 				MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_0_C0_REG_OFFSET + 4);
 
@@ -613,9 +616,8 @@ void callee_scmi_handler(void)
 		response = 0x11;
 		writew(response,
 			MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_0_C0_REG_OFFSET + 4);
-		//complete_msg(data, agent_id);
-	}		
-
+		complete_msg(data, agent_id);
+	}			
 }
 
 
@@ -692,6 +694,7 @@ int main(void)
 	/* enable interrupt globally */
 	irq_clint_global_enable();
 
+	ft = 1;
 	/* enable interrupt on clic */
 	writew(0x1, CLIC_BASE_ADDR + CLIC_CLICINTIE_REG_OFFSET(INTR_ID));
 
@@ -700,7 +703,9 @@ int main(void)
 	csr_write(CSR_MINTTHRESH, 0); /* 0 < 0xaa */
 
 
-    for(volatile int i=0; i < 1000000; i++);
+    for(volatile int i=0; i < 1000000; i++); //---------------------------REMOVE THIS LINE IF IT IS NOT A SIMULATION
+	while(1);
+	
 
 	return 1;
 }
