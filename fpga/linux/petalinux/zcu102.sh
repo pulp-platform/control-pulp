@@ -19,6 +19,7 @@
 # Robert Balas <balasr@iis.ee.ethz.ch>
 # Alessandro Ottaviano<aottaviano@iis.ee.ethz.ch>
 
+
 THIS_DIR=$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")
 
 set -e
@@ -40,29 +41,43 @@ readonly TARGET=zcu102
 
 cd `pwd -P`
 
+echo "create proj"
 # create project
 if [ ! -d "$TARGET" ]; then
     $PETALINUX_VER petalinux-create -t project -n "$TARGET" --template zynqMP
 fi
 cd "$TARGET"
 
-# initialize and set necessary configuration from config and local config
-$PETALINUX_VER petalinux-config --oldconfig --get-hw-description "../../../control_pulp-txilzu9eg/control_pulp-txilzu9eg/control_pulp-txilzu9eg.sdk"
+#initialize and set necessary configuration from config and local config
+$PETALINUX_VER petalinux-config --defconfig scmi_defconfig --get-hw-description "$THIS_DIR/../../control_pulp-txilzu9eg/control_pulp-txilzu9eg/control_pulp-txilzu9eg.sdk"
+
+cd build
 
 mkdir -p components/ext_sources
 cd components/ext_sources
 if [ ! -d "linux-xlnx" ]; then
-    git clone --depth 1 --single-branch --branch xilinx-v2019.2.01 git://github.com/Xilinx/linux-xlnx.git
+  git clone --depth 1 --single-branch --branch linux-scmi git://github.com/Antoniodv/linux-xlnx
 fi
 cd linux-xlnx
-git checkout tags/xilinx-v2019.2.01
 
-cd ../../../
+# write kernel configuration 
+sed -i "s/plnx_kernel.cfg/scmi_plnx_kernel.cfg/" $THIS_DIR/zcu102/project-spec/meta-plnx-generated/recipes-kernel/linux/linux-xlnx_%.bbappend
+
+echo " ====== KERNEL CONFIG WRITTEN ======"
+
+# add new command and then set it as default (so that if bootcmd is called in boot.scr, it works normally)
+sed -i '/PSSERIAL0 /a\    "run_script_cmd=load mmc 0:1 $loadaddr boot.scr; source $loadaddr\\0" \\' $THIS_DIR/zcu102/project-spec/meta-plnx-generated/recipes-bsp/u-boot/configs/platform-auto.h
+sed -i 's/#define CONFIG_BOOTCOMMAND	"run default_bootcmd"/#define CONFIG_BOOTCOMMAND	"run run_script_cmd"/' $THIS_DIR/zcu102/project-spec/meta-plnx-generated/recipes-bsp/u-boot/configs/platform-auto.h
+
+echo " ====== CONTROL PULP AUTOFLASH COMMAND CREATED ======"
+
 
 if [[ ! -f "$THIS_DIR/../board/xilzcu102/control_pulp.dtsi" ]]; then
     echo "error: control_pulp.dtsi not found"
     exit 1
 fi
+
+cd $THIS_DIR/zcu102
 
 echo "
 /include/ \"system-conf.dtsi\"
@@ -71,6 +86,10 @@ echo "
 };
 " > project-spec/meta-user/recipes-bsp/device-tree/files/system-user.dtsi
 
+
+echo " ====== DTSI SOURCED ====== "
+
+
 # start build
 set +e
 $PETALINUX_VER petalinux-build
@@ -78,6 +97,8 @@ echo "First build might fail, this is expected..."
 set -e
 mkdir -p build/tmp/work/aarch64-xilinx-linux/external-hdf/1.0-r0/git/plnx_aarch64/
 cp project-spec/hw-description/system.hdf build/tmp/work/aarch64-xilinx-linux/external-hdf/1.0-r0/git/plnx_aarch64/
+
+
 $PETALINUX_VER petalinux-build
 
 mkdir -p build/tmp/work/aarch64-xilinx-linux/external-hdf/1.0-r0/git/plnx_aarch64/
@@ -86,6 +107,9 @@ cd images/linux
 if [ ! -f regs.init ]; then
   echo ".set. 0xFF41A040 = 0x3;" > regs.init
 fi
+
+echo " ====== PETALINUX BUILD DONE ====== "
+
 
 # add bitstream from local config
 if [ -f "$THIS_DIR/../../output/pms.bit" ]; then

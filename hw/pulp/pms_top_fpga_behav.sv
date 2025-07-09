@@ -209,7 +209,21 @@ module pms_top_fpga_behav (
 
   // UART PADS INOUT WIRES
   inout wire              pad_uart1_pms0_rxd,
-  inout wire              pad_uart1_pms0_txd
+  inout wire              pad_uart1_pms0_txd,
+
+  // BOOT SELECTION INOUT WIRES
+  inout wire              pad_bootsel0,
+  inout wire              pad_bootsel1,
+  inout wire              pad_bootsel_valid,
+  inout wire              pad_fc_fetch_en,
+  inout wire              pad_fc_fetch_en_valid,
+
+  // MAILBOX COMPLETION INTERRUPT OUTPUT WIRE
+  output wire             out_completion_irq,
+
+  // TEST INTERRUPT SIGNALS
+  inout wire pad_completion_irq,
+  inout wire pad_doorbell_irq
 
 );
 
@@ -368,10 +382,10 @@ module pms_top_fpga_behav (
     .ref_clk_i                 ( ref_clk                   ),
     .sys_clk_i                 ( sys_clk                   ), // unconnected for FPGA
     .rst_ni                    ( pad_reset                 ), //active_low
-    .bootsel_valid_i           ( 1'b0                      ), //0 -> memory-mapped reg
-    .bootsel_i                 ( 2'b0                      ), //has no effect if bootsel_valid == 0
-    .fc_fetch_en_valid_i       ( 1'b0                      ), //0 -> memory-mapped reg
-    .fc_fetch_en_i             ( 1'b0                      ), //has no effect if fetch_en_valid == 0
+    // .bootsel_valid_i           ( 1'b0                      ), //0 -> memory-mapped reg
+    // .bootsel_i                 ( 2'b0                      ), //has no effect if bootsel_valid == 0
+    // .fc_fetch_en_valid_i       ( 1'b0                      ), //0 -> memory-mapped reg
+    // .fc_fetch_en_i             ( 1'b0                      ), //has no effect if fetch_en_valid == 0
 
     .jtag_tdo_o,
     .jtag_tck_i,
@@ -461,8 +475,15 @@ module pms_top_fpga_behav (
     .pad_pms0_strap_0              ( pad_pms0_strap_0              ),
     .pad_pms0_strap_1              ( pad_pms0_strap_1              ),
     .pad_pms0_strap_2              ( pad_pms0_strap_2              ),
-    .pad_pms0_strap_3              ( pad_pms0_strap_3              )
-
+    .pad_pms0_strap_3              ( pad_pms0_strap_3              ),
+    .pad_bootsel0                  ( pad_bootsel0                  ),
+    .pad_bootsel1                  ( pad_bootsel1                  ),
+    .pad_bootsel_valid             ( pad_bootsel_valid             ),
+    .pad_fc_fetch_en               ( pad_fc_fetch_en               ), 
+    .pad_fc_fetch_en_valid         ( pad_fc_fetch_en_valid         ),
+    .pad_completion_irq            ( pad_completion_irq            ),
+    .pad_doorbell_irq              ( pad_doorbell_irq              ),
+    .out_completion_irq            ( out_completion_irq            )
 );
 
 endmodule

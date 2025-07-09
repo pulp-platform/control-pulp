@@ -154,12 +154,21 @@ module tb_mbox_fpga;
     @(posedge fixt_pms_fpga.s_soc_clk);
     fixt_pms_fpga.write_to_pulp32(axi_addr32, data, resp);
     
+    // ring the completion
+    axi_addr32=32'hA600_00a4;
+    data=32'h0000_0001;
+    $display("[TB] %t - writing to mailbox completion register",$realtime);
+    @(posedge fixt_pms_fpga.s_soc_clk);
+    fixt_pms_fpga.write_to_pulp32(axi_addr32, data, resp);
+
     // ring the doorbell
-    axi_addr32=32'hA600_0020;
+    axi_addr32=32'hA600_00a0;
     data=32'h0000_0001;
     $display("[TB] %t - writing to mailbox doorbell register",$realtime);
     @(posedge fixt_pms_fpga.s_soc_clk);
     fixt_pms_fpga.write_to_pulp32(axi_addr32, data, resp);
     #1000us;
+
+
   end
 endmodule

@@ -171,9 +171,20 @@ set_property -dict {PACKAGE_PIN AD10 IOSTANDARD LVCMOS18} [get_ports pad_pms0_st
 set_property -dict {PACKAGE_PIN AE9 IOSTANDARD LVCMOS18} [get_ports pad_pms0_strap_3_0]
 
 
-### JTAG
+### JTAG ON PMOD 0
 set_property -dict {PACKAGE_PIN A20 IOSTANDARD LVCMOS33} [get_ports jtag_tms_i_0]
 set_property -dict {PACKAGE_PIN B20 IOSTANDARD LVCMOS33} [get_ports jtag_tdi_i_0]
 set_property -dict {PACKAGE_PIN A22 IOSTANDARD LVCMOS33} [get_ports jtag_tdo_o_0]
 set_property -dict {PACKAGE_PIN A21 IOSTANDARD LVCMOS33} [get_ports jtag_tck_i_0]
 set_property -dict {PACKAGE_PIN B21 IOSTANDARD LVCMOS33} [get_ports jtag_trst_ni_0]
+
+# BOOTMODE SELECTION FROM SW13 ON ZCU102
+set_property -dict {PACKAGE_PIN AK13 IOSTANDARD LVCMOS33} [get_ports pad_bootsel0]
+set_property -dict {PACKAGE_PIN AL13 IOSTANDARD LVCMOS33} [get_ports pad_bootsel1]
+set_property -dict {PACKAGE_PIN AP12 IOSTANDARD LVCMOS33} [get_ports pad_bootsel_valid]
+set_property -dict {PACKAGE_PIN AN12 IOSTANDARD LVCMOS33} [get_ports pad_fc_fetch_en]
+set_property -dict {PACKAGE_PIN AN13 IOSTANDARD LVCMOS33} [get_ports pad_fc_fetch_en_valid]
+
+# MAILBOX TEST INTERRUPT SIGNALS ON PMOD 1
+set_property -dict {PACKAGE_PIN D20 IOSTANDARD LVCMOS33} [get_ports pad_doorbell_irq]
+set_property -dict {PACKAGE_PIN E20 IOSTANDARD LVCMOS33} [get_ports pad_completion_irq]

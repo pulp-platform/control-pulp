@@ -47,7 +47,7 @@
     },
     { name: "Reserved_3_c${i}",
       desc: "Reserved, implementation defined (32 bits over 64)",
-      swaccess: "none",
+      swaccess: "rw",
       hwaccess: "none",
       fields: [
         { bits: "31:0" }
@@ -97,26 +97,24 @@
         }
       ],
     },
-    { name: "Message_Payload_1_c${i}",
-      desc: "memory region dedicated to the parameters of the commands and their returns",
-      swaccess: "rw",
-      hwaccess: "none",
-      fields: [
-        { bits: "31:0" }
-      ],
-    },
+    % for j in range(33): 
+      { name: "Message_Payload_${j}_c${i}",
+        desc: "memory region dedicated to the parameters of the commands and their returns",
+        swaccess: "rw",
+        hwaccess: "none",
+        fields: [
+          { bits: "31:0" }
+        ],
+      },
+    % endfor 
     { name: "Doorbell_c${i}",
       desc: "Rapresents the interrupt to be raised towards the platform",
       swaccess: "rw",
       hwaccess: "hro",
       fields: [
-        { bits: "31:1",
-          name: "Preserve_Mask",
-          desc: "These bits must be constant to 0, not used with just one platform and one agent"
-        },
-        { bits: "0",
+        { bits: "31:0",
           name: "intr",
-          desc: "Interrupt bit"
+          desc: "Interrupt bits"
         }
       ],
     },
@@ -125,13 +123,9 @@
       swaccess: "rw",
       hwaccess: "hro",
       fields: [
-        { bits: "31:1",
-          name: "Preserve_Mask",
-          desc: "These bits must be constant to 0, not used with just one platform and one agent"
-        },
-        { bits: "0",
+        { bits: "31:0",
           name: "intr",
-          desc: "Interrupt bit"
+          desc: "Interrupt bits"
         }
       ],
     },

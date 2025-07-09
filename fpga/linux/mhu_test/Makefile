@@ -18,16 +18,18 @@
 CXX=aarch64-none-linux-gnu-g++
 C=aarch64-none-linux-gnu-gcc
 
-all: pmsctl scmictl
+all: mhu_test setspeed
 
-pmsctl: pmsctl.cc $(wildcard physmem/inc/*)
+mhu_test: mhu_test.cc $(wildcard physmem/inc/*)
 	$(CXX) -std=c++11 -Wall -I. $(CXXFLAGS) $(CPPFLAGS) $< -o $@;
 
-scmictl: scmictl.cc $(wildcard physmem/inc/*)
-	$(CXX) -std=c++11 -Wall -I. $(CXXFLAGS) $(CPPFLAGS) $< -o $@;
+setspeed: setspeed.c $(wildcard physmem/inc/*)
+	$(C) -std=c11 -Wall -I. $(CFLAGS) $(CPPFLAGS) $< -o $@;
+
+
+
 .PHONY: clean
 
 clean:
-	$(RM) pmsctl
-	$(RM) scmictl
-
+	$(RM) setspeed
+	$(RM) mhu_test
