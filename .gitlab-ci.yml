@@ -679,6 +679,8 @@ fpga_synth_linux_zcu102:
   stage: test
   before_script:
   script:
+    - echo "Patching unsupported github remote addresses"
+    - git config --global url."https://github.com/".insteadOf git://github.com/
     - echo "(Re)generating scripts" # because paths might have changed
     - make gen
     - echo "Starting synthesis with vivado"
