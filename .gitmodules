@@ -128,3 +128,5 @@
 	path = hw/ips/serial_link
 	url = https://github.com/pulp-platform/serial_link.git
 	branch = aottaviano/phy
+[submodule "pulp_cluster"]
+	url = git@github.com:pulp-platform/pulp_cluster.git
