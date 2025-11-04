@@ -155,7 +155,8 @@ gen: update-serial-link
 # Custom serial link
 update-serial-link: $(ROOT_DIR)/hw/serial_link.hjson
 	cp $< $(CPULP_SLINK_DIR)/src/regs/serial_link.hjson
-	$(MAKE) -C $(CPULP_SLINK_DIR) update-regs BENDER="$(BENDER)"
+	export TERM=dumb
+	$(MAKE) -C $(CPULP_SLINK_DIR) update-regs BENDER="$(BENDER)" | tr -d '\033'
 
 .PHONY: gen-with-vip
 ## (Re)generate file lists and compilation scripts including all VIPs.
