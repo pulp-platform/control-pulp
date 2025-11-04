@@ -21,6 +21,7 @@ variables:
 
 stages:
   - prepare
+  - lint
   - build
   - test
 
@@ -59,6 +60,13 @@ prepare:
     - $QUESTA make gen-with-vip
     # Install components for compiling Rust code on RV32
     - rustup target add riscv32imac-unknown-none-elf
+
+slang:
+  extends: .base
+  stage: lint
+  script:
+    - make cp-slang-all
+    - (! grep -n "error:" sim/gen/elab.log)
 
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
