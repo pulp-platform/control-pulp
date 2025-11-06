@@ -269,7 +269,7 @@ vcs-simc:
 # Slang
 #
 SLANG 			?= oseda slang
-SLANG_DIR       ?= $(ROOT_DIR)/sim/gen
+SLANG_DIR       ?= $(ROOT_DIR)/lint
 SLANG_PARSE_LOG ?= $(SLANG_DIR)/parse.log
 SLANG_LINT_LOG  ?= $(SLANG_DIR)/lint.log
 SLANG_ELAB_LOG  ?= $(SLANG_DIR)/elab.log
@@ -279,10 +279,13 @@ SLANG_FLAGS := -f cp.flist --timescale=1ns/1ns --top pms_top
 SLANG_FLAGS += -G SIM_STDOUT=0 -G USE_CLUSTER=1 -G CORE_TYPE=0 -G RISCY_FPU=1
 SLANG_FLAGS += --relax-enum-conversions --allow-use-before-declare -Wno-error=duplicate-definition
 
+BENDER_LINT_TARGETS += -t lint_pms
+
 FORCE:
 
 $(SV_FLIST): FORCE $(ROOT_DIR)/Bender.yml $(ROOT_DIR)/Bender.lock
-	$(BENDER) script flist-plus $(BENDER_BASE_TARGETS) -D SYNTHESIS > $@
+	mkdir lint
+	$(BENDER) script flist-plus $(BENDER_LINT_TARGETS) $(BENDER_SYNTH_TARGETS) $(BENDER_BASE_TARGETS) -D SYNTHESIS > $@
 
 $(SLANG_PARSE_LOG): FORCE $(SV_FLIST)
 	@cd $(SLANG_DIR) && $(SLANG) $(SLANG_FLAGS) --parse-only 2>&1 | tee $@
@@ -310,6 +313,18 @@ cp-slang-elaborate: FORCE $(SLANG_ELAB_LOG)
 
 ## All
 cp-slang-all: cp-slang-flist cp-slang-parse cp-slang-lint cp-slang-elaborate
+
+#
+# Spyglass
+#
+SNPS_SG ?= spyglass-2022.06
+
+gen_sg_script:
+	mkdir -p spyglass/tmp
+	$(BENDER) script verilator $(BENDER_BASE_TARGETS) -D SYNTHESIS > lint/files
+
+cp-sg-lint: gen_sg_script lint/func.sgdc lint/run_lint.tcl
+	cd lint; $(SNPS_SG) sg_shell -tcl run_lint.tcl
 
 # DPI libraries
 #
