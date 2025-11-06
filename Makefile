@@ -155,7 +155,6 @@ gen: update-serial-link
 # Custom serial link
 update-serial-link: $(ROOT_DIR)/hw/serial_link.hjson
 	cp $< $(CPULP_SLINK_DIR)/src/regs/serial_link.hjson
-	export TERM=dumb
 	$(MAKE) -C $(CPULP_SLINK_DIR) update-regs BENDER="$(BENDER)" | tr -d '\033'
 
 .PHONY: gen-with-vip
@@ -266,8 +265,52 @@ vcs-sim:
 vcs-simc:
 	cd sim && ./simv +UVM_NO_RELNOTES -exitstatus $(VCS_SIM_FLAGS) $(SIM_FLAGS)
 
-
 #
+# Slang
+#
+SLANG 			?= oseda slang
+SLANG_DIR       ?= $(ROOT_DIR)/sim/gen
+SLANG_PARSE_LOG ?= $(SLANG_DIR)/parse.log
+SLANG_LINT_LOG  ?= $(SLANG_DIR)/lint.log
+SLANG_ELAB_LOG  ?= $(SLANG_DIR)/elab.log
+SV_FLIST        ?= $(SLANG_DIR)/cp.flist
+
+SLANG_FLAGS := -f cp.flist --timescale=1ns/1ns --top pms_top
+SLANG_FLAGS += -G SIM_STDOUT=0 -G USE_CLUSTER=1 -G CORE_TYPE=0 -G RISCY_FPU=1
+SLANG_FLAGS += --relax-enum-conversions --allow-use-before-declare -Wno-error=duplicate-definition
+
+FORCE:
+
+$(SV_FLIST): FORCE $(ROOT_DIR)/Bender.yml $(ROOT_DIR)/Bender.lock
+	$(BENDER) script flist-plus $(BENDER_BASE_TARGETS) -D SYNTHESIS > $@
+
+$(SLANG_PARSE_LOG): FORCE $(SV_FLIST)
+	@cd $(SLANG_DIR) && $(SLANG) $(SLANG_FLAGS) --parse-only 2>&1 | tee $@
+	@echo "Slang parsing logged at: $@"
+
+$(SLANG_LINT_LOG): FORCE $(SV_FLIST)
+	@cd $(SLANG_DIR) && $(SLANG) $(SLANG_FLAGS) --lint-only 2>&1 | tee $@
+	@echo "Slang linting logged at: $@"
+
+$(SLANG_ELAB_LOG): FORCE $(SV_FLIST)
+	@cd $(SLANG_DIR) && $(SLANG) $(SLANG_FLAGS) 2>&1 | tee $@
+	@echo "Slang elaboration logged at: $@"
+
+## Generate Control Pulp .flist
+cp-slang-flist: FORCE $(SV_FLIST)
+
+## Parse Control Pulp RTL with Slang.
+cp-slang-parse: FORCE $(SLANG_PARSE_LOG)
+
+## Parse and lint Control Pulp RTL with Slang.
+cp-slang-lint: FORCE $(SLANG_LINT_LOG)
+
+## Elaborate Control Pulp RTL with Slang (includes parse and lint steps).
+cp-slang-elaborate: FORCE $(SLANG_ELAB_LOG)
+
+## All
+cp-slang-all: cp-slang-flist cp-slang-parse cp-slang-lint cp-slang-elaborate
+
 # DPI libraries
 #
 
