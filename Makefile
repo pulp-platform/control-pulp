@@ -283,8 +283,8 @@ BENDER_LINT_TARGETS += -t lint_pms
 
 FORCE:
 
-$(SV_FLIST): FORCE $(ROOT_DIR)/Bender.yml $(ROOT_DIR)/Bender.lock
-	mkdir lint
+$(SV_FLIST): $(ROOT_DIR)/Bender.yml $(ROOT_DIR)/Bender.lock
+	mkdir -p lint
 	$(BENDER) script flist-plus $(BENDER_LINT_TARGETS) $(BENDER_SYNTH_TARGETS) $(BENDER_BASE_TARGETS) -D SYNTHESIS > $@
 
 $(SLANG_PARSE_LOG): FORCE $(SV_FLIST)
