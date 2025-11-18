@@ -286,17 +286,18 @@ FORCE:
 $(SV_FLIST): $(ROOT_DIR)/Bender.yml $(ROOT_DIR)/Bender.lock
 	mkdir -p lint
 	$(BENDER) script flist-plus $(BENDER_LINT_TARGETS) $(BENDER_SYNTH_TARGETS) $(BENDER_BASE_TARGETS) -D SYNTHESIS > $@
+	sed -i 's?$(ROOT_DIR)?\$$CPROOT?g' $@
 
 $(SLANG_PARSE_LOG): FORCE $(SV_FLIST)
-	@cd $(SLANG_DIR) && $(SLANG) $(SLANG_FLAGS) --parse-only 2>&1 | tee $@
+	@cd $(SLANG_DIR) && CPROOT=$(ROOT_DIR) $(SLANG) $(SLANG_FLAGS) --parse-only 2>&1 | tee $@
 	@echo "Slang parsing logged at: $@"
 
 $(SLANG_LINT_LOG): FORCE $(SV_FLIST)
-	@cd $(SLANG_DIR) && $(SLANG) $(SLANG_FLAGS) --lint-only 2>&1 | tee $@
+	@cd $(SLANG_DIR) && CPROOT=$(ROOT_DIR) $(SLANG) $(SLANG_FLAGS) --lint-only 2>&1 | tee $@
 	@echo "Slang linting logged at: $@"
 
 $(SLANG_ELAB_LOG): FORCE $(SV_FLIST)
-	@cd $(SLANG_DIR) && $(SLANG) $(SLANG_FLAGS) 2>&1 | tee $@
+	@cd $(SLANG_DIR) && CPROOT=$(ROOT_DIR) $(SLANG) $(SLANG_FLAGS) 2>&1 | tee $@
 	@echo "Slang elaboration logged at: $@"
 
 ## Generate Control Pulp .flist
