@@ -137,9 +137,13 @@ gen: update-serial-link
 # Questa
 	$(BENDER) script flist-plus $(BENDER_SIM_TARGETS) $(BENDER_BASE_TARGETS) > sim/gen/sim.f
 	sed -i 's?$(ROOT_DIR)?\$$CPROOT?g' sim/gen/sim.f
+	sed -i '/axi_slice_dc\/.*axi_cdc\.sv/d' sim/gen/sim.f
+
 # Verilator
 	$(BENDER) script verilator $(BENDER_BASE_TARGETS) > sim/gen/veri.f
 	sed -i 's?$(ROOT_DIR)?\$$ROOT?g' sim/gen/veri.f
+	sed -i '/axi_slice_dc\/.*axi_cdc\.sv/d' sim/gen/veri.f
+
 # Vivado
 	$(BENDER) script vivado $(BENDER_BASE_TARGETS) --define PULP_FPGA_EMUL > fpga/gen/vivado.tcl
 	$(BENDER) script vivado $(BENDER_BASE_TARGETS) --define PULP_FPGA_EMUL --only-includes --no-simset > fpga/gen/vivado_includes.tcl
@@ -149,6 +153,7 @@ gen: update-serial-link
 	if [[ -d nonfree ]]; then \
 	$(BENDER) script flist-plus $(BENDER_SYNTH_TARGETS) $(BENDER_BASE_TARGETS) > nonfree/gen/synopsys.f; \
 	sed -i 's?$(ROOT_DIR)?\$$CPROOT?g' nonfree/gen/synopsys.f; \
+	sed -i '/axi_slice_dc\/.*axi_cdc\.sv/d' nonfree/gen/synopsys.f; \
 	fi
 
 .PHONY: update-serial-link
@@ -269,13 +274,13 @@ vcs-simc:
 # Slang
 #
 SLANG 			?= oseda slang
-SLANG_DIR       ?= $(ROOT_DIR)/lint
+SLANG_DIR       ?= $(ROOT_DIR)/util/lint/slang
 SLANG_PARSE_LOG ?= $(SLANG_DIR)/parse.log
 SLANG_LINT_LOG  ?= $(SLANG_DIR)/lint.log
 SLANG_ELAB_LOG  ?= $(SLANG_DIR)/elab.log
-SV_FLIST        ?= $(SLANG_DIR)/cp.flist
+SV_FLIST        ?= cp.flist
 
-SLANG_FLAGS := -f cp.flist --timescale=1ns/1ns --top pms_top
+SLANG_FLAGS := -f ../../../cp.flist --timescale=1ns/1ns --top pms_top
 SLANG_FLAGS += -G SIM_STDOUT=0 -G USE_CLUSTER=1 -G CORE_TYPE=0 -G RISCY_FPU=1
 SLANG_FLAGS += --relax-enum-conversions --allow-use-before-declare -Wno-error=duplicate-definition
 
@@ -283,12 +288,13 @@ BENDER_LINT_TARGETS += -t lint_pms
 
 FORCE:
 
-$(SV_FLIST): $(ROOT_DIR)/Bender.yml $(ROOT_DIR)/Bender.lock
-	mkdir -p lint
-	$(BENDER) script flist-plus $(BENDER_LINT_TARGETS) $(BENDER_SYNTH_TARGETS) $(BENDER_BASE_TARGETS) -D SYNTHESIS > $@
+$(SV_FLIST): FORCE $(ROOT_DIR)/Bender.yml $(ROOT_DIR)/Bender.lock
+	$(BENDER) script flist-plus $(BENDER_BASE_TARGETS) -t synthesis -D SYNTHESIS > $@
 	sed -i 's?$(ROOT_DIR)?\$$CPROOT?g' $@
+	sed -i '/axi_slice_dc\/.*axi_cdc\.sv/d' $@
 
 $(SLANG_PARSE_LOG): FORCE $(SV_FLIST)
+	mkdir -p $(SLANG_DIR)
 	@cd $(SLANG_DIR) && CPROOT=$(ROOT_DIR) $(SLANG) $(SLANG_FLAGS) --parse-only 2>&1 | tee $@
 	@echo "Slang parsing logged at: $@"
 
@@ -319,13 +325,17 @@ cp-slang-all: cp-slang-flist cp-slang-parse cp-slang-lint cp-slang-elaborate
 # Spyglass
 #
 SNPS_SG ?= spyglass-2022.06
+SG_DIR  ?= $(ROOT_DIR)/util/lint/spyglass
 
+# Remove axi_cdc.sv coming from axi_slice_dc directory to void duplicate module definitions
 gen_sg_script:
-	mkdir -p spyglass/tmp
-	$(BENDER) script verilator $(BENDER_BASE_TARGETS) -D SYNTHESIS > lint/files
+	mkdir -p $(SG_DIR)
+	$(BENDER) script verilator $(BENDER_BASE_TARGETS) -D SYNTHESIS > $(SG_DIR)/cp_sg.f
+	sed -i 's?$(ROOT_DIR)?\$$CPROOT?g' $(SG_DIR)/cp_sg.f
+	sed -i '/axi_slice_dc\/.*axi_cdc\.sv/d' $(SG_DIR)/cp_sg.f
 
-cp-sg-lint: gen_sg_script lint/func.sgdc lint/run_lint.tcl
-	cd lint; $(SNPS_SG) sg_shell -tcl run_lint.tcl
+cp-sg-lint: gen_sg_script
+	cd $(SG_DIR) && CPROOT=$(ROOT_DIR) $(SNPS_SG) sg_shell -tcl run_sg_lint.tcl
 
 # DPI libraries
 #
@@ -465,7 +475,7 @@ $(TEST_DIR)/runtime-tests/riscv_tests_soc: $(TEST_DIR)/runtime-tests
 test-rt-periph:
 	source env/env.sh; \
 	touch $(TEST_DIR)/runtime-tests/simplified-periph-runtime.xml; \
-	cd $(TEST_DIR)/runtime-tests && $(BWRUNTEST) --proc-verbose -v \
+	cd $(TEST_DIR)/runtime-tests && python $(BWRUNTEST) --proc-verbose -v \
 		--report-junit -t 7200 --yaml --max-procs 2 \
 		-o simplified-periph-runtime.xml periph-tests.yaml
 
@@ -473,7 +483,7 @@ test-rt-periph:
 ## Run only ml tests on pulp-runtime
 test-rt-ml: $(TEST_DIR)/runtime-tests
 	source env/env.sh; \
-	cd $(TEST_DIR)/runtime-tests && $(BWRUNTEST) --proc-verbose -v \
+	cd $(TEST_DIR)/runtime-tests && python $(BWRUNTEST) --proc-verbose -v \
 		--report-junit -t 3600 --yaml --max-procs 2 \
 		-o runtime-ml.xml ml-tests.yaml
 
@@ -481,7 +491,7 @@ test-rt-ml: $(TEST_DIR)/runtime-tests
 ## Run only riscv tests on pulp-runtime
 test-rt-riscv: $(TEST_DIR)/runtime-tests $(TEST_DIR)/runtime-tests/riscv_tests_soc
 	source env/env.sh; \
-	cd $(TEST_DIR)/runtime-tests && $(BWRUNTEST) --proc-verbose -v \
+	cd $(TEST_DIR)/runtime-tests && python $(BWRUNTEST) --proc-verbose -v \
 		--report-junit -t 3600 --yaml --max-procs 2 \
 		-o runtime-riscv.xml riscv-tests.yaml
 
@@ -489,7 +499,7 @@ test-rt-riscv: $(TEST_DIR)/runtime-tests $(TEST_DIR)/runtime-tests/riscv_tests_s
 ## Run only sequential tests on pulp-runtime
 test-rt-seq-bare: $(TEST_DIR)/runtime-tests
 	source env/env.sh; \
-	cd $(TEST_DIR)/runtime-tests && $(BWRUNTEST) --proc-verbose -v \
+	cd $(TEST_DIR)/runtime-tests && python $(BWRUNTEST) --proc-verbose -v \
 		--report-junit -t 3600 --yaml --max-procs 2 \
 		-o runtime-sequential.xml sequential-bare-tests.yaml
 
@@ -497,7 +507,7 @@ test-rt-seq-bare: $(TEST_DIR)/runtime-tests
 ## Run only parallel tests on pulp-runtime
 test-rt-par-bare: $(TEST_DIR)/runtime-tests
 	source env/env.sh; \
-	cd $(TEST_DIR)/runtime-tests && $(BWRUNTEST) --proc-verbose -v \
+	cd $(TEST_DIR)/runtime-tests && python $(BWRUNTEST) --proc-verbose -v \
 		--report-junit -t 3600 --yaml --max-procs 2 \
 		-o runtime-parallel.xml parallel-bare-tests.yaml
 
@@ -505,7 +515,7 @@ test-rt-par-bare: $(TEST_DIR)/runtime-tests
 ## Run control pulp tests on pulp-runtime
 test-rt-control-pulp: $(TEST_DIR)/control-pulp-tests
 	source env/env.sh; \
-	cd $(TEST_DIR)/control-pulp-tests && $(BWRUNTEST) --proc-verbose -v \
+	cd $(TEST_DIR)/control-pulp-tests && python $(BWRUNTEST) --proc-verbose -v \
 		--report-junit -t 3600 --yaml --max-procs 2 \
 		-o runtime-control-pulp.xml control-pulp-tests.yaml
 
@@ -513,7 +523,7 @@ test-rt-control-pulp: $(TEST_DIR)/control-pulp-tests
 ## Run tcdm tests on pulp-runtime
 test-rt-tcdm: $(PULP_RUNTIME) $(TEST_DIR)/runtime-tests
 	source env/env.sh; \
-	cd $(TEST_DIR)/runtime-tests && $(BWRUNTEST) --proc-verbose -v \
+	cd $(TEST_DIR)/runtime-tests && python $(BWRUNTEST) --proc-verbose -v \
 		--report-junit -t 3600 --yaml --max-procs 2 \
 		-o runtime-tcdm.xml tcdm-tests.yaml
 
@@ -521,7 +531,7 @@ test-rt-tcdm: $(PULP_RUNTIME) $(TEST_DIR)/runtime-tests
 ## Run soc_interconnect tests on pulp-runtime
 test-rt-soc-interconnect: $(PULP_RUNTIME) $(TEST_DIR)/runtime-tests
 	source env/env.sh; \
-	cd $(TEST_DIR)/runtime-tests && $(BWRUNTEST) --proc-verbose -v \
+	cd $(TEST_DIR)/runtime-tests && python $(BWRUNTEST) --proc-verbose -v \
 		--report-junit -t 3600 --yaml --max-procs 2 \
 		-o runtime-soc-interconnect.xml soc-interconnect-tests.yaml
 
@@ -529,7 +539,7 @@ test-rt-soc-interconnect: $(PULP_RUNTIME) $(TEST_DIR)/runtime-tests
 ## Run mchan tests on pulp-runtime
 test-rt-mchan: $(PULP_RUNTIME) $(TEST_DIR)/runtime-tests
 	source env/env.sh; \
-	cd $(TEST_DIR)/runtime-tests && $(BWRUNTEST) --proc-verbose -v \
+	cd $(TEST_DIR)/runtime-tests && python $(BWRUNTEST) --proc-verbose -v \
 		--report-junit -t 3600 --yaml --max-procs 2 \
 		-o runtime-mchan.xml mchan-tests.yaml
 
@@ -537,7 +547,7 @@ test-rt-mchan: $(PULP_RUNTIME) $(TEST_DIR)/runtime-tests
 ## Run idma tests on pulp-runtime
 test-rt-idma: $(PULP_RUNTIME) $(TEST_DIR)/runtime-tests
 	source env/env.sh; \
-	cd $(TEST_DIR)/runtime-tests && $(BWRUNTEST) --proc-verbose -v \
+	cd $(TEST_DIR)/runtime-tests && python $(BWRUNTEST) --proc-verbose -v \
 		--report-junit -t 3600 --yaml --max-procs 2 \
 		-o runtime-mchan.xml idma-tests.yaml
 
@@ -545,7 +555,7 @@ test-rt-idma: $(PULP_RUNTIME) $(TEST_DIR)/runtime-tests
 ## Run coremark tests on pulp-runtime
 test-rt-coremark: $(PULP_RUNTIME) $(TEST_DIR)/runtime-tests
 	source env/env.sh; \
-	cd $(TEST_DIR)/runtime-tests && $(BWRUNTEST) --proc-verbose -v \
+	cd $(TEST_DIR)/runtime-tests && python $(BWRUNTEST) --proc-verbose -v \
 		--report-junit -t 3600 --yaml --max-procs 2 \
 		-o runtime-coremark.xml coremark-tests.yaml
 
@@ -553,7 +563,7 @@ test-rt-coremark: $(PULP_RUNTIME) $(TEST_DIR)/runtime-tests
 ## Run performance counters sample test on pulp-runtime
 test-rt-perfcounters: $(TEST_DIR)/runtime-tests
 	source env/env.sh; \
-	cd $(TEST_DIR)/runtime-tests && $(BWRUNTEST) --proc-verbose -v \
+	cd $(TEST_DIR)/runtime-tests && python $(BWRUNTEST) --proc-verbose -v \
 		--report-junit -t 3600 --yaml --max-procs 2 \
 		-o runtime-perf-counters.xml perf-counters-tests.yaml
 
@@ -561,28 +571,28 @@ test-rt-perfcounters: $(TEST_DIR)/runtime-tests
 ## Run tests to measure clock cycles required to receive data from the outside of the PMS (with and without DMA)
 test-rx-mchan:
 	source env/env.sh; \
-	cd $(TEST_DIR)/control-pulp-tests/sensors_transfers && $(BWRUNTEST) \
+	cd $(TEST_DIR)/control-pulp-tests/sensors_transfers && python $(BWRUNTEST) \
 		--proc-verbose -v --report-junit -t 9800 --yaml -o sensors-tests.xml sensors-tests.yaml
 
 .PHONY: test-rx-idma
 ## Run tests to measure clock cycles required to receive data from the outside of the PMS (with and without DMA) in the cluster
 test-rx-idma:
 	source env/env.sh; \
-	cd $(TEST_DIR)/control-pulp-tests/pvt_sensors_idma_cl && $(BWRUNTEST) \
+	cd $(TEST_DIR)/control-pulp-tests/pvt_sensors_idma_cl && python $(BWRUNTEST) \
 		--proc-verbose -v --report-junit -t 9800 --yaml -o sensors-tests.xml sensors-tests.yaml
 
 .PHONY: test-avs
 ## Run tests with AVS bus
 test-avs:
 	source env/env.sh; \
-	cd $(TEST_DIR)/runtime-tests/peripherals/avs && $(BWRUNTEST) \
+	cd $(TEST_DIR)/runtime-tests/peripherals/avs && python $(BWRUNTEST) \
 		--proc-verbose -v --report-junit -t 9800 --yaml -o avs-tests.xml avs-tests.yaml
 
 .PHONY: test-i2c-slv-irq
 ## Run tests with I2C slv with itnerrupt notification for end of transfer
 test-i2c-slv-irq:
 	source env/env.sh; \
-	cd $(TEST_DIR)/runtime-tests && $(BWRUNTEST) \
+	cd $(TEST_DIR)/runtime-tests && python $(BWRUNTEST) \
 		--proc-verbose -v --report-junit -t 9800 --yaml -o i2c-slv-tests.xml i2c-slv-tests.yaml
 
 .PHONY: test-axislv
