@@ -82,8 +82,6 @@ sources:
       - hw/ips/tech_cells_generic/src/deprecated/pad_functional.sv
       - hw/ips/tech_cells_generic/src/deprecated/pulp_buffer.sv
       - hw/ips/tech_cells_generic/src/deprecated/pulp_pwr_cells.sv
-      - hw/ips/tech_cells_generic/src/tc_pwr.sv
-      - hw/ips/tech_cells_generic/test/tb_tc_sram.sv
       - hw/ips/tech_cells_generic/src/deprecated/pulp_clock_gating_async.sv
       - hw/ips/tech_cells_generic/src/deprecated/cluster_clk_cells.sv
       - hw/ips/tech_cells_generic/src/deprecated/pulp_clk_cells.sv
