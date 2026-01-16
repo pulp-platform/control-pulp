@@ -66,8 +66,16 @@ slang:
   stage: lint
   script:
     - make cp-slang-all
-    - (! grep -n "error:" lint/elab.log)
+    - (! grep -n "error:" util/lint/slang/elab.log)
 
+spyglass:
+  extends: .base
+  stage: lint
+  script:
+    - make cp-sg-lint
+    - (! grep -n "Fatal" util/lint/spyglass/sg_projects/pms/pms_top/Design_Read/spyglass_reports/moresimple.rpt)
+    - (! grep -n "Fatal" util/lint/spyglass/sg_projects/pms/pms_top/lint/lint_rtl/spyglass_reports/moresimple.rpt)
+    
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME-$CI_COMMIT_SHORT_SHA"
     paths:
