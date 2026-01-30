@@ -642,6 +642,9 @@ module control_pulp import control_pulp_pkg::*; #(
     // Tie d2d link ports
     assign d2d_clk_o = '0;
     assign d2d_data_o = '0;
+    assign apb_serial_link_bus.prdata = '0;
+    assign apb_serial_link_bus.pready = 1'b0;
+    assign apb_serial_link_bus.pslverr = 1'b0;
   end
 
   //

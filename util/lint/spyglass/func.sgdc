@@ -1,0 +1,11 @@
+# Copyright 2022 ETH Zurich and University of Bologna.
+# Solderpad Hardware License, Version 0.51, see LICENSE for details.
+# SPDX-License-Identifier: SHL-0.51
+
+current_design pms_top
+test_mode -name "pms_top.dft_test_mode_i" -value "0"
+reset -name "rst_ni" -async -value 0
+reset -name "jtag_trst_ni" -async -value 0
+clock -name "sys_clk_i" -period 1.25 -domain sys_clk_domain
+clock -name "ref_clk_i" -period 10.0  -domain ref_clk_domain
+quasi_static -name "s_clk_mux_sel"

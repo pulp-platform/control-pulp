@@ -59,9 +59,9 @@ module pms_top import pms_top_pkg::*; #(
   // D2D link
   parameter int unsigned USE_D2D = 0,
   parameter int unsigned USE_D2D_DELAY_LINE = 0,
-  parameter int unsigned D2D_NUM_CHANNELS = 0,
-  parameter int unsigned D2D_NUM_LANES = 0,
-  parameter int unsigned D2D_NUM_CREDITS = 0
+  parameter int unsigned D2D_NUM_CHANNELS = 1,
+  parameter int unsigned D2D_NUM_LANES = 1,
+  parameter int unsigned D2D_NUM_CREDITS = 1
 
 ) (
 
