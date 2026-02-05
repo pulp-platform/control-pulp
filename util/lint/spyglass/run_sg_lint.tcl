@@ -11,11 +11,6 @@ set TIMESTAMP [exec date +%Y%m%d_%H%M%S]
 new_project sg_projects/${PROJECT}_${TIMESTAMP}
 current_methodology $env(SPYGLASS_HOME)/GuideWare/latest/block/rtl_handoff
 
-# Ignore re-defined files
-#foreach file $IgnoredFiles {
-#  set_option ignorefile $file
-#}
-
 # Read the RTL
 read_file -type sourcelist cp_sg.f
 
@@ -28,6 +23,9 @@ set_option language_mode mixed
 set_option designread_disable_flatten no
 set_option mthresh 32768
 set_option top pms_top
+
+# Waive empty module warnings
+waive -rule "WarnAnalyzeBBox"
 
 # Link Design
 current_design pms_top

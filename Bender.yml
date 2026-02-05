@@ -26,6 +26,7 @@ package:
     - "Gianmarco Ottavi <gianmarco.ottavi@studio.unibo.it>"
     - "Manuel Eggimann <meggiman@iis.ee.ethz.ch>"
     - "Luca Valente <luca.valente2@unibo.it>"
+    - "Simone Manoni <s.manoni@unibo.it>"
 
 dependencies:
   control_pulp_pkg: { path: "hw/pkg" }
@@ -70,21 +71,6 @@ sources:
   - hw/pulp/pms_top_fpga_behav.sv
   - hw/pulp/control_pulp.sv
   - hw/pulp/control_pulp_fpga.sv
-
-  - target: all(lint_pms)
-    files:
-      - hw/ips/tech_cells_generic/src/rtl/tc_sram.sv
-      - hw/ips/tech_cells_generic/src/rtl/tc_sram_impl.sv
-      - hw/ips/tech_cells_generic/src/rtl/tc_clk.sv
-      - hw/ips/tech_cells_generic/src/deprecated/cluster_pwr_cells.sv
-      - hw/ips/tech_cells_generic/src/deprecated/generic_memory.sv
-      - hw/ips/tech_cells_generic/src/deprecated/generic_rom.sv
-      - hw/ips/tech_cells_generic/src/deprecated/pad_functional.sv
-      - hw/ips/tech_cells_generic/src/deprecated/pulp_buffer.sv
-      - hw/ips/tech_cells_generic/src/deprecated/pulp_pwr_cells.sv
-      - hw/ips/tech_cells_generic/src/deprecated/pulp_clock_gating_async.sv
-      - hw/ips/tech_cells_generic/src/deprecated/cluster_clk_cells.sv
-      - hw/ips/tech_cells_generic/src/deprecated/pulp_clk_cells.sv
 
   # TB sources
   - target: any(test,simulation)
@@ -148,7 +134,7 @@ sources:
       - tb/vip/i2c_eeprom/24FC1025.v
 
   # tech (gf22)
-  - target: all(gf22, not(lint_pms))
+  - target: all(gf22)
     files:
       - nonfree/synth/gf22/sourcecode/tech_cells_gf22/pulp_power_gating.sv
       - nonfree/synth/gf22/sourcecode/tech_cells_gf22/cluster_clock_inverter.sv
