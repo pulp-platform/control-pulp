@@ -96,7 +96,7 @@
 	url = https://github.com/pulp-platform/scm.git
 [submodule "hw/ips/tech_cells_generic"]
 	path = hw/ips/tech_cells_generic
-	url = https://github.com/pulp-platform/tech_cells_generic.git
+	url = git@github.com:pulp-platform/tech_cells_generic.git
 [submodule "hw/ips/timer_unit"]
 	path = hw/ips/timer_unit
 	url = https://github.com/pulp-platform/timer_unit.git
