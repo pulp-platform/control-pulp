@@ -167,10 +167,11 @@ module control_pulp_fpga import pms_top_pkg::*; #(
   input logic                   ref_clk_i,
   input logic                   sys_clk_i,
   input logic                   rst_ni,
-  input logic                   bootsel_valid_i,
-  input logic [1:0]             bootsel_i,
-  input logic                   fc_fetch_en_valid_i,
-  input logic                   fc_fetch_en_i,
+
+  // input logic                   bootsel_valid_i,
+  // input logic [1:0]             bootsel_i,
+  // input logic                   fc_fetch_en_valid_i,
+  // input logic                   fc_fetch_en_i,
 
   // jtag
   output logic                  jtag_tdo_o,
@@ -182,6 +183,11 @@ module control_pulp_fpga import pms_top_pkg::*; #(
   // wdt
   output logic [1:0]            wdt_alert_o,
   input  logic                  wdt_alert_clear_i,
+
+
+  //SCMI mailbox PS to PL intr signal
+  output logic                  out_completion_irq,
+
 
   // on-pmu internal peripherals as i/o pads (soc)
 
@@ -275,11 +281,22 @@ module control_pulp_fpga import pms_top_pkg::*; #(
 
   // UART PADS INOUT WIRES
   inout wire              pad_uart1_pms0_rxd,
-  inout wire              pad_uart1_pms0_txd
+  inout wire              pad_uart1_pms0_txd,
+  
+  //BOOT SELECTION INOUT WIRES
+  inout wire              pad_bootsel0,
+  inout wire              pad_bootsel1,
+  inout wire              pad_bootsel_valid,
+  inout wire              pad_fc_fetch_en,
+  inout wire              pad_fc_fetch_en_valid,
+
+  // TEST INTERRUPT SIGNALS
+  inout wire              pad_completion_irq,
+  inout wire              pad_doorbell_irq
 );
 
   // Doorbell interrupts
-  localparam int unsigned  NUM_SCMI_CHANNELS = 64;
+  localparam int unsigned  NUM_SCMI_CHANNELS = 1;
   logic                    scg_irq, scp_irq, scp_secure_irq;
   logic [60:0]             mbox_irq;
 
@@ -320,7 +337,7 @@ module control_pulp_fpga import pms_top_pkg::*; #(
     MaxSlvTrans:        8,
     FallThrough:        1'b1,
     LatencyMode:        axi_pkg::NO_LATENCY,
-    PipelineStages:     0,
+    PipelineStages:     0, 
     AxiIdWidthSlvPorts: AXI_ID_WIDTH_PS_MST,
     AxiIdUsedSlvPorts:  AXI_ID_WIDTH_PS_MST,
     AxiAddrWidth:       AXI_ADDR_WIDTH_PMS,  // 32 but remapping is needed before connecting to PL slv
@@ -595,6 +612,9 @@ module control_pulp_fpga import pms_top_pkg::*; #(
   // iw conv output port towards mailbox-scmi
   axi_req_pl_slv_t   to_mailbox_req  ;
   axi_resp_pl_slv_t  to_mailbox_resp ;
+  logic   s_completion_irq;
+  logic   s_doorbell_irq;
+
 
   axi_iw_converter #(
     .AxiSlvPortIdWidth      ( AXI_ID_WIDTH_PS_MST+$clog2(XbarCfgPSMst.NoSlvPorts)              ),
@@ -636,10 +656,14 @@ module control_pulp_fpga import pms_top_pkg::*; #(
     .axi_mbox_req    (to_mailbox_req ),
     .axi_mbox_rsp    (to_mailbox_resp),
 
-    .irq_completion_o    (/*TODO*/),  // completion irq platform->agent
-    .irq_doorbell_o      ({mbox_irq, scp_secure_irq, scp_irq, scg_irq})  // doorbell irq agent->platform
-  );
+    // .irq_completion_o    (/*TODO*/),  // completion irq platform->agent
+    // .irq_doorbell_o      ({mbox_irq, scp_secure_irq, scp_irq, scg_irq})  // doorbell irq agent->platform
 
+    .irq_completion_o    (s_completion_irq),  // completion irq platform->agent
+    .irq_doorbell_o      (s_doorbell_irq)  // doorbell irq agent->platform
+  );
+  
+  assign out_completion_irq = s_completion_irq;
 
   // II. PL TO PS DIRECTION
 
@@ -1561,6 +1585,11 @@ module control_pulp_fpga import pms_top_pkg::*; #(
   assign s_oe_i2c7_bmc_slv_scl = s_oe_i2c_slv_scl[0];
   assign s_oe_i2c7_bmc_slv_sda = s_oe_i2c_slv_sda[0];
 
+  // BOOT MODE SEL SIGNALS
+  logic [1:0]s_bootsel;
+  logic s_bootsel_valid;
+  logic s_fc_fetch_en;
+  logic s_fc_fetch_en_valid;
 
   // Instantiate pad_frame for chip-like inout signals
   pad_frame_fpga i_pad_frame (
@@ -1770,6 +1799,8 @@ module control_pulp_fpga import pms_top_pkg::*; #(
     .out_cpu_reset_out_l_i         ( s_out_cpu_reset_out_l         ),
     .out_cpu_socket_id_i           ( s_out_cpu_socket_id           ),
     .out_cpu_strap_i               ( s_out_cpu_strap               ),
+    .out_doorbell                  ( s_doorbell_irq                ),
+    .out_completion                ( s_completion_irq              ),
 
     // EXT CHIP TP                 PADS
     .pad_pmb_vr1_pms0_sda          ( pad_pmb_vr1_pms0_sda          ),
@@ -1850,6 +1881,19 @@ module control_pulp_fpga import pms_top_pkg::*; #(
     .pad_pms0_strap_1              ( pad_pms0_strap_1              ),
     .pad_pms0_strap_2              ( pad_pms0_strap_2              ),
     .pad_pms0_strap_3              ( pad_pms0_strap_3              ),
+
+    .pad_bootsel0                  ( pad_bootsel0                  ),
+    .pad_bootsel1                  ( pad_bootsel1                  ),
+    .pad_bootsel_valid             ( pad_bootsel_valid             ),
+    .pad_fc_fetch_en               ( pad_fc_fetch_en               ),
+    .pad_fc_fetch_en_valid         ( pad_fc_fetch_en_valid         ),
+    .pad_completion_irq            ( pad_completion_irq            ),
+    .pad_doorbell_irq              ( pad_doorbell_irq              ),
+
+    .bootsel_o                     ( s_bootsel                     ),
+    .bootsel_valid_o               ( s_bootsel_valid               ),
+    .fc_fetch_en_o                 ( s_fc_fetch_en                 ),
+    .fc_fetch_en_valid_o           ( s_fc_fetch_en_valid           ),
 
     .pad_cfg_i                     ( s_pad_cfg                     )
   );
@@ -2008,7 +2052,7 @@ module control_pulp_fpga import pms_top_pkg::*; #(
     .scg_irq_i                     (scg_irq                  ),
     .scp_irq_i                     (scp_irq                  ),
     .scp_secure_irq_i              (scp_secure_irq           ),
-    .mbox_irq_i                    ({11'h0, mbox_irq}        ),
+    .mbox_irq_i                    ({11'h0, s_doorbell_irq}  ),
     .mbox_secure_irq_i             ('0                       ),
 
     .oe_qspi_sdio_o                ( s_oe_qspi_sdio          ),
@@ -2073,10 +2117,10 @@ module control_pulp_fpga import pms_top_pkg::*; #(
     .gpio_dir_o                    ( gpio_dir                ),
     .gpio_cfg_o                    ( gpio_cfg                ),
 
-    .bootsel_valid_i,
-    .bootsel_i                     ( {1'b0, bootsel_i}       ),
-    .fc_fetch_en_valid_i,
-    .fc_fetch_en_i
+    .bootsel_valid_i               (s_bootsel_valid          ),  
+    .bootsel_i                     ({1'b0, s_bootsel}        ),
+    .fc_fetch_en_valid_i           (s_fc_fetch_en_valid),
+    .fc_fetch_en_i                 (s_fc_fetch_en)
   );
 
 endmodule // control_pulp_fpga

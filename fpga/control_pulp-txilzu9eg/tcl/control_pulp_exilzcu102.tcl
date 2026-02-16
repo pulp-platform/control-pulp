@@ -82,6 +82,11 @@ connect_bd_intf_net [get_bd_intf_pins i_pms_top_fpga/pl_axi_slv] \
 connect_bd_net [get_bd_pins i_pms_top_fpga/soc_clk_o] [get_bd_pins i_zynq_ps/maxihpm0_fpd_aclk]
 connect_bd_net [get_bd_pins i_pms_top_fpga/soc_clk_o] [get_bd_pins i_zynq_ps/saxihp0_fpd_aclk]
 
+
+# connect Completion interrupt from PL to PS
+connect_bd_net [get_bd_pins i_pms_top_fpga/out_completion_irq] [get_bd_pins i_zynq_ps/pl_ps_irq0]
+
+
 # make pad pins external
 source tcl/zcu102_pins_bd.tcl
 

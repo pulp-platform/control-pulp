@@ -1,36 +1,89 @@
-/* #include "xilinx/zynqmp-zcu102.dts" */
+/ { //space after / is needed
+    firmware{
+        scmi {
+            compatible ="arm,scmi";
+            mboxes = <&mhu_bdr 0 &mhu_bdr 0>; 
+            mbox-names = "tx","rx";
+            shmem = <&scp_scmi_mem>;
+            #address-cells = <1>;
+            #size-cells = <0>; 
 
-/ {
-    reserved-memory {
-        #address-cells = <2>;
-        #size-cells = <2>;
-        ranges;
+            
+    		scmi_devpd: protocol@11 {
+		    	reg = <0x11>;
+		    	#power-domain-cells = <1>;
+	    	};
 
-        /* contiguous L3 memory for PULP: last 128MiB of DRAM */
-        pulp_reserved: pulp_l3_mem@78000000 {
-            compatible = "pulp,bigpulp";
-            no-map;
-            reg = <0x0 0x78000000 0x0 0x8000000>;
+
+            scmi_dvfs: protocol@13 {
+			    reg = <0x13>;
+			    #clock-cells = <1>;
+		    };
+
+            scmi_clk: protocol@14 {
+			    reg = <0x14>;
+			    #clock-cells = <1>;
+	    	};
+
+            // scmi_reset: protocol@16 {
+			//     reg = <0x16>;
+			//     #reset-cells = <1>;
+	    	// };
+            
+            // scmi_volt: protocol@17 {
+			//     reg = <0x17>;
+			//     #clock-cells = <1>;
+	    	// };
+            
         };
     };
 
-    /* Ensure serial terminal is enabled at boot. */
-    chosen {
-        bootargs = "earlycon clk_ignore_unused console=ttyPS0,115200 root=/dev/mmcblk0p2 rw rootwait";
-        stdout-path = "serial0:115200n8";
-    };
+};//root node has to stay here (if amba is included in this node -> syntax error)
+
+&cpu0 {
+	clocks = <&scmi_clk 0>;
+    power-domains = <&scmi_devpd 0>;
 };
 
-&amba {
-    pulp: pulp@a0000000 {
-        memory-region = <&pulp_reserved>;
-        compatible = "pulp,bigpulp";
-        reg = <0x0 0xa0000000 0x0 0x10000000>;
-        iommus = <&smmu 0x280>, <&smmu 0x281>, <&smmu 0x282>; /* FIXME: check this */
-    };
+&cpu1 {
+	clocks = <&scmi_clk 0>;
+    power-domains = <&scmi_devpd 0>;
 };
 
-/* FIXME: test why this hangs */
-/*&smmu {
-    status = "okay";
-};*/
+&cpu2 {
+	clocks = <&scmi_clk 0>;
+    power-domains = <&scmi_devpd 0>;
+};
+
+&cpu3 {
+	clocks = <&scmi_clk 0>;
+	power-domains = <&scmi_devpd 0>;
+};
+
+&amba{
+    scmi_sram: sram@A6000000{
+        compatible = "mmio-sram";
+        reg = <0x0 0xA6000000 0x0 0xA0>; 
+        #address-cells = <1>;
+        #size-cells = <1>;
+        ranges = <0 0x0 0xA6000000 0xA0>; 
+
+        scp_scmi_mem: scp-shmem@0{
+            compatible = "arm,scmi-shmem";
+            reg = <0x0 0xA0>;
+        };
+    }; 
+
+    mhu_bdr: mhu@A60000A0{ 
+        #mbox-cells = <1>;
+        compatible = "arm,mhu", "arm,primecell";
+        clock-names = "clk_apb"; 
+        reg = <0x0 0xA60000A0 0x0 0x18>;
+        interrupt-parent = <&gic>; 
+        interrupts =    <0 89 1>,
+                        <0 91 1>,
+                        <0 92 1>;
+        interrupt-names = "mhu_bdr";
+        clocks = <&zynqmp_clk 31>;
+    };
+}; 

@@ -58,7 +58,7 @@ void vApplicationTickHook(void);
 
 #define MBOX_START_ADDRESS 0xFFFF0000
 
-#define INTR_ID 32
+#define INTR_ID 35
 
 #define CLIC_BASE_ADDR 0x1A200000
 #define CLIC_END_ADDR  0x1A20FFFF

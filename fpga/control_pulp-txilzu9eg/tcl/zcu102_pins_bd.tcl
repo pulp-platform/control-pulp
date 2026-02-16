@@ -84,4 +84,11 @@ make_bd_pins_external \
   [get_bd_pins i_pms_top_fpga/jtag_tdi_i] \
   [get_bd_pins i_pms_top_fpga/jtag_tdo_o] \
   [get_bd_pins i_pms_top_fpga/jtag_tck_i] \
-  [get_bd_pins i_pms_top_fpga/jtag_trst_ni]
+  [get_bd_pins i_pms_top_fpga/jtag_trst_ni] \
+  [get_bd_pins i_pms_top_fpga/pad_bootsel0] \
+  [get_bd_pins i_pms_top_fpga/pad_bootsel1] \
+  [get_bd_pins i_pms_top_fpga/pad_bootsel_valid] \
+  [get_bd_pins i_pms_top_fpga/pad_fc_fetch_en] \
+  [get_bd_pins i_pms_top_fpga/pad_fc_fetch_en_valid] \
+  [get_bd_pins i_pms_top_fpga/pad_doorbell_irq] \
+  [get_bd_pins i_pms_top_fpga/pad_completion_irq] 
