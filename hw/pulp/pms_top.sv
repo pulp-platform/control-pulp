@@ -29,7 +29,7 @@ module pms_top import pms_top_pkg::*; #(
   parameter int unsigned  CORE_TYPE = 0, // 0 for CV32E40P (other options are not supported)
   parameter int unsigned  USE_FPU = 1,
   parameter int unsigned  PULP_XPULP = 1,
-  parameter int unsigned  SIM_STDOUT = 1,
+  parameter int unsigned  SIM_STDOUT = 0,
   parameter int unsigned  BEHAV_MEM = 1,
   parameter int unsigned  MACRO_ROM = 0,
   parameter int unsigned  USE_CLUSTER = 1,

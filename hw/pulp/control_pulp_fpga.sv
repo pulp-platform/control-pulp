@@ -635,7 +635,7 @@ module control_pulp_fpga import pms_top_pkg::*; #(
     .rst_ni          (rst_ni         ),
     .axi_mbox_req    (to_mailbox_req ),
     .axi_mbox_rsp    (to_mailbox_resp),
-
+    .testmode_i      (1'b0            ),
     .irq_completion_o    (/*TODO*/),  // completion irq platform->agent
     .irq_doorbell_o      ({mbox_irq, scp_secure_irq, scp_irq, scg_irq})  // doorbell irq agent->platform
   );

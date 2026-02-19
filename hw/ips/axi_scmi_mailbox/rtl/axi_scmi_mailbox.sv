@@ -32,6 +32,8 @@ module axi_scmi_mailbox
   input  logic       clk_i, // Clock
   input  logic       rst_ni, // Asynchronous reset active low
 
+  input  logic       testmode_i, // Test mode (for scan)
+
   input  axi_req_t   axi_mbox_req,
   output axi_resp_t  axi_mbox_rsp,
 
@@ -258,7 +260,7 @@ module axi_scmi_mailbox
    ) u_axi2reg_intf (
      .clk_i,
      .rst_ni,
-     .testmode_i(1'b0),
+     .testmode_i(testmode_i),
      .axi_req_i(axi32_mbox_req),
      .axi_rsp_o(axi32_mbox_rsp),
      .reg_req_o(reg_req),
