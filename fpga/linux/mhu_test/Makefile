@@ -18,7 +18,10 @@
 CXX=aarch64-none-linux-gnu-g++
 C=aarch64-none-linux-gnu-gcc
 
-all: mhu_test setspeed
+all: mhu_test setspeed wrirte_to_addr
+
+write_to_addr: wrirte_to_addr.cc $(wildcard physmem/inc/*)
+	$(CXX) -std=c++11 -Wall -I. $(CXXFLAGS) $(CPPFLAGS) $< -o $@;
 
 mhu_test: mhu_test.cc $(wildcard physmem/inc/*)
 	$(CXX) -std=c++11 -Wall -I. $(CXXFLAGS) $(CPPFLAGS) $< -o $@;
@@ -33,3 +36,4 @@ setspeed: setspeed.c $(wildcard physmem/inc/*)
 clean:
 	$(RM) setspeed
 	$(RM) mhu_test
+	$(RM) wrirte_to_addr

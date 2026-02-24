@@ -137,7 +137,7 @@ __clic_vector_table:
 	j __no_irq_handler
 	j __no_irq_handler
 	j __no_irq_handler
-	j __no_irq_handler
+	j __handle_clic_int
 	j __no_irq_handler
 	j __no_irq_handler
 	j __handle_clic_int

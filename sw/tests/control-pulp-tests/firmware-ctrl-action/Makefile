@@ -32,14 +32,16 @@ PULP_APP_SRCS 	+= ./Config/cfg_constants.c
 PULP_APP_SRCS	+= ./ctrl_math.c
 
 # Include Paths
-INC_PATH	+= ./
+INC_PATH    += ./
 INC_PATH 	+= ./Config
 INC_PATH	+= ./IO
 INC_PATH	+= ./PerfCounter
 
+
 INCLUDES = $(foreach f, $(INC_PATH), -I$f)
 
-PULP_CFLAGS = -O2 -g $(INCLUDES)
+# PULP_CFLAGS = -O2 -g $(INCLUDES)
+PULP_CFLAGS = $(INCLUDES)
 
 # indicate this repository's root folder
 # set some project specific path variables
@@ -48,8 +50,8 @@ PULP_CFLAGS = -O2 -g $(INCLUDES)
 #	the freertos project's root folder.")
 #endif
 
-# good defaults for many environment variables
-#include $(FREERTOS_PROJ_ROOT)/default_flags.mk
+# # good defaults for many environment variables
+# include $(FREERTOS_PROJ_ROOT)/default_flags.mk
 
 # rtos and pulp sources
 #include $(FREERTOS_PROJ_ROOT)/default_srcs.mk
@@ -111,6 +113,9 @@ CPPFLAGS += -DUSE_STDIO
 
 PULP_CFLAGS = $(CPPFLAGS)
 
+# source toolchain
+PULP_RUNTIME_GCC_TOOLCHAIN=/usr/pack/riscv-1.0-kgf/pulp-gcc-2.5.0-rc1
+PULP_RISCV_GCC_TOOLCHAIN=/usr/pack/riscv-1.0-kgf/pulp-gcc-2.5.0-rc1
+
 # compile, simulation and analysis targets
-#include $(FREERTOS_PROJ_ROOT)/default_targets.mk
 include $(PULP_SDK_HOME)/install/rules/pulp_rt.mk

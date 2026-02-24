@@ -171,12 +171,18 @@ set_property -dict {PACKAGE_PIN AD10 IOSTANDARD LVCMOS18} [get_ports pad_pms0_st
 set_property -dict {PACKAGE_PIN AE9 IOSTANDARD LVCMOS18} [get_ports pad_pms0_strap_3_0]
 
 
-### JTAG ON PMOD 0
-set_property -dict {PACKAGE_PIN A20 IOSTANDARD LVCMOS33} [get_ports jtag_tms_i_0]
+### JTAG ON PMOD 0 (J55)
+# J55.1
+set_property -dict {PACKAGE_PIN A20 IOSTANDARD LVCMOS33} [get_ports jtag_tms_i_0] 
+# J55.3
 set_property -dict {PACKAGE_PIN B20 IOSTANDARD LVCMOS33} [get_ports jtag_tdi_i_0]
+# J55.5 (PULL_UP)
 set_property -dict {PACKAGE_PIN A22 IOSTANDARD LVCMOS33} [get_ports jtag_tdo_o_0]
+# J55.7
 set_property -dict {PACKAGE_PIN A21 IOSTANDARD LVCMOS33} [get_ports jtag_tck_i_0]
+# J55.2
 set_property -dict {PACKAGE_PIN B21 IOSTANDARD LVCMOS33} [get_ports jtag_trst_ni_0]
+
 
 # BOOTMODE SELECTION FROM SW13 ON ZCU102
 set_property -dict {PACKAGE_PIN AK13 IOSTANDARD LVCMOS33} [get_ports pad_bootsel0]

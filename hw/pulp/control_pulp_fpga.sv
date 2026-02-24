@@ -1519,30 +1519,41 @@ module control_pulp_fpga import pms_top_pkg::*; #(
     assign s_in_qspi_sck_t[i] = s_in_qspi_sck[i];
   end
 
-  logic [1:0]              bootmode_reg;
+  
 
+  // BOOT MODE SEL SIGNALS
+  logic [1:0]s_bootsel;
+  logic s_bootsel_valid;
+  logic s_fc_fetch_en;
+  logic s_fc_fetch_en_valid;
+
+  logic [1:0]              bootmode_selected;
   // Mux the reset according to bootmode, needed for arbitration between JTAG and PS bootmodes
-  assign bootmode_reg = i_control_pulp.i_soc_domain.pulp_soc_i.soc_peripherals_i.i_apb_soc_ctrl.r_bootsel;
-
   always_comb begin
-     unique case (bootmode_reg) // Signal propagated from memory mapped bootmode APB register
-       2'h0: begin
-         reset_mux_n = rst_ni;
-       end
-       2'h1: begin
-         reset_mux_n = ~rst_ni & jtag_trst_ni;
-       end
-       2'h2: begin
-         reset_mux_n = rst_ni;
-       end
-       2'h3: begin
-         reset_mux_n = rst_ni;
-       end
-       default: begin
-         reset_mux_n = rst_ni;
-       end
+	if (s_bootsel_valid) begin //Using the switches
+	  	bootmode_selected = s_bootsel;
+	end else begin // Using the register
+	        bootmode_selected = i_control_pulp.i_soc_domain.pulp_soc_i.soc_peripherals_i.i_apb_soc_ctrl.r_bootsel;
+     	end
+ 	
+       unique case (bootmode_selected) // Signal propagated from memory mapped bootmode APB register
+       		2'h0: begin
+         		reset_mux_n = rst_ni;
+       		end
+       		2'h1: begin // JTAG
+         		reset_mux_n = 1'b1;
+       		end
+	       	2'h2: begin
+         		reset_mux_n = rst_ni;
+       		end
+       		2'h3: begin // PRELOADED
+         		reset_mux_n = rst_ni;
+       		end
+       		default: begin
+         		reset_mux_n = rst_ni;
+       		end
      endcase
-  end // always_comb
+end // always_comb
 
 
   // Exploding IO peripherals signals
@@ -1584,12 +1595,6 @@ module control_pulp_fpga import pms_top_pkg::*; #(
 
   assign s_oe_i2c7_bmc_slv_scl = s_oe_i2c_slv_scl[0];
   assign s_oe_i2c7_bmc_slv_sda = s_oe_i2c_slv_sda[0];
-
-  // BOOT MODE SEL SIGNALS
-  logic [1:0]s_bootsel;
-  logic s_bootsel_valid;
-  logic s_fc_fetch_en;
-  logic s_fc_fetch_en_valid;
 
   // Instantiate pad_frame for chip-like inout signals
   pad_frame_fpga i_pad_frame (

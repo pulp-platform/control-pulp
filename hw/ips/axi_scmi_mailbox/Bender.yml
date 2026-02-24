@@ -15,8 +15,7 @@
 package:
   name: axi_scmi_mailbox
   authors:
-    - "Maicol Ciani <maicol.ciani@unibo.it>"
-    - "Alessandro Ottaviano <aottaviano@iis.ee.ethz.ch>"
+    - "Antonio del Vecchio <antonio.delvecchio5@unibo.it"
   
 dependecies:
   axi: { git: "https://github.com/pulp-platform/axi.git", version: 0.29.1 }

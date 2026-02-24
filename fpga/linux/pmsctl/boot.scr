@@ -1,0 +1,8 @@
+load mmc 0 0xa2000000 clic-mbox-ps-ft
+
+mw.l 0xa01040c4 0x00000003 1 
+mw.l 0xa0104004 0x1c000880 1
+mw.l 0xa0104008 0x00000001 1
+md.l 0xa01040c4 1
+md.l 0xa0104004 1
+md.l 0xa0104008 1
