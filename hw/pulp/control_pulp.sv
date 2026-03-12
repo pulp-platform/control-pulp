@@ -203,7 +203,7 @@ module control_pulp import control_pulp_pkg::*; #(
   localparam int unsigned AXI_CLUSTER_SOC_DATA_WIDTH = 64;
   localparam int unsigned AXI_SOC_CLUSTER_DATA_WIDTH = 32;
   localparam int unsigned AXI_SOC_CLUSTER_ID_WIDTH   = pkg_soc_interconnect::AXI_ID_OUT_WIDTH; // = 1 + clog2(13) = 5
-  localparam int unsigned AXI_CLUSTER_SOC_ID_WIDTH   = AXI_SOC_CLUSTER_ID_WIDTH + $clog2(`NB_SLAVE); // = 5 + clog2(4) = 7;
+  localparam int unsigned AXI_CLUSTER_SOC_ID_WIDTH   = AXI_SOC_CLUSTER_ID_WIDTH + $clog2(`SOC_BUS_NB_SLAVE); // = 5 + clog2(4) = 7;
 
   localparam int unsigned AXI_USER_WIDTH             = 6;
   localparam int unsigned AXI_CLUSTER_SOC_STRB_WIDTH = AXI_CLUSTER_SOC_DATA_WIDTH/8;
