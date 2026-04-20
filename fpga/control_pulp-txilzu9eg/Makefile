@@ -32,13 +32,15 @@ bit: $(FPGA_OUT_DIR) ips rtl/fpga_autogen_rom.sv ## Generate the bitstream for c
 	$(MAKE) -C ips/control_pulp_txilzu9eg package-control-pulp-ip # create custom Xilinx IP for control_pulp
 	$(VIVADO) -mode batch -source tcl/control_pulp_exilzcu102.tcl # interface control_pulp with Zynq PS in a Vivado block design
 	cp $(CURDIR)/control_pulp-exilzcu102.runs/impl_1/control_pulp_exilzcu102_wrapper.bit $(FPGA_OUT_DIR)/pms.bit # copy to output directory
-	cp $(CURDIR)/control_pulp-txilzu9eg/control_pulp-txilzu9eg.sdk/control_pulp-txilzu9eg_wrapper.hdf $(FPGA_OUT_DIR)/pms.hdf # copy to output directory
+	# cp $(CURDIR)/control_pulp-txilzu9eg/control_pulp-txilzu9eg.sdk/control_pulp-txilzu9eg_wrapper.hdf $(FPGA_OUT_DIR)/pms.hdf # copy to output directory
+	cp $(CURDIR)/control_pulp-txilzu9eg/control_pulp-txilzu9eg.xsa $(FPGA_OUT_DIR)/pms.xsa
 
 bit-gui: $(FPGA_OUT_DIR) ips rtl/fpga_autogen_rom.sv ## Generate the bitstream for control_pulp interfacing Zynq PS with vivado in GUI mode.
 	$(MAKE) -C ips/control_pulp_txilzu9eg package-control-pulp-ip-gui # create IP for control_pulp
 	$(VIVADO) -mode gui -source tcl/control_pulp_exilzcu102.tcl # interface control_pulp with Zynq PS in a Vivado block design
 	cp $(CURDIR)/control_pulp-exilzcu102.runs/impl_1/control_pulp_exilzcu102_wrapper.bit $(FPGA_OUT_DIR)/pms.bit # copy to output directory
-	cp $(CURDIR)/control_pulp-txilzu9eg/control_pulp-txilzu9eg.sdk/control_pulp-txilzu9eg_wrapper.hdf $(FPGA_OUT_DIR)/pms.hdf # copy to output directory
+	# cp $(CURDIR)/control_pulp-txilzu9eg/control_pulp-txilzu9eg.sdk/control_pulp-txilzu9eg_wrapper.hdf $(FPGA_OUT_DIR)/pms.hdf # copy to output directory
+	cp $(CURDIR)/control_pulp-txilzu9eg/control_pulp-txilzu9eg.xsa $(FPGA_OUT_DIR)/pms.xsa
 
 # IPs synthesis
 ips: clk ## Synthesizes necessary xilinx IP for control_pulp (clk_wizards)

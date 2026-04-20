@@ -354,15 +354,25 @@ set_property range 268435456 \
     [ipx::get_memory_maps pl_axi_slv_addr_map -of_objects \
     [ipx::current_core]]]; # 256MB
 
-set_property base_address_format string \
+# set_property base_address_format string \
+#    [ipx::get_address_blocks l2_periph_addr_block -of_objects \
+#    [ipx::get_memory_maps pl_axi_slv_addr_map -of_objects \
+#    [ipx::current_core]]]
+
+#set_property base_address 00A0000000 \
+#    [ipx::get_address_blocks l2_periph_addr_block -of_objects \
+#    [ipx::get_memory_maps pl_axi_slv_addr_map -of_objects \
+#    [ipx::current_core]]]
+
+set_property base_address_format long \
     [ipx::get_address_blocks l2_periph_addr_block -of_objects \
     [ipx::get_memory_maps pl_axi_slv_addr_map -of_objects \
     [ipx::current_core]]]
 
-set_property base_address 00A0000000 \
+set_property base_address 0x00A0000000 \
     [ipx::get_address_blocks l2_periph_addr_block -of_objects \
     [ipx::get_memory_maps pl_axi_slv_addr_map -of_objects \
-    [ipx::current_core]]]
+    [ipx::current_core]]]    
 
 # Package IP
 set_property core_revision 2 [ipx::current_core]

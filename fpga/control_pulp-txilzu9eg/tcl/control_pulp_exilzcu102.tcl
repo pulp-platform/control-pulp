@@ -36,7 +36,7 @@ update_compile_order -fileset sources_1
 ##########################################################################################################
 
 ## Instantiate Zynq PS IP
-create_bd_cell -type ip -vlnv xilinx.com:ip:zynq_ultra_ps_e:3.3 i_zynq_ps
+create_bd_cell -type ip -vlnv xilinx.com:ip:zynq_ultra_ps_e:3.5 i_zynq_ps
 #set_property name i_zynq_ps [get_bd_cells zynq_ultra_ps_e_0]
 apply_bd_automation -rule xilinx.com:bd_rule:zynq_ultra_ps_e -config {apply_board_preset "1" }  \
     [get_bd_cells i_zynq_ps]
@@ -81,6 +81,11 @@ connect_bd_intf_net [get_bd_intf_pins i_pms_top_fpga/pl_axi_slv] \
 # connect PL AXI mst/slv clock (soc_clk_o) to PS AXI mst/slv clocks (maxihpm0_fpd_aclk, saxihp0_fpd_aclk)
 connect_bd_net [get_bd_pins i_pms_top_fpga/soc_clk_o] [get_bd_pins i_zynq_ps/maxihpm0_fpd_aclk]
 connect_bd_net [get_bd_pins i_pms_top_fpga/soc_clk_o] [get_bd_pins i_zynq_ps/saxihp0_fpd_aclk]
+
+
+# connect Completion interrupt from PL to PS
+connect_bd_net [get_bd_pins i_pms_top_fpga/out_completion_irq] [get_bd_pins i_zynq_ps/pl_ps_irq0]
+
 
 # make pad pins external
 source tcl/zcu102_pins_bd.tcl
@@ -187,5 +192,22 @@ if {! [string match -nocase {*timing constraints are met*} $timingrep]} {
 
 
 # Export Hardware Definition file.
-file mkdir ./control_pulp-txilzu9eg/control_pulp-txilzu9eg.sdk
-write_hwdef -force  -file ./control_pulp-txilzu9eg/control_pulp-txilzu9eg.sdk/control_pulp-txilzu9eg_wrapper.hdf
+# file mkdir ./control_pulp-txilzu9eg/control_pulp-txilzu9eg.sdk
+# write_hwdef -force  -file ./control_pulp-txilzu9eg/control_pulp-txilzu9eg.sdk/control_pulp-txilzu9eg_wrapper.hdf
+
+write_hw_platform -fixed -include_bit -force -file ./control_pulp-txilzu9eg/control_pulp-txilzu9eg.xsa
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

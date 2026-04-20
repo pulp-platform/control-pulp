@@ -1,3 +1,4 @@
+
 */*/config.old
 */*/rootfs_config.old
 build/
@@ -8,5 +9,5 @@ pre-built/linux/
 *.o
 *.jou
 *.log
-project-spec/meta-plnx-generated/
-/components/plnx_workspace
+components/plnx_workspace
+components/yocto
