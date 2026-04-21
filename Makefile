@@ -330,7 +330,7 @@ SG_DIR  ?= $(ROOT_DIR)/util/lint/spyglass
 # Remove axi_cdc.sv coming from axi_slice_dc directory to void duplicate module definitions
 gen_sg_script:
 	mkdir -p $(SG_DIR)
-	$(BENDER) script verilator $(BENDER_BASE_TARGETS) -D SYNTHESIS > $(SG_DIR)/cp_sg.f
+	$(BENDER) script verilator $(BENDER_BASE_TARGETS) -D SYNTHESIS -D COMMON_CELLS_ASSERTS_OFF > $(SG_DIR)/cp_sg.f
 	sed -i 's?$(ROOT_DIR)?\$$CPROOT?g' $(SG_DIR)/cp_sg.f
 	sed -i '/axi_slice_dc\/.*axi_cdc\.sv/d' $(SG_DIR)/cp_sg.f
 
