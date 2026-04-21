@@ -139,6 +139,11 @@ gen: update-serial-link
 	sed -i 's?$(ROOT_DIR)?\$$CPROOT?g' sim/gen/sim.f
 	sed -i '/axi_slice_dc\/.*axi_cdc\.sv/d' sim/gen/sim.f
 
+sim.f:
+	$(BENDER) script flist-plus $(BENDER_SIM_TARGETS) $(BENDER_BASE_TARGETS) > sim/gen/sim.f
+	sed -i 's?$(ROOT_DIR)?\$$CPROOT?g' sim/gen/sim.f
+	sed -i '/axi_slice_dc\/.*axi_cdc\.sv/d' sim/gen/sim.f
+
 # Verilator
 	$(BENDER) script verilator $(BENDER_BASE_TARGETS) > sim/gen/veri.f
 	sed -i 's?$(ROOT_DIR)?\$$ROOT?g' sim/gen/veri.f
