@@ -4,6 +4,7 @@
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 $ROOT/hw/ips/tech_cells_generic/src/rtl/tc_sram.sv
 $ROOT/hw/ips/tech_cells_generic/src/rtl/tc_sram_impl.sv
 
@@ -12,6 +13,7 @@ $ROOT/hw/ips/tech_cells_generic/src/rtl/tc_sram_impl.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 $ROOT/hw/ips/tech_cells_generic/src/rtl/tc_clk.sv
 
 +define+TARGET_CV32E40P_USE_FF_REGFILE
@@ -19,6 +21,7 @@ $ROOT/hw/ips/tech_cells_generic/src/rtl/tc_clk.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 $ROOT/hw/ips/tech_cells_generic/src/deprecated/pulp_clock_gating_async.sv
 $ROOT/hw/ips/tech_cells_generic/src/deprecated/cluster_clk_cells.sv
 $ROOT/hw/ips/tech_cells_generic/src/deprecated/pulp_clk_cells.sv
@@ -28,6 +31,7 @@ $ROOT/hw/ips/tech_cells_generic/src/deprecated/pulp_clk_cells.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/common_cells/include
 $ROOT/hw/ips/common_cells/src/binary_to_gray.sv
 
@@ -36,6 +40,7 @@ $ROOT/hw/ips/common_cells/src/binary_to_gray.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/common_cells/include
 $ROOT/hw/ips/common_cells/src/cb_filter_pkg.sv
 $ROOT/hw/ips/common_cells/src/cc_onehot.sv
@@ -95,6 +100,7 @@ $ROOT/hw/ips/common_cells/src/multiaddr_decode.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/common_cells/include
 $ROOT/hw/ips/common_cells/src/cb_filter.sv
 $ROOT/hw/ips/common_cells/src/cdc_fifo_2phase.sv
@@ -132,6 +138,7 @@ $ROOT/hw/ips/common_cells/src/mem_to_banks.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/common_cells/include
 $ROOT/hw/ips/common_cells/src/deprecated/clock_divider_counter.sv
 $ROOT/hw/ips/common_cells/src/deprecated/clk_div.sv
@@ -154,6 +161,7 @@ $ROOT/hw/ips/common_cells/src/edge_propagator_rx.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/common_cells/include
 $ROOT/hw/ips/fpu_div_sqrt_mvp/hdl/defs_div_sqrt_mvp.sv
 $ROOT/hw/ips/fpu_div_sqrt_mvp/hdl/iteration_div_sqrt_mvp.sv
@@ -169,6 +177,7 @@ $ROOT/hw/ips/fpu_div_sqrt_mvp/hdl/div_sqrt_mvp_wrapper.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 $ROOT/hw/ips/apb/src/apb_intf.sv
 
 +define+TARGET_CV32E40P_USE_FF_REGFILE
@@ -176,6 +185,7 @@ $ROOT/hw/ips/apb/src/apb_intf.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/axi/include
 +incdir+$ROOT/hw/ips/common_cells/include
 $ROOT/hw/ips/axi/src/axi_pkg.sv
@@ -234,6 +244,7 @@ $ROOT/hw/ips/axi/src/axi_xp.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/common_cells/include
 $ROOT/hw/ips/fpnew/src/fpnew_pkg.sv
 $ROOT/hw/ips/fpnew/src/fpnew_cast_multi.sv
@@ -253,6 +264,7 @@ $ROOT/hw/ips/fpnew/src/fpnew_top.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/axi/include
 +incdir+$ROOT/hw/ips/common_cells/include
 $ROOT/hw/ips/axi_node/src/apb_regs_top.sv
@@ -282,6 +294,7 @@ $ROOT/hw/ips/axi_node/src/axi_RR_Flag_Req.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/common_cells/include
 $ROOT/hw/ips/axi_slice/src/axi_single_slice.sv
 $ROOT/hw/ips/axi_slice/src/axi_ar_buffer.sv
@@ -297,6 +310,7 @@ $ROOT/hw/ips/axi_slice/src/axi_slice_wrap.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/common_cells/include
 +incdir+$ROOT/hw/ips/cv32e40p/bhv
 +incdir+$ROOT/hw/ips/cv32e40p/rtl/include
@@ -333,6 +347,7 @@ $ROOT/hw/ips/cv32e40p/rtl/cv32e40p_shadow_controller.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/common_cells/include
 +incdir+$ROOT/hw/ips/cv32e40p/bhv
 +incdir+$ROOT/hw/ips/cv32e40p/rtl/include
@@ -343,6 +358,7 @@ $ROOT/hw/ips/cv32e40p/rtl/cv32e40p_register_file_ff.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/common_cells/include
 +incdir+$ROOT/hw/ips/cv32e40p/bhv
 +incdir+$ROOT/hw/ips/cv32e40p/rtl/include
@@ -353,6 +369,7 @@ $ROOT/hw/ips/cv32e40p/bhv/cv32e40p_sim_clock_gate.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 $ROOT/hw/ips/icache-intc/Req_Arb_Node_icache_intc.sv
 $ROOT/hw/ips/icache-intc/Resp_Arb_Node_icache_intc.sv
 $ROOT/hw/ips/icache-intc/lint_mux.sv
@@ -368,6 +385,7 @@ $ROOT/hw/ips/icache-intc/icache_intc.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/axi/include
 +incdir+$ROOT/hw/ips/common_cells/include
 +incdir+$ROOT/hw/ips/register_interface/include
@@ -394,6 +412,7 @@ $ROOT/hw/ips/register_interface/src/axi_lite_to_reg.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 $ROOT/hw/ips/scm/latch_scm/register_file_1r_1w_test_wrap.sv
 $ROOT/hw/ips/scm/latch_scm/register_file_1w_64b_multi_port_read_32b_1row.sv
 $ROOT/hw/ips/scm/latch_scm/register_file_1w_multi_port_read_1row.sv
@@ -421,6 +440,7 @@ $ROOT/hw/ips/scm/latch_scm/register_file_multi_way_1w_multi_port_read.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/common_cells/include
 +incdir+$ROOT/hw/ips/udma_core/rtl
 $ROOT/hw/ips/udma_core/rtl/common/io_clk_gen.sv
@@ -447,6 +467,7 @@ $ROOT/hw/ips/udma_core/rtl/core/udma_core.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/adv_dbg_if/rtl
 $ROOT/hw/ips/adv_dbg_if/rtl/adbg_axi_biu.sv
 $ROOT/hw/ips/adv_dbg_if/rtl/adbg_axi_module.sv
@@ -470,6 +491,7 @@ $ROOT/hw/ips/adv_dbg_if/rtl/adbg_lintonly_top.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 $ROOT/hw/ips/apb2per/apb2per.sv
 
 +define+TARGET_CV32E40P_USE_FF_REGFILE
@@ -477,6 +499,7 @@ $ROOT/hw/ips/apb2per/apb2per.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/apb_adv_timer/rtl
 $ROOT/hw/ips/apb_adv_timer/rtl/adv_timer_apb_if.sv
 $ROOT/hw/ips/apb_adv_timer/rtl/comparator.sv
@@ -494,6 +517,7 @@ $ROOT/hw/ips/apb_adv_timer/rtl/apb_adv_timer.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 $ROOT/hw/ips/apb_gpio/rtl/apb_gpio.sv
 
 +define+TARGET_CV32E40P_USE_FF_REGFILE
@@ -501,6 +525,7 @@ $ROOT/hw/ips/apb_gpio/rtl/apb_gpio.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 $ROOT/hw/ips/apb_node/src/apb_node.sv
 $ROOT/hw/ips/apb_node/src/apb_node_wrap.sv
 
@@ -509,6 +534,7 @@ $ROOT/hw/ips/apb_node/src/apb_node_wrap.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 $ROOT/hw/ips/axi2per/axi2per_req_channel.sv
 $ROOT/hw/ips/axi2per/axi2per_res_channel.sv
 $ROOT/hw/ips/axi2per/axi2per.sv
@@ -518,6 +544,7 @@ $ROOT/hw/ips/axi2per/axi2per.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/axi/include
 $ROOT/hw/ips/axi_slice_dc/src/axi_slice_dc_master.sv
 $ROOT/hw/ips/axi_slice_dc/src/axi_slice_dc_slave.sv
@@ -535,6 +562,7 @@ $ROOT/hw/ips/axi_slice_dc/src/axi_slice_dc_slave_wrap.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/common_cells/include
 +incdir+$ROOT/hw/ips/register_interface/include
 $ROOT/hw/ips/clic/src/clic_reg_pkg.sv
@@ -549,6 +577,7 @@ $ROOT/hw/ips/clic/src/clic.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/cluster_interconnect/rtl/low_latency_interco
 +incdir+$ROOT/hw/ips/cluster_interconnect/rtl/peripheral_interco
 +incdir+$ROOT/hw/ips/common_cells/include
@@ -599,6 +628,7 @@ $ROOT/hw/ips/cluster_interconnect/rtl/peripheral_interco/XBAR_PE.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 $ROOT/hw/ips/cluster_peripherals/cluster_control_unit/cluster_control_unit.sv
 
 +define+TARGET_CV32E40P_USE_FF_REGFILE
@@ -606,6 +636,7 @@ $ROOT/hw/ips/cluster_peripherals/cluster_control_unit/cluster_control_unit.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/cluster_peripherals/event_unit/include
 $ROOT/hw/ips/cluster_peripherals/event_unit/HW_barrier_logic.sv
 $ROOT/hw/ips/cluster_peripherals/event_unit/event_unit_arbiter.sv
@@ -621,6 +652,7 @@ $ROOT/hw/ips/cluster_peripherals/event_unit/event_unit.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 $ROOT/hw/ips/cluster_peripherals/icache_ctrl_unit/icache_ctrl_unit.sv
 $ROOT/hw/ips/cluster_peripherals/icache_ctrl_unit/mp_icache_ctrl_unit.sv
 $ROOT/hw/ips/cluster_peripherals/icache_ctrl_unit/mp_pf_icache_ctrl_unit.sv
@@ -636,6 +668,7 @@ $ROOT/hw/ips/cluster_peripherals/tcdm_pipe_unit/tcdm_pipe_unit.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/common_cells/include
 +incdir+$ROOT/hw/ips/event_unit_flex/rtl
 $ROOT/hw/ips/event_unit_flex/rtl/event_unit_core.sv
@@ -652,6 +685,7 @@ $ROOT/hw/ips/event_unit_flex/rtl/event_unit_top.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 $ROOT/hw/ips/fpu_interco/FP_WRAP/fp_iter_divsqrt_msv_wrapper_2_STAGE.sv
 $ROOT/hw/ips/fpu_interco/FP_WRAP/fpnew_wrapper.sv
 $ROOT/hw/ips/fpu_interco/RTL/AddressDecoder_Resp_FPU.sv
@@ -675,6 +709,7 @@ $ROOT/hw/ips/fpu_interco/RTL/shared_fpu_cluster.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/common_cells/include
 $ROOT/hw/ips/hier-icache/CTRL_UNIT/hier_icache_ctrl_unit.sv
 $ROOT/hw/ips/hier-icache/RTL/L1.5_CACHE/icache_data_sram_wrap.sv
@@ -700,6 +735,7 @@ $ROOT/hw/ips/hier-icache/RTL/TOP/icache_hier_top.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 $ROOT/hw/ips/jtag_pulp/src/bscell.sv
 $ROOT/hw/ips/jtag_pulp/src/jtag_axi_wrap.sv
 $ROOT/hw/ips/jtag_pulp/src/jtag_enable.sv
@@ -714,6 +750,7 @@ $ROOT/hw/ips/jtag_pulp/src/tap_top.v
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 $ROOT/hw/ips/l2_tcdm_hybrid_interco/RTL/l2_tcdm_demux.sv
 $ROOT/hw/ips/l2_tcdm_hybrid_interco/RTL/lint_2_apb.sv
 $ROOT/hw/ips/l2_tcdm_hybrid_interco/RTL/lint_2_axi.sv
@@ -751,6 +788,7 @@ $ROOT/hw/ips/l2_tcdm_hybrid_interco/RTL/XBAR_BRIDGE/XBAR_BRIDGE.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/common_cells/include
 +incdir+$ROOT/hw/ips/mchan/rtl/include
 $ROOT/hw/ips/mchan/rtl/misc/mchan_arbiter.sv
@@ -792,6 +830,7 @@ $ROOT/hw/ips/mchan/rtl/top/mchan.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 $ROOT/hw/ips/per2axi/src/per2axi_busy_unit.sv
 $ROOT/hw/ips/per2axi/src/per2axi_req_channel.sv
 $ROOT/hw/ips/per2axi/src/per2axi_res_channel.sv
@@ -802,6 +841,7 @@ $ROOT/hw/ips/per2axi/src/per2axi.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/common_cells/include
 $ROOT/hw/ips/riscv-dbg/src/dm_pkg.sv
 $ROOT/hw/ips/riscv-dbg/debug_rom/debug_rom.sv
@@ -815,6 +855,7 @@ $ROOT/hw/ips/riscv-dbg/src/dmi_cdc.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/common_cells/include
 $ROOT/hw/ips/riscv-dbg/src/dmi_jtag_tap.sv
 
@@ -823,6 +864,7 @@ $ROOT/hw/ips/riscv-dbg/src/dmi_jtag_tap.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/common_cells/include
 $ROOT/hw/ips/riscv-dbg/src/dm_sba.sv
 $ROOT/hw/ips/riscv-dbg/src/dm_top.sv
@@ -834,6 +876,7 @@ $ROOT/hw/ips/riscv-dbg/src/dm_obi_top.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 $ROOT/hw/ips/timer_unit/rtl/timer_unit_counter.sv
 $ROOT/hw/ips/timer_unit/rtl/timer_unit_counter_presc.sv
 $ROOT/hw/ips/timer_unit/rtl/apb_timer_unit.sv
@@ -844,6 +887,7 @@ $ROOT/hw/ips/timer_unit/rtl/timer_unit.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 $ROOT/hw/ips/udma_filter/rtl/udma_filter_au.sv
 $ROOT/hw/ips/udma_filter/rtl/udma_filter_bincu.sv
 $ROOT/hw/ips/udma_filter/rtl/udma_filter_reg_if.sv
@@ -856,6 +900,7 @@ $ROOT/hw/ips/udma_filter/rtl/udma_filter.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/udma_i2c/rtl
 $ROOT/hw/ips/udma_i2c/rtl/udma_i2c_bus_ctrl.sv
 $ROOT/hw/ips/udma_i2c/rtl/udma_i2c_reg_if.sv
@@ -867,6 +912,7 @@ $ROOT/hw/ips/udma_i2c/rtl/udma_i2c_top.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/common_cells/include
 +incdir+$ROOT/hw/ips/udma_qspi/rtl
 $ROOT/hw/ips/udma_qspi/rtl/udma_spim_ctrl.sv
@@ -879,6 +925,7 @@ $ROOT/hw/ips/udma_qspi/rtl/udma_spim_top.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/common_cells/include
 $ROOT/hw/ips/udma_uart/rtl/udma_uart_reg_if.sv
 $ROOT/hw/ips/udma_uart/rtl/udma_uart_rx.sv
@@ -890,6 +937,7 @@ $ROOT/hw/ips/udma_uart/rtl/udma_uart_top.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/axi/include
 +incdir+$ROOT/hw/ips/common_cells/include
 $ROOT/hw/ips/axi2mem/axi2mem.sv
@@ -899,6 +947,7 @@ $ROOT/hw/ips/axi2mem/axi2mem.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 $ROOT/hw/ips/axi_apb_i2c_slave/src/axi_apb_i2c_slave.sv
 $ROOT/hw/ips/axi_apb_i2c_slave/src/i2cslave.sv
 $ROOT/hw/ips/axi_apb_i2c_slave/src/i2csend.sv
@@ -908,6 +957,7 @@ $ROOT/hw/ips/axi_apb_i2c_slave/src/i2csend.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 $ROOT/hw/ips/axi_scmi_mailbox/rtl/scmi_reg_pkg.sv
 $ROOT/hw/ips/axi_scmi_mailbox/rtl/scmi_reg_top.sv
 $ROOT/hw/ips/axi_scmi_mailbox/rtl/axi_scmi_mailbox.sv
@@ -917,6 +967,7 @@ $ROOT/hw/ips/axi_scmi_mailbox/rtl/axi_scmi_mailbox.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 $ROOT/hw/ips/axi_spi_slave/axi_spi_slave_wrap.sv
 $ROOT/hw/ips/axi_spi_slave/axi_spi_slave.sv
 $ROOT/hw/ips/axi_spi_slave/spi_slave_axi_plug.sv
@@ -933,6 +984,7 @@ $ROOT/hw/ips/axi_spi_slave/spi_slave_tx.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 $ROOT/hw/pkg/control_pulp_pkg.sv
 $ROOT/hw/pkg/pms_top_pkg.sv
 
@@ -941,6 +993,7 @@ $ROOT/hw/pkg/pms_top_pkg.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/axi/include
 +incdir+$ROOT/hw/ips/common_cells/include
 +incdir+$ROOT/hw/ips/idma/src/include
@@ -965,6 +1018,7 @@ $ROOT/hw/ips/idma/src/midends/idma_nd_midend.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/axi/include
 +incdir+$ROOT/hw/ips/common_cells/include
 +incdir+$ROOT/hw/ips/idma/src/include
@@ -978,6 +1032,7 @@ $ROOT/hw/ips/idma/src/frontends/register_32bit_2d/idma_reg32_2d_frontend.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/axi/include
 +incdir+$ROOT/hw/ips/common_cells/include
 +incdir+$ROOT/hw/ips/idma/src/include
@@ -991,6 +1046,7 @@ $ROOT/hw/ips/idma/src/frontends/register_64bit/idma_reg64_frontend.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/axi/include
 +incdir+$ROOT/hw/ips/common_cells/include
 +incdir+$ROOT/hw/ips/idma/src/include
@@ -1006,6 +1062,7 @@ $ROOT/hw/ips/idma/src/frontends/desc64/idma_desc64_top.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/axi/include
 +incdir+$ROOT/hw/ips/common_cells/include
 +incdir+$ROOT/hw/ips/idma/src/include
@@ -1018,6 +1075,7 @@ $ROOT/hw/ips/idma/src/systems/pulpopen/dmac_wrap_fc_idma.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/axi/include
 +incdir+$ROOT/hw/ips/common_cells/include
 +incdir+$ROOT/hw/ips/idma/src/include
@@ -1032,6 +1090,7 @@ $ROOT/hw/ips/idma/src/synth_wrapper/idma_nd_backend_synth.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/axi/include
 +incdir+$ROOT/hw/ips/cluster_interconnect/rtl/low_latency_interco
 +incdir+$ROOT/hw/ips/cluster_interconnect/rtl/peripheral_interco
@@ -1061,6 +1120,7 @@ $ROOT/hw/ips/pulp_cluster/rtl/core_demux.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+TRACE_EXECUTION
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/axi/include
 +incdir+$ROOT/hw/ips/cluster_interconnect/rtl/low_latency_interco
 +incdir+$ROOT/hw/ips/cluster_interconnect/rtl/peripheral_interco
@@ -1072,6 +1132,7 @@ $ROOT/hw/ips/pulp_cluster/rtl/core_region.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/axi/include
 +incdir+$ROOT/hw/ips/cluster_interconnect/rtl/low_latency_interco
 +incdir+$ROOT/hw/ips/cluster_interconnect/rtl/peripheral_interco
@@ -1083,6 +1144,7 @@ $ROOT/hw/ips/pulp_cluster/rtl/pulp_cluster.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/axi/include
 +incdir+$ROOT/hw/ips/cluster_interconnect/rtl/low_latency_interco
 +incdir+$ROOT/hw/ips/cluster_interconnect/rtl/peripheral_interco
@@ -1116,6 +1178,7 @@ $ROOT/hw/ips/pulp_soc/rtl/pulp_soc/pulp_soc.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/axi/include
 +incdir+$ROOT/hw/ips/cluster_interconnect/rtl/low_latency_interco
 +incdir+$ROOT/hw/ips/cluster_interconnect/rtl/peripheral_interco
@@ -1129,6 +1192,7 @@ $ROOT/hw/ips/pulp_soc/rtl/udma_subsystem/udma_subsystem.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+TRACE_EXECUTION
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/axi/include
 +incdir+$ROOT/hw/ips/cluster_interconnect/rtl/low_latency_interco
 +incdir+$ROOT/hw/ips/cluster_interconnect/rtl/peripheral_interco
@@ -1144,6 +1208,7 @@ $ROOT/hw/ips/pulp_soc/rtl/fc/event_to_level_int.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/axi/include
 +incdir+$ROOT/hw/ips/cluster_interconnect/rtl/low_latency_interco
 +incdir+$ROOT/hw/ips/cluster_interconnect/rtl/peripheral_interco
@@ -1162,6 +1227,7 @@ $ROOT/hw/ips/pulp_soc/rtl/components/obi_pulp_adapter.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/axi/include
 +incdir+$ROOT/hw/ips/cluster_interconnect/rtl/low_latency_interco
 +incdir+$ROOT/hw/ips/cluster_interconnect/rtl/peripheral_interco
@@ -1175,6 +1241,7 @@ $ROOT/hw/ips/pulp_soc/rtl/components/apb_dummy.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/axi/include
 +incdir+$ROOT/hw/ips/common_cells/include
 +incdir+$ROOT/hw/ips/register_interface/include
@@ -1206,6 +1273,7 @@ $ROOT/hw/ips/serial_link/src/serial_link_occamy_wrapper.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/ips/axi/include
 +incdir+$ROOT/hw/ips/common_cells/include
 +incdir+$ROOT/hw/ips/register_interface/include
@@ -1217,6 +1285,7 @@ $ROOT/hw/ips/serial_link/src/serial_link_synth_wrapper.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 $ROOT/hw/ips/wdt/src/counter_wdt.sv
 $ROOT/hw/ips/wdt/src/ovf_detect.sv
 $ROOT/hw/ips/wdt/src/wdt.sv
@@ -1226,6 +1295,7 @@ $ROOT/hw/ips/wdt/src/wdt.sv
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$ROOT/hw/includes
 +incdir+$ROOT/hw/ips/axi/include
 +incdir+$ROOT/hw/ips/common_cells/include
