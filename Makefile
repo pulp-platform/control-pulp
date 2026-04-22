@@ -80,7 +80,7 @@ $(export_if_def VERILATOR)
 $(export_if_def QUESTA)
 
 NONFREE_REMOTE = git@iis-git.ee.ethz.ch:pms/control-pulp-nonfree.git
-NONFREE_COMMIT = ee818ec
+NONFREE_COMMIT = 13cc17f
 
 .PHONY: nonfree-init
 nonfree-init:
