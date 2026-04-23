@@ -80,7 +80,7 @@ $(export_if_def VERILATOR)
 $(export_if_def QUESTA)
 
 NONFREE_REMOTE = git@iis-git.ee.ethz.ch:pms/control-pulp-nonfree.git
-NONFREE_COMMIT = 13cc17f
+NONFREE_COMMIT = f14a2b58
 
 .PHONY: nonfree-init
 nonfree-init:
@@ -330,7 +330,7 @@ SG_DIR  ?= $(ROOT_DIR)/util/lint/spyglass
 # Remove axi_cdc.sv coming from axi_slice_dc directory to void duplicate module definitions
 gen_sg_script:
 	mkdir -p $(SG_DIR)
-	$(BENDER) script verilator $(BENDER_BASE_TARGETS) -D SYNTHESIS -D ASSERTS_OFF > $(SG_DIR)/cp_sg.f
+	$(BENDER) script verilator $(BENDER_BASE_TARGETS) -D SYNTHESIS -D ASSERTS_OFF -D COMMON_CELLS_ASSERTS_OFF > $(SG_DIR)/cp_sg.f
 	sed -i 's?$(ROOT_DIR)?\$$CPROOT?g' $(SG_DIR)/cp_sg.f
 	sed -i '/axi_slice_dc\/.*axi_cdc\.sv/d' $(SG_DIR)/cp_sg.f
 
