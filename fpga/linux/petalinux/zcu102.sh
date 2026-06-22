@@ -56,7 +56,8 @@ cd build
 mkdir -p components/ext_sources
 cd components/ext_sources
 if [ ! -d "linux-xlnx" ]; then
-  git clone --depth 1 --single-branch --branch linux-scmi https://github.com/Antoniodv/linux-xlnx
+  # git clone --depth 1 --single-branch --branch linux-scmi https://github.com/Antoniodv/linux-xlnx
+  git clone --depth 1 --single-branch --branch xlnx_rebase_v6.12 https://github.com/Xilinx/linux-xlnx
 fi
 cd linux-xlnx
 

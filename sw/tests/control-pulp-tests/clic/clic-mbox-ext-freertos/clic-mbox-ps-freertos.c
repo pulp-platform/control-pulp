@@ -83,6 +83,7 @@ void vApplicationTickHook(void);
 int first = 0;
 
 volatile uint32_t ft = 1;
+volatile uint32_t freq_domain = 0;
 
 volatile int set_cnt = 0;
 
@@ -102,7 +103,7 @@ void exit_success(void)
 {
 	// printf("someone wrote to mailbox!\r\n");	
 	callee_scmi_handler();
-	exit(0);  	//---------------------------REMOVE THIS LINE IF IT IS NOT A SIMULATION
+	// exit(0);  	//---------------------------REMOVE THIS LINE IF IT IS NOT A SIMULATION
 }
 
 
@@ -131,7 +132,7 @@ void callee_scmi_handler(void)
 	uint32_t protocol_id = 0x0;
 	uint32_t message_id = 0x0;
 	uint32_t payload0 = 0x0;
-	// uint32_t payload1 = 0x0;
+	uint32_t payload1 = 0x0;
 	// uint32_t payload2 = 0x0;
 
 	// read agent_id from doorbell 
@@ -147,7 +148,7 @@ void callee_scmi_handler(void)
 
 	// read payload
 	payload0 = readw(MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_0_C0_REG_OFFSET);
-	// payload1 = readw(MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_1_C0_REG_OFFSET);
+	payload1 = readw(MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_1_C0_REG_OFFSET);
 	// payload2 = readw(MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_2_C0_REG_OFFSET);
 
 	// printf("prot_id: %u\r\n",protocol_id);
@@ -306,7 +307,7 @@ void callee_scmi_handler(void)
 			writew(response,
 				MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_0_C0_REG_OFFSET);
 
-			response = 0x10001; //power consumption in mW, 1 perf domain
+			response = 0x10002; //power consumption in mW, 2 perf domain
 			writew(response,
 				MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_0_C0_REG_OFFSET + 4);	
 
@@ -412,7 +413,9 @@ void callee_scmi_handler(void)
 			writew(8+4*0,
 				MBOX_START_ADDRESS + SCMI_LENGTH_C0_REG_OFFSET);
 
-			ft = payload0;
+
+			freq_domain = payload0; 
+			ft = payload1;
 
 			complete_msg(data, agent_id);	
 		}else if(message_id == 0x08){
@@ -550,24 +553,24 @@ void callee_scmi_handler(void)
 				MBOX_START_ADDRESS + SCMI_LENGTH_C0_REG_OFFSET);
 
 			complete_msg(data, agent_id);
-		}else if (message_id == 0x01){
-			response = SUCCESS;
+		}else if (message_id == 0x01){ /* PROTOCOL_ATTRIBUTES */
+			response = SUCCESS; //status
 			writew(response,
 				MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_0_C0_REG_OFFSET);
 
-			response = 0x01; //n of power domains
+			response = 0x02; //n of power domains
 			writew(response,
 				MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_0_C0_REG_OFFSET + 4);	
 
-			response = 0x00; 
+			response = 0x00;  // stats addr low
 			writew(response,
 				MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_0_C0_REG_OFFSET + 8);	
 
-			response = 0x00; 
+			response = 0x00;  // stats addr high
 			writew(response,
 				MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_0_C0_REG_OFFSET + 12);	
 
-			response = 0x00; 
+			response = 0x00;  // stats size
 			writew(response,
 				MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_0_C0_REG_OFFSET + 16);					
 
@@ -576,34 +579,53 @@ void callee_scmi_handler(void)
 
 			complete_msg(data, agent_id);
 		
-		}else if (message_id == 0x03){
+		}else if (message_id == 0x03){ /* POWER_DOMAIN_ATTRIBUTES */
 			response = SUCCESS;
 			writew(response,
 				MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_0_C0_REG_OFFSET);
 
-			response = 0x40000000; //asynchronus support
+			response = 0x20000000; // SUPPORTS_STATE_SET_SYNC
 			writew(response,
 				MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_0_C0_REG_OFFSET + 4);	
+        
+			if (payload0 == 0) {
+            	writew(0x00306D79   ,  
+                MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_0_C0_REG_OFFSET + 8);
+        	}else{
+            	writew(0x00316D79  ,  
+                	MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_0_C0_REG_OFFSET + 8);
+        	}
 
-			response = 0x41; 
-			writew(response,
-				MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_0_C0_REG_OFFSET + 8);	
-
-			writew(8+4*2,
+			writew(0x0,
+            	MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_0_C0_REG_OFFSET + 12);
+        	writew(0x0,
+            	MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_0_C0_REG_OFFSET + 16);
+        	writew(0x0,
+            	MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_0_C0_REG_OFFSET + 20);
+			
+			writew(8+4*5,
 				MBOX_START_ADDRESS + SCMI_LENGTH_C0_REG_OFFSET);
 
 			complete_msg(data, agent_id);
-			
-		}else if (message_id == 0x05){
+		}else if (message_id == 0x04){ // set power state TODO: AGGIUNGERE GESTIONE DEL DOMAIN ID
 			response = SUCCESS;
 			writew(response,
 				MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_0_C0_REG_OFFSET);
 
-			response = 0x00; //context is preserved, ON state 
-			writew(response,
-				MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_0_C0_REG_OFFSET + 8);	
+			writew(8 + 4*1,
+				MBOX_START_ADDRESS + SCMI_LENGTH_C0_REG_OFFSET);
 
-			writew(8+4*1,
+			complete_msg(data, agent_id);
+		}else if (message_id == 0x05){ // get power state TODO: AGGIUNGERE GESTIONE DEL DOMAIN ID
+			response = SUCCESS;
+			writew(response,
+				MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_0_C0_REG_OFFSET);
+
+			response = 0x01; 
+			writew(response,
+				MBOX_START_ADDRESS + SCMI_MESSAGE_PAYLOAD_0_C0_REG_OFFSET + 4);	
+
+			writew(8+4*2,
 				MBOX_START_ADDRESS + SCMI_LENGTH_C0_REG_OFFSET);
 
 			complete_msg(data, agent_id);
@@ -703,7 +725,7 @@ int main(void)
 	csr_write(CSR_MINTTHRESH, 0); /* 0 < 0xaa */
 
 
-    for(volatile int i=0; i < 1000000; i++); //---------------------------REMOVE THIS LINE IF IT IS NOT A SIMULATION
+    // for(volatile int i=0; i < 1000000; i++); //---------------------------REMOVE THIS LINE IF IT IS NOT A SIMULATION
 	while(1);
 	
 

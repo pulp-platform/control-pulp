@@ -24,17 +24,6 @@
 			    reg = <0x14>;
 			    #clock-cells = <1>;
 	    	};
-
-            // scmi_reset: protocol@16 {
-			//     reg = <0x16>;
-			//     #reset-cells = <1>;
-	    	// };
-            
-            // scmi_volt: protocol@17 {
-			//     reg = <0x17>;
-			//     #clock-cells = <1>;
-	    	// };
-            
         };
     };
 
@@ -46,18 +35,8 @@
 };
 
 &cpu1 {
-	clocks = <&scmi_clk 0>;
-    power-domains = <&scmi_devpd 0>;
-};
-
-&cpu2 {
-	clocks = <&scmi_clk 0>;
-    power-domains = <&scmi_devpd 0>;
-};
-
-&cpu3 {
-	clocks = <&scmi_clk 0>;
-	power-domains = <&scmi_devpd 0>;
+	clocks = <&scmi_clk 1>;
+    power-domains = <&scmi_devpd 1>;
 };
 
 &amba{
