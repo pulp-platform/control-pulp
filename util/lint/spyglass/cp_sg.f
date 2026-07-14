@@ -1068,6 +1068,8 @@ $CPROOT/hw/ips/axi_apb_i2c_slave/src/i2csend.sv
 +define+SYNTHESIS
 +define+ASSERTS_OFF
 +define+COMMON_CELLS_ASSERTS_OFF
++incdir+$CPROOT/hw/ips/axi/include
++incdir+$CPROOT/hw/ips/common_cells/include
 $CPROOT/hw/ips/axi_scmi_mailbox/rtl/scmi_reg_pkg.sv
 $CPROOT/hw/ips/axi_scmi_mailbox/rtl/scmi_reg_top.sv
 $CPROOT/hw/ips/axi_scmi_mailbox/rtl/axi_scmi_mailbox.sv
