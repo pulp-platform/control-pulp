@@ -24,6 +24,9 @@ set_option designread_disable_flatten no
 set_option mthresh 32768
 set_option top pms_top
 
+# Set parameters
+set_parameter handle_large_bus yes
+
 # Waive empty module warnings
 waive -rule "WarnAnalyzeBBox"
 
