@@ -147,7 +147,7 @@ packages:
       Path: hw/pkg
     dependencies: []
   cv32e40p:
-    revision: ab4dd910276bd97b5a1357c03d8158b94342ff61
+    revision: e6a0b3cef47c98d5f255d5d9ad7082ee9de6a60b
     version: null
     source:
       Git: https://github.com/pulp-platform/cv32e40p.git
@@ -171,7 +171,7 @@ packages:
     - common_cells
     - fpu_div_sqrt_mvp
   fpu_div_sqrt_mvp:
-    revision: 2719828db5b235ab0e3049b5d964863af7b6afdc
+    revision: 8eb6ad0a5a7222caa8c6a5dfc8671c9503f6d1b4
     version: null
     source:
       Git: https://github.com/pulp-platform/fpu_div_sqrt_mvp.git
@@ -186,7 +186,7 @@ packages:
     - cv32e40p
     - fpnew
   hier-icache:
-    revision: c0a5717677f811bb7c8fe5625a28318a84d18e1f
+    revision: 2b2136787cfb5376e7faa4be7e3d31b9e78624d5
     version: null
     source:
       Git: https://github.com/pulp-platform/hier-icache.git
@@ -239,7 +239,7 @@ packages:
     dependencies:
     - axi_slice
   pulp_cluster:
-    revision: b2621ca2809c09e22935ee87504ca28a77240631
+    revision: 6a6bcd78070c80681901c84bbf361bd87c24b52d
     version: null
     source:
       Git: https://github.com/pulp-platform/pulp_cluster.git

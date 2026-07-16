@@ -12,3 +12,6 @@ ocd-trace-*
 *.xml
 ips/tech_cells_GF22FDX/*
 .bender
+
+# Bender >= 0.32.0 per-dependency checkout lock files
+hw/ips/*.lock
