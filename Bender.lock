@@ -55,7 +55,7 @@ packages:
     - axi
     - common_cells
   axi2per:
-    revision: f3f987a33f52b94703d3f7ff5c832a68950bc1fc
+    revision: 482fb3664d8d4ca5734bc75931ab771e139340ba
     version: null
     source:
       Git: https://github.com/pulp-platform/axi2per.git
@@ -219,8 +219,8 @@ packages:
       Git: https://github.com/smanoni/jtag_pulp.git
     dependencies: []
   l2_tcdm_hybrid_interco:
-    revision: fa55e72859dcfb117a2788a77352193bef94ff2b
-    version: 1.0.0
+    revision: 27d0c6b4da521a38f2f39599625e8d460d9d8992
+    version: null
     source:
       Git: https://github.com/pulp-platform/L2_tcdm_hybrid_interco.git
     dependencies: []
@@ -239,7 +239,7 @@ packages:
     dependencies:
     - axi_slice
   pulp_cluster:
-    revision: 6a6bcd78070c80681901c84bbf361bd87c24b52d
+    revision: 56f9af510043c244f08c30902f0b114e1b16670c
     version: null
     source:
       Git: https://github.com/pulp-platform/pulp_cluster.git
@@ -260,7 +260,7 @@ packages:
     - tech_cells_generic
     - timer_unit
   pulp_soc:
-    revision: 258903818267a6ae96889b2180159b1807521d7d
+    revision: 2e661614896fc379def39d4697c258de02ebbbd7
     version: null
     source:
       Git: https://github.com/pulp-platform/pulp_soc.git
@@ -334,7 +334,7 @@ packages:
       Git: https://github.com/smanoni/timer_unit.git
     dependencies: []
   udma_core:
-    revision: 5912f9f20bce2a92a965bbe9287403e8d9927845
+    revision: e675283d4e20af0129c38f8968a1d4a4506efd96
     version: null
     source:
       Git: https://github.com/smanoni/udma_core.git

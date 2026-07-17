@@ -73,7 +73,7 @@
 	branch = sm/lint
 [submodule "hw/ips/l2_tcdm_hybrid_interco"]
 	path = hw/ips/l2_tcdm_hybrid_interco
-	url = https://github.com/pulp-platform/L2_tcdm_hybrid_interco.git
+	url = https://github.com/smanoni/L2_tcdm_hybrid_interco.git
 [submodule "hw/ips/mchan"]
 	path = hw/ips/mchan
 	url = https://github.com/pulp-platform/mchan.git
@@ -104,7 +104,7 @@
 	branch = sm/cp-lint
 [submodule "hw/ips/udma_core"]
 	path = hw/ips/udma_core
-	url = https://github.com/pulp-platform/udma_core.git
+	url = git@github.com:smanoni/udma_core.git
 [submodule "hw/ips/udma_filter"]
 	path = hw/ips/udma_filter
 	url = https://github.com/pulp-platform/udma_filter.git

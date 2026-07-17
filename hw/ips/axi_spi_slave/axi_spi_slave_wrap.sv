@@ -41,6 +41,9 @@ module axi_spi_slave_wrap
     input logic        spi_sdi3
   );
 
+  // SPI slave issues no AXI atomics: tie off the atomic op field
+  assign axi_master.aw_atop = '0;
+
   axi_spi_slave
   #(
     .AXI_ADDR_WIDTH ( AXI_ADDRESS_WIDTH ),
