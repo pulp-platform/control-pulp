@@ -11,6 +11,8 @@ on: [ push, pull_request, workflow_dispatch ]
 jobs:
   gitlab-ci:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - name: Check Gitlab CI
         uses: pulp-platform/pulp-actions/gitlab-ci@v1

@@ -38,7 +38,7 @@ packages:
     dependencies:
     - apb
   axi:
-    revision: dff1de6f48c3588c798e91e78e2f753bc24cf01d
+    revision: a8c53cee2520d328d390c507c88818e8ac144c8c
     version: null
     source:
       Git: https://github.com/pulp-platform/axi.git
@@ -55,7 +55,7 @@ packages:
     - axi
     - common_cells
   axi2per:
-    revision: f3f987a33f52b94703d3f7ff5c832a68950bc1fc
+    revision: 482fb3664d8d4ca5734bc75931ab771e139340ba
     version: null
     source:
       Git: https://github.com/pulp-platform/axi2per.git
@@ -80,7 +80,9 @@ packages:
     version: null
     source:
       Path: hw/ips/axi_scmi_mailbox
-    dependencies: []
+    dependencies:
+    - axi
+    - common_cells
   axi_slice:
     revision: a6d761ababbba9ec49daf840925977b4aa529556
     version: null
@@ -112,20 +114,20 @@ packages:
     - common_cells
     - register_interface
   cluster_interconnect:
-    revision: 1f2bf749a8438528ee827ea81998862edcfe9d6e
+    revision: cf6b77012b62d441aa8d8854a8266c1669a1f742
     version: null
     source:
       Git: https://github.com/pulp-platform/cluster_interconnect.git
     dependencies:
     - common_cells
   cluster_peripherals:
-    revision: 04821de99cbfe634025a5f3dfb6d170c668e2c78
+    revision: 5b58335d9494e696e97022f1d0ab54a79f951348
     version: 2.0.0
     source:
       Git: https://github.com/pulp-platform/cluster_peripherals.git
     dependencies: []
   common_cells:
-    revision: 0a9dc988745b64e12f929a1dd9bc44d8068a2bc3
+    revision: f5fe840fcf8d8433ccea9062469ce28b56165708
     version: null
     source:
       Git: https://github.com/pulp-platform/common_cells.git
@@ -145,7 +147,7 @@ packages:
       Path: hw/pkg
     dependencies: []
   cv32e40p:
-    revision: 860fb0dc55ea5eb75cee2767cc0c77ead81f23e0
+    revision: e6a0b3cef47c98d5f255d5d9ad7082ee9de6a60b
     version: null
     source:
       Git: https://github.com/pulp-platform/cv32e40p.git
@@ -154,23 +156,23 @@ packages:
     - fpnew
     - tech_cells_generic
   event_unit_flex:
-    revision: 387ea2c5012134f0aaa6658745a96ed5745ec530
+    revision: 7b07365f857d58bca6c1c05d49a64e6cc5f9b567
     version: null
     source:
       Git: https://github.com/pulp-platform/event_unit_flex.git
     dependencies:
     - common_cells
   fpnew:
-    revision: 8dc44406b1ccbc4487121710c1883e805f893965
-    version: 0.6.6
+    revision: 6b1586c8c92dacf05cfc89ff70c1749c143cd111
+    version: null
     source:
-      Git: https://github.com/pulp-platform/fpnew.git
+      Git: https://github.com/pulp-platform/cvfpu.git
     dependencies:
     - common_cells
     - fpu_div_sqrt_mvp
   fpu_div_sqrt_mvp:
-    revision: 86e1f558b3c95e91577c41b2fc452c86b04e85ac
-    version: 1.0.4
+    revision: 8eb6ad0a5a7222caa8c6a5dfc8671c9503f6d1b4
+    version: null
     source:
       Git: https://github.com/pulp-platform/fpu_div_sqrt_mvp.git
     dependencies:
@@ -184,7 +186,7 @@ packages:
     - cv32e40p
     - fpnew
   hier-icache:
-    revision: 16424aa34279f3a767a62a0ae782f66d312772e9
+    revision: 2b2136787cfb5376e7faa4be7e3d31b9e78624d5
     version: null
     source:
       Git: https://github.com/pulp-platform/hier-icache.git
@@ -201,7 +203,7 @@ packages:
       Git: git@github.com:pulp-platform/icache-intc.git
     dependencies: []
   idma:
-    revision: 5af5d10edba0b69eeee6ea029507cd0d67062932
+    revision: 3705a46eec65e43203b835ad1d5e2563276099b3
     version: null
     source:
       Git: https://github.com/pulp-platform/idma.git
@@ -211,14 +213,14 @@ packages:
     - common_verification
     - register_interface
   jtag_pulp:
-    revision: 605a3de07f581a9c839fb45eb0c6fe73e8507670
+    revision: 72d7211d686d49f0f53643d00aab9ffcb02dd8b1
     version: 0.3.0
     source:
-      Git: https://github.com/pulp-platform/jtag_pulp.git
+      Git: https://github.com/smanoni/jtag_pulp.git
     dependencies: []
   l2_tcdm_hybrid_interco:
-    revision: fa55e72859dcfb117a2788a77352193bef94ff2b
-    version: 1.0.0
+    revision: 27d0c6b4da521a38f2f39599625e8d460d9d8992
+    version: null
     source:
       Git: https://github.com/pulp-platform/L2_tcdm_hybrid_interco.git
     dependencies: []
@@ -237,7 +239,7 @@ packages:
     dependencies:
     - axi_slice
   pulp_cluster:
-    revision: d1aee051c6cf092a34599d7db8594e1dcbf1d331
+    revision: 56f9af510043c244f08c30902f0b114e1b16670c
     version: null
     source:
       Git: https://github.com/pulp-platform/pulp_cluster.git
@@ -258,7 +260,7 @@ packages:
     - tech_cells_generic
     - timer_unit
   pulp_soc:
-    revision: 1f61518136688785fcee4c36a4bb0ca8faaf179b
+    revision: 2e661614896fc379def39d4697c258de02ebbbd7
     version: null
     source:
       Git: https://github.com/pulp-platform/pulp_soc.git
@@ -319,42 +321,42 @@ packages:
       Git: https://github.com/pulp-platform/scm.git
     dependencies: []
   tech_cells_generic:
-    revision: a9cae21902e75b1434328ecf36f85327ba5717de
-    version: 0.2.11
+    revision: 425a2a04c7e2e6c4c3da6a6f1f6e1efe07cb1bc5
+    version: null
     source:
       Git: https://github.com/pulp-platform/tech_cells_generic.git
     dependencies:
     - common_verification
   timer_unit:
-    revision: 4c69615c89db9397a9747d6f6d6a36727854f0bc
-    version: 1.0.3
-    source:
-      Git: https://github.com/pulp-platform/timer_unit.git
-    dependencies: []
-  udma_core:
-    revision: c035404f2d27c3ac46417f03b393740883bd3317
+    revision: 4bcab4a10987b96fbd0495329e85e4f79710eb63
     version: null
     source:
-      Git: https://github.com/pulp-platform/udma_core.git
+      Git: https://github.com/smanoni/timer_unit.git
+    dependencies: []
+  udma_core:
+    revision: e675283d4e20af0129c38f8968a1d4a4506efd96
+    version: null
+    source:
+      Git: https://github.com/smanoni/udma_core.git
     dependencies:
     - common_cells
     - tech_cells_generic
   udma_filter:
-    revision: a11e2057e7b21852e978b744714c384de49228cf
-    version: 1.0.3
+    revision: 336afea912dc580b2b107cd121c5c9f66f2bcd49
+    version: null
     source:
       Git: https://github.com/pulp-platform/udma_filter.git
     dependencies:
     - udma_core
   udma_i2c:
-    revision: 99049c7a463abd702765b0af4668052525dcbe7e
+    revision: a6eeeb329f520d9b39ca5a9dabba18444dbc9189
     version: null
     source:
       Git: https://github.com/pulp-platform/udma_i2c.git
     dependencies:
     - udma_core
   udma_qspi:
-    revision: 44bc0d4b01326540378f307f2c010f3463c0b3bb
+    revision: 2a03dd095e80cb7ccb44490f65a098e971049dae
     version: null
     source:
       Git: https://github.com/pulp-platform/udma_qspi.git
@@ -363,7 +365,7 @@ packages:
     - tech_cells_generic
     - udma_core
   udma_uart:
-    revision: ffac2f9693cb065f750120e98e0aa6d2af0674ed
+    revision: 09de80126adbac908e10f06a44e4bb60d6bc8eb0
     version: null
     source:
       Git: https://github.com/pulp-platform/udma_uart.git

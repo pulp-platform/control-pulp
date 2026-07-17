@@ -4,6 +4,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Unreleased
+## [5.5.0] - 2026-05-20
+### DARE v2.3 Release
+### Changed
+- Updated `hw/ips/common_cells` dependency to the latest version (v2.1).
+- Removed dependencies on deprecated `common_cells` modules (`system_clk_rst_gen.sv`).
+- Updated `hw/ips/cv32e40p`, `hw/ips/cluster_interconnect`, and `hw/ips/udma_filter`
+  to fix linting warnings WRN_62, WRN_64, SYNTH_89, SYNTH_5143, SYNTH_12605, SYNTH_5166 and SYNTH_5064.
+- Added proper assertion guards in `hw/ips/cv32e40p`, `hw/ips/cluster_interconnect`,
+  and `hw/ips/udma_filter`.
+
+## [5.4.0] - 2026-02-12
+### DARE v2.2 Release
+### Added
+- Lint flow based on Slang and Spyglass
+
+### Changed
+- Updated tc_sram dependency (memory macros sim-only models) to avoid
+  unsythesizable errors in Spyglass. pragma translate on/off has been 
+  added to the whole module resulting in 'empty module' error, to be waived
+  in linting, to be properly addressed during backend.
+- Updated SIM_STDOUT default param of pms_top to 0, to avoid instantiation of tbs
+  in Spyglass where is not possible to drive top-level parameters externally.
+- Exposed testmode_i of axi_to_reg instance in axi_scmi_mailbox module. Tied 
+  it to zero in control_pulp_fpga, as currently DFT is disabled in our FPGA platform.
 
 ## [5.3.0] - 2022-04-07
 ### Added

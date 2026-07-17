@@ -69,10 +69,11 @@
 	url = https://github.com/pulp-platform/icache-intc.git
 [submodule "hw/ips/jtag_pulp"]
 	path = hw/ips/jtag_pulp
-	url = https://github.com/pulp-platform/jtag_pulp.git
+	url = git@github.com:smanoni/jtag_pulp.git
+	branch = sm/lint
 [submodule "hw/ips/l2_tcdm_hybrid_interco"]
 	path = hw/ips/l2_tcdm_hybrid_interco
-	url = https://github.com/pulp-platform/L2_tcdm_hybrid_interco.git
+	url = https://github.com/smanoni/L2_tcdm_hybrid_interco.git
 [submodule "hw/ips/mchan"]
 	path = hw/ips/mchan
 	url = https://github.com/pulp-platform/mchan.git
@@ -99,10 +100,11 @@
 	url = git@github.com:pulp-platform/tech_cells_generic.git
 [submodule "hw/ips/timer_unit"]
 	path = hw/ips/timer_unit
-	url = https://github.com/pulp-platform/timer_unit.git
+	url = git@github.com:smanoni/timer_unit.git
+	branch = sm/cp-lint
 [submodule "hw/ips/udma_core"]
 	path = hw/ips/udma_core
-	url = https://github.com/pulp-platform/udma_core.git
+	url = git@github.com:smanoni/udma_core.git
 [submodule "hw/ips/udma_filter"]
 	path = hw/ips/udma_filter
 	url = https://github.com/pulp-platform/udma_filter.git

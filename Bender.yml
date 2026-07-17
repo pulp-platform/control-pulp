@@ -36,7 +36,7 @@ dependencies:
   wdt: { path: "hw/ips/wdt" }
   axi2mem: { path: "hw/ips/axi2mem" }
   common_cells: { git: "https://github.com/pulp-platform/common_cells.git", version: 1.29.0 }
-  jtag_pulp: { git: "https://github.com/pulp-platform/jtag_pulp.git", version: 0.3.0 }
+  jtag_pulp: { git: "git@github.com:smanoni/jtag_pulp.git", rev: "sm/lint" }
   idma: { git: "https://github.com/pulp-platform/idma.git", rev: 5af5d10 }
   pulp_soc: { git: "https://github.com/pulp-platform/pulp_soc.git", rev: "control-pulp" }
   pulp_cluster: { git: "https://github.com/pulp-platform/pulp_cluster.git", rev: "control-pulp" }

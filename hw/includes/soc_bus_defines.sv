@@ -17,9 +17,9 @@
 // SOC BUS PARAMETRES
 `include "pulp_soc_defines.sv"
 
-`define NB_SLAVE  4
-`define NB_MASTER 4
-`define NB_REGION 4
+`define SOC_BUS_NB_SLAVE  4
+`define SOC_BUS_NB_MASTER 4
+`define SOC_BUS_NB_REGION 4
 
 // MASTER PORT TO CLUSTER(3MB)
 `define CLUSTER_DATA_START_ADDR  32'h1000_0000

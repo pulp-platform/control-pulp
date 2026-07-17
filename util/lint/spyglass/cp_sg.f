@@ -5,6 +5,8 @@
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 $CPROOT/hw/ips/tech_cells_generic/src/rtl/tc_sram.sv
 $CPROOT/hw/ips/tech_cells_generic/src/rtl/tc_sram_impl.sv
 
@@ -14,6 +16,8 @@ $CPROOT/hw/ips/tech_cells_generic/src/rtl/tc_sram_impl.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 $CPROOT/hw/ips/tech_cells_generic/src/rtl/tc_clk.sv
 
 +define+TARGET_CV32E40P_USE_FF_REGFILE
@@ -22,6 +26,8 @@ $CPROOT/hw/ips/tech_cells_generic/src/rtl/tc_clk.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 $CPROOT/hw/ips/tech_cells_generic/src/deprecated/pulp_clock_gating_async.sv
 $CPROOT/hw/ips/tech_cells_generic/src/deprecated/cluster_clk_cells.sv
 $CPROOT/hw/ips/tech_cells_generic/src/deprecated/pulp_clk_cells.sv
@@ -32,6 +38,8 @@ $CPROOT/hw/ips/tech_cells_generic/src/deprecated/pulp_clk_cells.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/common_cells/include
 $CPROOT/hw/ips/common_cells/src/binary_to_gray.sv
 
@@ -41,34 +49,34 @@ $CPROOT/hw/ips/common_cells/src/binary_to_gray.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/common_cells/include
 $CPROOT/hw/ips/common_cells/src/cb_filter_pkg.sv
-
-+define+TARGET_CV32E40P_USE_FF_REGFILE
-+define+TARGET_PULP
-+define+TARGET_RTL
-+define+TARGET_SYNTHESIS
-+define+TARGET_VERILATOR
-+define+SYNTHESIS
-+incdir+$CPROOT/hw/ips/common_cells/include
 $CPROOT/hw/ips/common_cells/src/cc_onehot.sv
+$CPROOT/hw/ips/common_cells/src/cdc_reset_ctrlr_pkg.sv
 $CPROOT/hw/ips/common_cells/src/cf_math_pkg.sv
 $CPROOT/hw/ips/common_cells/src/clk_int_div.sv
+$CPROOT/hw/ips/common_cells/src/credit_counter.sv
 $CPROOT/hw/ips/common_cells/src/delta_counter.sv
 $CPROOT/hw/ips/common_cells/src/ecc_pkg.sv
 $CPROOT/hw/ips/common_cells/src/edge_propagator_tx.sv
 $CPROOT/hw/ips/common_cells/src/exp_backoff.sv
 $CPROOT/hw/ips/common_cells/src/fifo_v3.sv
 $CPROOT/hw/ips/common_cells/src/gray_to_binary.sv
+$CPROOT/hw/ips/common_cells/src/heaviside.sv
 $CPROOT/hw/ips/common_cells/src/isochronous_4phase_handshake.sv
 $CPROOT/hw/ips/common_cells/src/isochronous_spill_register.sv
 $CPROOT/hw/ips/common_cells/src/lfsr.sv
 $CPROOT/hw/ips/common_cells/src/lfsr_16bit.sv
 $CPROOT/hw/ips/common_cells/src/lfsr_8bit.sv
+$CPROOT/hw/ips/common_cells/src/lossy_valid_to_stream.sv
 $CPROOT/hw/ips/common_cells/src/mv_filter.sv
 $CPROOT/hw/ips/common_cells/src/onehot_to_bin.sv
 $CPROOT/hw/ips/common_cells/src/plru_tree.sv
+$CPROOT/hw/ips/common_cells/src/passthrough_stream_fifo.sv
 $CPROOT/hw/ips/common_cells/src/popcount.sv
+$CPROOT/hw/ips/common_cells/src/ring_buffer.sv
 $CPROOT/hw/ips/common_cells/src/rr_arb_tree.sv
 $CPROOT/hw/ips/common_cells/src/rstgen_bypass.sv
 $CPROOT/hw/ips/common_cells/src/serial_deglitch.sv
@@ -79,7 +87,7 @@ $CPROOT/hw/ips/common_cells/src/stream_demux.sv
 $CPROOT/hw/ips/common_cells/src/stream_filter.sv
 $CPROOT/hw/ips/common_cells/src/stream_fork.sv
 $CPROOT/hw/ips/common_cells/src/stream_intf.sv
-$CPROOT/hw/ips/common_cells/src/stream_join.sv
+$CPROOT/hw/ips/common_cells/src/stream_join_dynamic.sv
 $CPROOT/hw/ips/common_cells/src/stream_mux.sv
 $CPROOT/hw/ips/common_cells/src/stream_throttle.sv
 $CPROOT/hw/ips/common_cells/src/sub_per_hash.sv
@@ -87,11 +95,15 @@ $CPROOT/hw/ips/common_cells/src/sync.sv
 $CPROOT/hw/ips/common_cells/src/sync_wedge.sv
 $CPROOT/hw/ips/common_cells/src/unread.sv
 $CPROOT/hw/ips/common_cells/src/read.sv
-$CPROOT/hw/ips/common_cells/src/cdc_reset_ctrlr_pkg.sv
-$CPROOT/hw/ips/common_cells/src/addr_decode_napot.sv
+$CPROOT/hw/ips/common_cells/src/addr_decode_dync.sv
+$CPROOT/hw/ips/common_cells/src/boxcar.sv
 $CPROOT/hw/ips/common_cells/src/cdc_2phase.sv
 $CPROOT/hw/ips/common_cells/src/cdc_4phase.sv
+$CPROOT/hw/ips/common_cells/src/clk_int_div_static.sv
+$CPROOT/hw/ips/common_cells/src/trip_counter.sv
 $CPROOT/hw/ips/common_cells/src/addr_decode.sv
+$CPROOT/hw/ips/common_cells/src/addr_decode_napot.sv
+$CPROOT/hw/ips/common_cells/src/multiaddr_decode.sv
 
 +define+TARGET_CV32E40P_USE_FF_REGFILE
 +define+TARGET_PULP
@@ -99,17 +111,12 @@ $CPROOT/hw/ips/common_cells/src/addr_decode.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/common_cells/include
 $CPROOT/hw/ips/common_cells/src/cb_filter.sv
-
-+define+TARGET_CV32E40P_USE_FF_REGFILE
-+define+TARGET_PULP
-+define+TARGET_RTL
-+define+TARGET_SYNTHESIS
-+define+TARGET_VERILATOR
-+define+SYNTHESIS
-+incdir+$CPROOT/hw/ips/common_cells/include
 $CPROOT/hw/ips/common_cells/src/cdc_fifo_2phase.sv
+$CPROOT/hw/ips/common_cells/src/clk_mux_glitch_free.sv
 $CPROOT/hw/ips/common_cells/src/counter.sv
 $CPROOT/hw/ips/common_cells/src/ecc_decode.sv
 $CPROOT/hw/ips/common_cells/src/ecc_encode.sv
@@ -121,7 +128,7 @@ $CPROOT/hw/ips/common_cells/src/spill_register.sv
 $CPROOT/hw/ips/common_cells/src/stream_delay.sv
 $CPROOT/hw/ips/common_cells/src/stream_fifo.sv
 $CPROOT/hw/ips/common_cells/src/stream_fork_dynamic.sv
-$CPROOT/hw/ips/common_cells/src/clk_mux_glitch_free.sv
+$CPROOT/hw/ips/common_cells/src/stream_join.sv
 $CPROOT/hw/ips/common_cells/src/cdc_reset_ctrlr.sv
 $CPROOT/hw/ips/common_cells/src/cdc_fifo_gray.sv
 $CPROOT/hw/ips/common_cells/src/fall_through_register.sv
@@ -133,9 +140,20 @@ $CPROOT/hw/ips/common_cells/src/stream_register.sv
 $CPROOT/hw/ips/common_cells/src/stream_xbar.sv
 $CPROOT/hw/ips/common_cells/src/cdc_fifo_gray_clearable.sv
 $CPROOT/hw/ips/common_cells/src/cdc_2phase_clearable.sv
-$CPROOT/hw/ips/common_cells/src/mem_to_banks.sv
+$CPROOT/hw/ips/common_cells/src/mem_to_banks_detailed.sv
 $CPROOT/hw/ips/common_cells/src/stream_arbiter.sv
 $CPROOT/hw/ips/common_cells/src/stream_omega_net.sv
+$CPROOT/hw/ips/common_cells/src/mem_to_banks.sv
+
++define+TARGET_CV32E40P_USE_FF_REGFILE
++define+TARGET_PULP
++define+TARGET_RTL
++define+TARGET_SYNTHESIS
++define+TARGET_VERILATOR
++define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
++incdir+$CPROOT/hw/ips/common_cells/include
 $CPROOT/hw/ips/common_cells/src/deprecated/clock_divider_counter.sv
 $CPROOT/hw/ips/common_cells/src/deprecated/clk_div.sv
 $CPROOT/hw/ips/common_cells/src/deprecated/find_first_one.sv
@@ -158,6 +176,8 @@ $CPROOT/hw/ips/common_cells/src/edge_propagator_rx.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/common_cells/include
 $CPROOT/hw/ips/fpu_div_sqrt_mvp/hdl/defs_div_sqrt_mvp.sv
 $CPROOT/hw/ips/fpu_div_sqrt_mvp/hdl/iteration_div_sqrt_mvp.sv
@@ -174,6 +194,8 @@ $CPROOT/hw/ips/fpu_div_sqrt_mvp/hdl/div_sqrt_mvp_wrapper.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 $CPROOT/hw/ips/apb/src/apb_intf.sv
 
 +define+TARGET_CV32E40P_USE_FF_REGFILE
@@ -182,23 +204,29 @@ $CPROOT/hw/ips/apb/src/apb_intf.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/axi/include
 +incdir+$CPROOT/hw/ips/common_cells/include
 $CPROOT/hw/ips/axi/src/axi_pkg.sv
+$CPROOT/hw/ips/axi/src/axi_demux_id_counters.sv
 $CPROOT/hw/ips/axi/src/axi_intf.sv
 $CPROOT/hw/ips/axi/src/axi_atop_filter.sv
-$CPROOT/hw/ips/axi/src/axi_burst_splitter.sv
+$CPROOT/hw/ips/axi/src/axi_burst_splitter_gran.sv
+$CPROOT/hw/ips/axi/src/axi_burst_unwrap.sv
 $CPROOT/hw/ips/axi/src/axi_bus_compare.sv
 $CPROOT/hw/ips/axi/src/axi_cdc_dst.sv
 $CPROOT/hw/ips/axi/src/axi_cdc_src.sv
 $CPROOT/hw/ips/axi/src/axi_cut.sv
 $CPROOT/hw/ips/axi/src/axi_delayer.sv
-$CPROOT/hw/ips/axi/src/axi_demux.sv
+$CPROOT/hw/ips/axi/src/axi_demux_simple.sv
 $CPROOT/hw/ips/axi/src/axi_dw_downsizer.sv
 $CPROOT/hw/ips/axi/src/axi_dw_upsizer.sv
 $CPROOT/hw/ips/axi/src/axi_fifo.sv
+$CPROOT/hw/ips/axi/src/axi_fifo_delay_dyn.sv
 $CPROOT/hw/ips/axi/src/axi_id_remap.sv
 $CPROOT/hw/ips/axi/src/axi_id_prepend.sv
+$CPROOT/hw/ips/axi/src/axi_inval_filter.sv
 $CPROOT/hw/ips/axi/src/axi_isolate.sv
 $CPROOT/hw/ips/axi/src/axi_join.sv
 $CPROOT/hw/ips/axi/src/axi_lite_demux.sv
@@ -218,8 +246,10 @@ $CPROOT/hw/ips/axi/src/axi_rw_split.sv
 $CPROOT/hw/ips/axi/src/axi_serializer.sv
 $CPROOT/hw/ips/axi/src/axi_slave_compare.sv
 $CPROOT/hw/ips/axi/src/axi_throttle.sv
-$CPROOT/hw/ips/axi/src/axi_to_mem.sv
+$CPROOT/hw/ips/axi/src/axi_to_detailed_mem.sv
+$CPROOT/hw/ips/axi/src/axi_burst_splitter.sv
 $CPROOT/hw/ips/axi/src/axi_cdc.sv
+$CPROOT/hw/ips/axi/src/axi_demux.sv
 $CPROOT/hw/ips/axi/src/axi_err_slv.sv
 $CPROOT/hw/ips/axi/src/axi_dw_converter.sv
 $CPROOT/hw/ips/axi/src/axi_from_mem.sv
@@ -227,11 +257,15 @@ $CPROOT/hw/ips/axi/src/axi_id_serialize.sv
 $CPROOT/hw/ips/axi/src/axi_lfsr.sv
 $CPROOT/hw/ips/axi/src/axi_multicut.sv
 $CPROOT/hw/ips/axi/src/axi_to_axi_lite.sv
+$CPROOT/hw/ips/axi/src/axi_to_mem.sv
+$CPROOT/hw/ips/axi/src/axi_zero_mem.sv
+$CPROOT/hw/ips/axi/src/axi_interleaved_xbar.sv
+$CPROOT/hw/ips/axi/src/axi_iw_converter.sv
+$CPROOT/hw/ips/axi/src/axi_lite_xbar.sv
+$CPROOT/hw/ips/axi/src/axi_xbar_unmuxed.sv
 $CPROOT/hw/ips/axi/src/axi_to_mem_banked.sv
 $CPROOT/hw/ips/axi/src/axi_to_mem_interleaved.sv
 $CPROOT/hw/ips/axi/src/axi_to_mem_split.sv
-$CPROOT/hw/ips/axi/src/axi_iw_converter.sv
-$CPROOT/hw/ips/axi/src/axi_lite_xbar.sv
 $CPROOT/hw/ips/axi/src/axi_xbar.sv
 $CPROOT/hw/ips/axi/src/axi_xp.sv
 
@@ -241,6 +275,8 @@ $CPROOT/hw/ips/axi/src/axi_xp.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/common_cells/include
 $CPROOT/hw/ips/fpnew/src/fpnew_pkg.sv
 $CPROOT/hw/ips/fpnew/src/fpnew_cast_multi.sv
@@ -261,6 +297,8 @@ $CPROOT/hw/ips/fpnew/src/fpnew_top.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/axi/include
 +incdir+$CPROOT/hw/ips/common_cells/include
 $CPROOT/hw/ips/axi_node/src/apb_regs_top.sv
@@ -291,6 +329,8 @@ $CPROOT/hw/ips/axi_node/src/axi_RR_Flag_Req.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/common_cells/include
 $CPROOT/hw/ips/axi_slice/src/axi_single_slice.sv
 $CPROOT/hw/ips/axi_slice/src/axi_ar_buffer.sv
@@ -307,6 +347,8 @@ $CPROOT/hw/ips/axi_slice/src/axi_slice_wrap.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/common_cells/include
 +incdir+$CPROOT/hw/ips/cv32e40p/bhv
 +incdir+$CPROOT/hw/ips/cv32e40p/rtl/include
@@ -344,6 +386,8 @@ $CPROOT/hw/ips/cv32e40p/rtl/cv32e40p_shadow_controller.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/common_cells/include
 +incdir+$CPROOT/hw/ips/cv32e40p/bhv
 +incdir+$CPROOT/hw/ips/cv32e40p/rtl/include
@@ -355,6 +399,8 @@ $CPROOT/hw/ips/cv32e40p/rtl/cv32e40p_register_file_ff.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/common_cells/include
 +incdir+$CPROOT/hw/ips/cv32e40p/bhv
 +incdir+$CPROOT/hw/ips/cv32e40p/rtl/include
@@ -366,6 +412,8 @@ $CPROOT/hw/ips/cv32e40p/bhv/cv32e40p_sim_clock_gate.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 $CPROOT/hw/ips/icache-intc/Req_Arb_Node_icache_intc.sv
 $CPROOT/hw/ips/icache-intc/Resp_Arb_Node_icache_intc.sv
 $CPROOT/hw/ips/icache-intc/lint_mux.sv
@@ -382,6 +430,8 @@ $CPROOT/hw/ips/icache-intc/icache_intc.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/axi/include
 +incdir+$CPROOT/hw/ips/common_cells/include
 +incdir+$CPROOT/hw/ips/register_interface/include
@@ -409,6 +459,8 @@ $CPROOT/hw/ips/register_interface/src/axi_lite_to_reg.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 $CPROOT/hw/ips/scm/latch_scm/register_file_1r_1w_test_wrap.sv
 $CPROOT/hw/ips/scm/latch_scm/register_file_1w_64b_multi_port_read_32b_1row.sv
 $CPROOT/hw/ips/scm/latch_scm/register_file_1w_multi_port_read_1row.sv
@@ -437,6 +489,8 @@ $CPROOT/hw/ips/scm/latch_scm/register_file_multi_way_1w_multi_port_read.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/common_cells/include
 +incdir+$CPROOT/hw/ips/udma_core/rtl
 $CPROOT/hw/ips/udma_core/rtl/common/io_clk_gen.sv
@@ -464,6 +518,8 @@ $CPROOT/hw/ips/udma_core/rtl/core/udma_core.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/adv_dbg_if/rtl
 $CPROOT/hw/ips/adv_dbg_if/rtl/adbg_axi_biu.sv
 $CPROOT/hw/ips/adv_dbg_if/rtl/adbg_axi_module.sv
@@ -488,6 +544,8 @@ $CPROOT/hw/ips/adv_dbg_if/rtl/adbg_lintonly_top.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 $CPROOT/hw/ips/apb2per/apb2per.sv
 
 +define+TARGET_CV32E40P_USE_FF_REGFILE
@@ -496,6 +554,8 @@ $CPROOT/hw/ips/apb2per/apb2per.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/apb_adv_timer/rtl
 $CPROOT/hw/ips/apb_adv_timer/rtl/adv_timer_apb_if.sv
 $CPROOT/hw/ips/apb_adv_timer/rtl/comparator.sv
@@ -514,6 +574,8 @@ $CPROOT/hw/ips/apb_adv_timer/rtl/apb_adv_timer.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 $CPROOT/hw/ips/apb_gpio/rtl/apb_gpio.sv
 
 +define+TARGET_CV32E40P_USE_FF_REGFILE
@@ -522,6 +584,8 @@ $CPROOT/hw/ips/apb_gpio/rtl/apb_gpio.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 $CPROOT/hw/ips/apb_node/src/apb_node.sv
 $CPROOT/hw/ips/apb_node/src/apb_node_wrap.sv
 
@@ -531,6 +595,8 @@ $CPROOT/hw/ips/apb_node/src/apb_node_wrap.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 $CPROOT/hw/ips/axi2per/axi2per_req_channel.sv
 $CPROOT/hw/ips/axi2per/axi2per_res_channel.sv
 $CPROOT/hw/ips/axi2per/axi2per.sv
@@ -541,6 +607,8 @@ $CPROOT/hw/ips/axi2per/axi2per.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/axi/include
 $CPROOT/hw/ips/axi_slice_dc/src/axi_slice_dc_master.sv
 $CPROOT/hw/ips/axi_slice_dc/src/axi_slice_dc_slave.sv
@@ -559,6 +627,8 @@ $CPROOT/hw/ips/axi_slice_dc/src/axi_slice_dc_slave_wrap.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/common_cells/include
 +incdir+$CPROOT/hw/ips/register_interface/include
 $CPROOT/hw/ips/clic/src/clic_reg_pkg.sv
@@ -574,6 +644,8 @@ $CPROOT/hw/ips/clic/src/clic.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/cluster_interconnect/rtl/low_latency_interco
 +incdir+$CPROOT/hw/ips/cluster_interconnect/rtl/peripheral_interco
 +incdir+$CPROOT/hw/ips/common_cells/include
@@ -625,6 +697,8 @@ $CPROOT/hw/ips/cluster_interconnect/rtl/peripheral_interco/XBAR_PE.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 $CPROOT/hw/ips/cluster_peripherals/cluster_control_unit/cluster_control_unit.sv
 
 +define+TARGET_CV32E40P_USE_FF_REGFILE
@@ -633,6 +707,8 @@ $CPROOT/hw/ips/cluster_peripherals/cluster_control_unit/cluster_control_unit.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/cluster_peripherals/event_unit/include
 $CPROOT/hw/ips/cluster_peripherals/event_unit/HW_barrier_logic.sv
 $CPROOT/hw/ips/cluster_peripherals/event_unit/event_unit_arbiter.sv
@@ -649,6 +725,8 @@ $CPROOT/hw/ips/cluster_peripherals/event_unit/event_unit.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 $CPROOT/hw/ips/cluster_peripherals/icache_ctrl_unit/icache_ctrl_unit.sv
 $CPROOT/hw/ips/cluster_peripherals/icache_ctrl_unit/mp_icache_ctrl_unit.sv
 $CPROOT/hw/ips/cluster_peripherals/icache_ctrl_unit/mp_pf_icache_ctrl_unit.sv
@@ -665,6 +743,8 @@ $CPROOT/hw/ips/cluster_peripherals/tcdm_pipe_unit/tcdm_pipe_unit.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/common_cells/include
 +incdir+$CPROOT/hw/ips/event_unit_flex/rtl
 $CPROOT/hw/ips/event_unit_flex/rtl/event_unit_core.sv
@@ -682,6 +762,8 @@ $CPROOT/hw/ips/event_unit_flex/rtl/event_unit_top.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 $CPROOT/hw/ips/fpu_interco/FP_WRAP/fp_iter_divsqrt_msv_wrapper_2_STAGE.sv
 $CPROOT/hw/ips/fpu_interco/FP_WRAP/fpnew_wrapper.sv
 $CPROOT/hw/ips/fpu_interco/RTL/AddressDecoder_Resp_FPU.sv
@@ -706,6 +788,8 @@ $CPROOT/hw/ips/fpu_interco/RTL/shared_fpu_cluster.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/common_cells/include
 $CPROOT/hw/ips/hier-icache/CTRL_UNIT/hier_icache_ctrl_unit.sv
 $CPROOT/hw/ips/hier-icache/RTL/L1.5_CACHE/icache_data_sram_wrap.sv
@@ -732,6 +816,8 @@ $CPROOT/hw/ips/hier-icache/RTL/TOP/icache_hier_top.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 $CPROOT/hw/ips/jtag_pulp/src/bscell.sv
 $CPROOT/hw/ips/jtag_pulp/src/jtag_axi_wrap.sv
 $CPROOT/hw/ips/jtag_pulp/src/jtag_enable.sv
@@ -747,6 +833,8 @@ $CPROOT/hw/ips/jtag_pulp/src/tap_top.v
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 $CPROOT/hw/ips/l2_tcdm_hybrid_interco/RTL/l2_tcdm_demux.sv
 $CPROOT/hw/ips/l2_tcdm_hybrid_interco/RTL/lint_2_apb.sv
 $CPROOT/hw/ips/l2_tcdm_hybrid_interco/RTL/lint_2_axi.sv
@@ -785,6 +873,8 @@ $CPROOT/hw/ips/l2_tcdm_hybrid_interco/RTL/XBAR_BRIDGE/XBAR_BRIDGE.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/common_cells/include
 +incdir+$CPROOT/hw/ips/mchan/rtl/include
 $CPROOT/hw/ips/mchan/rtl/misc/mchan_arbiter.sv
@@ -827,6 +917,8 @@ $CPROOT/hw/ips/mchan/rtl/top/mchan.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 $CPROOT/hw/ips/per2axi/src/per2axi_busy_unit.sv
 $CPROOT/hw/ips/per2axi/src/per2axi_req_channel.sv
 $CPROOT/hw/ips/per2axi/src/per2axi_res_channel.sv
@@ -838,6 +930,8 @@ $CPROOT/hw/ips/per2axi/src/per2axi.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/common_cells/include
 $CPROOT/hw/ips/riscv-dbg/src/dm_pkg.sv
 $CPROOT/hw/ips/riscv-dbg/debug_rom/debug_rom.sv
@@ -852,6 +946,8 @@ $CPROOT/hw/ips/riscv-dbg/src/dmi_cdc.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/common_cells/include
 $CPROOT/hw/ips/riscv-dbg/src/dmi_jtag_tap.sv
 
@@ -861,6 +957,8 @@ $CPROOT/hw/ips/riscv-dbg/src/dmi_jtag_tap.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/common_cells/include
 $CPROOT/hw/ips/riscv-dbg/src/dm_sba.sv
 $CPROOT/hw/ips/riscv-dbg/src/dm_top.sv
@@ -873,6 +971,8 @@ $CPROOT/hw/ips/riscv-dbg/src/dm_obi_top.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 $CPROOT/hw/ips/timer_unit/rtl/timer_unit_counter.sv
 $CPROOT/hw/ips/timer_unit/rtl/timer_unit_counter_presc.sv
 $CPROOT/hw/ips/timer_unit/rtl/apb_timer_unit.sv
@@ -884,6 +984,8 @@ $CPROOT/hw/ips/timer_unit/rtl/timer_unit.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 $CPROOT/hw/ips/udma_filter/rtl/udma_filter_au.sv
 $CPROOT/hw/ips/udma_filter/rtl/udma_filter_bincu.sv
 $CPROOT/hw/ips/udma_filter/rtl/udma_filter_reg_if.sv
@@ -897,6 +999,8 @@ $CPROOT/hw/ips/udma_filter/rtl/udma_filter.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/udma_i2c/rtl
 $CPROOT/hw/ips/udma_i2c/rtl/udma_i2c_bus_ctrl.sv
 $CPROOT/hw/ips/udma_i2c/rtl/udma_i2c_reg_if.sv
@@ -909,6 +1013,8 @@ $CPROOT/hw/ips/udma_i2c/rtl/udma_i2c_top.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/common_cells/include
 +incdir+$CPROOT/hw/ips/udma_qspi/rtl
 $CPROOT/hw/ips/udma_qspi/rtl/udma_spim_ctrl.sv
@@ -922,6 +1028,8 @@ $CPROOT/hw/ips/udma_qspi/rtl/udma_spim_top.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/common_cells/include
 $CPROOT/hw/ips/udma_uart/rtl/udma_uart_reg_if.sv
 $CPROOT/hw/ips/udma_uart/rtl/udma_uart_rx.sv
@@ -934,6 +1042,8 @@ $CPROOT/hw/ips/udma_uart/rtl/udma_uart_top.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/axi/include
 +incdir+$CPROOT/hw/ips/common_cells/include
 $CPROOT/hw/ips/axi2mem/axi2mem.sv
@@ -944,6 +1054,8 @@ $CPROOT/hw/ips/axi2mem/axi2mem.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 $CPROOT/hw/ips/axi_apb_i2c_slave/src/axi_apb_i2c_slave.sv
 $CPROOT/hw/ips/axi_apb_i2c_slave/src/i2cslave.sv
 $CPROOT/hw/ips/axi_apb_i2c_slave/src/i2csend.sv
@@ -954,6 +1066,10 @@ $CPROOT/hw/ips/axi_apb_i2c_slave/src/i2csend.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
++incdir+$CPROOT/hw/ips/axi/include
++incdir+$CPROOT/hw/ips/common_cells/include
 $CPROOT/hw/ips/axi_scmi_mailbox/rtl/scmi_reg_pkg.sv
 $CPROOT/hw/ips/axi_scmi_mailbox/rtl/scmi_reg_top.sv
 $CPROOT/hw/ips/axi_scmi_mailbox/rtl/axi_scmi_mailbox.sv
@@ -964,6 +1080,8 @@ $CPROOT/hw/ips/axi_scmi_mailbox/rtl/axi_scmi_mailbox.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 $CPROOT/hw/ips/axi_spi_slave/axi_spi_slave_wrap.sv
 $CPROOT/hw/ips/axi_spi_slave/axi_spi_slave.sv
 $CPROOT/hw/ips/axi_spi_slave/spi_slave_axi_plug.sv
@@ -981,6 +1099,8 @@ $CPROOT/hw/ips/axi_spi_slave/spi_slave_tx.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 $CPROOT/hw/pkg/control_pulp_pkg.sv
 $CPROOT/hw/pkg/pms_top_pkg.sv
 
@@ -990,6 +1110,8 @@ $CPROOT/hw/pkg/pms_top_pkg.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/axi/include
 +incdir+$CPROOT/hw/ips/common_cells/include
 +incdir+$CPROOT/hw/ips/idma/src/include
@@ -1015,6 +1137,8 @@ $CPROOT/hw/ips/idma/src/midends/idma_nd_midend.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/axi/include
 +incdir+$CPROOT/hw/ips/common_cells/include
 +incdir+$CPROOT/hw/ips/idma/src/include
@@ -1029,6 +1153,8 @@ $CPROOT/hw/ips/idma/src/frontends/register_32bit_2d/idma_reg32_2d_frontend.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/axi/include
 +incdir+$CPROOT/hw/ips/common_cells/include
 +incdir+$CPROOT/hw/ips/idma/src/include
@@ -1043,6 +1169,8 @@ $CPROOT/hw/ips/idma/src/frontends/register_64bit/idma_reg64_frontend.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/axi/include
 +incdir+$CPROOT/hw/ips/common_cells/include
 +incdir+$CPROOT/hw/ips/idma/src/include
@@ -1059,6 +1187,8 @@ $CPROOT/hw/ips/idma/src/frontends/desc64/idma_desc64_top.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/axi/include
 +incdir+$CPROOT/hw/ips/common_cells/include
 +incdir+$CPROOT/hw/ips/idma/src/include
@@ -1072,6 +1202,8 @@ $CPROOT/hw/ips/idma/src/systems/pulpopen/dmac_wrap_fc_idma.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/axi/include
 +incdir+$CPROOT/hw/ips/common_cells/include
 +incdir+$CPROOT/hw/ips/idma/src/include
@@ -1087,6 +1219,8 @@ $CPROOT/hw/ips/idma/src/synth_wrapper/idma_nd_backend_synth.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/axi/include
 +incdir+$CPROOT/hw/ips/cluster_interconnect/rtl/low_latency_interco
 +incdir+$CPROOT/hw/ips/cluster_interconnect/rtl/peripheral_interco
@@ -1110,13 +1244,15 @@ $CPROOT/hw/ips/pulp_cluster/rtl/cluster_interconnect_wrap.sv
 $CPROOT/hw/ips/pulp_cluster/rtl/cluster_peripherals.sv
 $CPROOT/hw/ips/pulp_cluster/rtl/core_demux.sv
 
-+define+TRACE_EXECUTION
 +define+TARGET_CV32E40P_USE_FF_REGFILE
 +define+TARGET_PULP
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+TRACE_EXECUTION
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/axi/include
 +incdir+$CPROOT/hw/ips/cluster_interconnect/rtl/low_latency_interco
 +incdir+$CPROOT/hw/ips/cluster_interconnect/rtl/peripheral_interco
@@ -1129,6 +1265,8 @@ $CPROOT/hw/ips/pulp_cluster/rtl/core_region.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/axi/include
 +incdir+$CPROOT/hw/ips/cluster_interconnect/rtl/low_latency_interco
 +incdir+$CPROOT/hw/ips/cluster_interconnect/rtl/peripheral_interco
@@ -1141,6 +1279,8 @@ $CPROOT/hw/ips/pulp_cluster/rtl/pulp_cluster.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/axi/include
 +incdir+$CPROOT/hw/ips/cluster_interconnect/rtl/low_latency_interco
 +incdir+$CPROOT/hw/ips/cluster_interconnect/rtl/peripheral_interco
@@ -1175,6 +1315,8 @@ $CPROOT/hw/ips/pulp_soc/rtl/pulp_soc/pulp_soc.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/axi/include
 +incdir+$CPROOT/hw/ips/cluster_interconnect/rtl/low_latency_interco
 +incdir+$CPROOT/hw/ips/cluster_interconnect/rtl/peripheral_interco
@@ -1182,13 +1324,15 @@ $CPROOT/hw/ips/pulp_soc/rtl/pulp_soc/pulp_soc.sv
 +incdir+$CPROOT/hw/ips/register_interface/include
 $CPROOT/hw/ips/pulp_soc/rtl/udma_subsystem/udma_subsystem.sv
 
-+define+TRACE_EXECUTION
 +define+TARGET_CV32E40P_USE_FF_REGFILE
 +define+TARGET_PULP
 +define+TARGET_RTL
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
++define+TRACE_EXECUTION
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/axi/include
 +incdir+$CPROOT/hw/ips/cluster_interconnect/rtl/low_latency_interco
 +incdir+$CPROOT/hw/ips/cluster_interconnect/rtl/peripheral_interco
@@ -1205,6 +1349,8 @@ $CPROOT/hw/ips/pulp_soc/rtl/fc/event_to_level_int.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/axi/include
 +incdir+$CPROOT/hw/ips/cluster_interconnect/rtl/low_latency_interco
 +incdir+$CPROOT/hw/ips/cluster_interconnect/rtl/peripheral_interco
@@ -1224,6 +1370,8 @@ $CPROOT/hw/ips/pulp_soc/rtl/components/obi_pulp_adapter.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/axi/include
 +incdir+$CPROOT/hw/ips/cluster_interconnect/rtl/low_latency_interco
 +incdir+$CPROOT/hw/ips/cluster_interconnect/rtl/peripheral_interco
@@ -1238,6 +1386,8 @@ $CPROOT/hw/ips/pulp_soc/rtl/components/apb_dummy.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/axi/include
 +incdir+$CPROOT/hw/ips/common_cells/include
 +incdir+$CPROOT/hw/ips/register_interface/include
@@ -1270,6 +1420,8 @@ $CPROOT/hw/ips/serial_link/src/serial_link_occamy_wrapper.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/ips/axi/include
 +incdir+$CPROOT/hw/ips/common_cells/include
 +incdir+$CPROOT/hw/ips/register_interface/include
@@ -1282,6 +1434,8 @@ $CPROOT/hw/ips/serial_link/src/serial_link_synth_wrapper.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 $CPROOT/hw/ips/wdt/src/counter_wdt.sv
 $CPROOT/hw/ips/wdt/src/ovf_detect.sv
 $CPROOT/hw/ips/wdt/src/wdt.sv
@@ -1292,6 +1446,8 @@ $CPROOT/hw/ips/wdt/src/wdt.sv
 +define+TARGET_SYNTHESIS
 +define+TARGET_VERILATOR
 +define+SYNTHESIS
++define+ASSERTS_OFF
++define+COMMON_CELLS_ASSERTS_OFF
 +incdir+$CPROOT/hw/includes
 +incdir+$CPROOT/hw/ips/axi/include
 +incdir+$CPROOT/hw/ips/common_cells/include

@@ -89,16 +89,19 @@ module system_clk_rst_gen (
 
   // ref_clk -> divider -> 32 Khz timer clock
   // fixed division by integer factor
-  clk_div #(
-    .RATIO(3125)  // TODO: ADJUST RATIO to match ref clk
-                  // 100 Mhz / 32 Khz = 3125
-  ) i_clk_div_timer (
-    .clk_i     (ref_clk_i),
-    .rst_ni    (rstn_glob_i),
-    .testmode_i(test_mode_i),
-    .en_i      (1'b1),           // TODO: maybe we can map this to reg
-    .clk_o     (clk_for_slow)
-  );
+  clk_int_div #(
+    .DIV_VALUE_WIDTH($clog2(3125+1)),
+    .DEFAULT_DIV_VALUE(3125)
+  ) i_clk_div_timer(
+    .clk_i           ( ref_clk_i    ),
+    .rst_ni          ( rstn_glob_i  ),
+    .test_mode_en_i  ( test_mode_i  ),
+    .en_i            ( 1'b1         ), // TODO: maybe we can map this to reg 
+    .div_i           (  '1          ),
+    .div_valid_i     ( 1'b0         ),
+    .div_ready_o     (              ),
+    .clk_o           ( clk_for_slow )
+  ); 
 
   // Allow clock muxing if dividers are faulty: ref_clk passthrough
   pulp_clock_mux2 i_clk_mux_soc (
